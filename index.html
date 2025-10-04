@@ -94,10 +94,12 @@
     </style>
 </head>
 <body class="min-h-screen">
+    <!-- Firebase SDK (Uyumluluk Versiyonu) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
+    <!-- Header -->
     <header class="bg-white shadow-lg border-b-4 border-turquoise-600">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -134,6 +136,7 @@
         </div>
     </header>
 
+    <!-- Admin Login Modal -->
     <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-4">
@@ -163,6 +166,7 @@
         </div>
     </div>
 
+    <!-- Navigation -->
     <nav class="bg-white shadow-md border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex space-x-8">
@@ -186,6 +190,7 @@
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Success/Error Messages -->
         <div id="successMessage" class="fixed-notification bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 hidden">
             <i class="fas fa-check-circle"></i>
             <span>Başvurunuz başarıyla kaydedildi!</span>
@@ -195,7 +200,9 @@
             <span>Lütfen zorunlu alanları doldurun!</span>
         </div>
 
+        <!-- Form Section (Public) -->
         <div id="formSection" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Section -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <div class="flex items-center justify-between mb-6">
@@ -207,6 +214,7 @@
                     </div>
 
                     <form id="needsForm" class="space-y-6">
+                        <!-- Personal Information -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -263,6 +271,7 @@
                             </div>
                         </div>
 
+                        <!-- Needs Selection -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-3">
                                 İhtiyaç Türleri *
@@ -368,6 +377,7 @@
                             />
                         </div>
 
+                        <!-- Urgency -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-3">
                                 Aciliyet Durumu
@@ -410,6 +420,7 @@
                             </div>
                         </div>
 
+                        <!-- Description -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Detaylı Açıklama
@@ -433,7 +444,9 @@
                 </div>
             </div>
 
+            <!-- Stats and Export Section (Admin Only) -->
             <div class="space-y-6 admin-only">
+                <!-- Stats Card -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">İstatistikler</h3>
                     <div class="space-y-4">
@@ -452,6 +465,7 @@
                     </div>
                 </div>
 
+                <!-- Export Button -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Veri Yönetimi</h3>
                     <button
@@ -467,6 +481,7 @@
                     </p>
                 </div>
 
+                <!-- Instructions -->
                 <div class="bg-turquoise-50 rounded-xl p-6 border border-turquoise-200">
                     <h3 class="text-lg font-semibold text-turquoise-900 mb-3">Nasıl Kullanılır?</h3>
                     <ul class="space-y-2 text-sm text-turquoise-700">
@@ -487,6 +502,7 @@
             </div>
         </div>
 
+        <!-- Submissions Section (Admin Only) -->
         <div id="submissionsSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="flex items-center justify-between mb-6">
@@ -495,6 +511,7 @@
                         Tüm Başvurular
                     </h2>
                     <div class="flex items-center space-x-4">
+                        <!-- Filter Controls -->
                         <div class="flex space-x-2">
                             <select id="filterUrgency" class="px-3 py-1 border border-gray-300 rounded text-sm">
                                 <option value="all">Tüm Aciliyetler</option>
@@ -526,7 +543,8 @@
                 </div>
                 
                 <div id="submissionsList" class="space-y-4 max-h-96 overflow-y-auto">
-                    </div>
+                    <!-- Submissions will be populated here -->
+                </div>
                 
                 <div id="noSubmissions" class="text-center py-8 text-gray-500">
                     <i class="fas fa-inbox text-4xl mb-4 text-gray-300"></i>
@@ -535,6 +553,7 @@
             </div>
         </div>
 
+        <!-- Stats Section (Admin Only) -->
         <div id="statsSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
@@ -545,22 +564,26 @@
                     <div class="border border-gray-200 rounded-lg p-4">
                         <h3 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h3>
                         <div id="needsDistribution" class="space-y-2">
-                            </div>
+                            <!-- Will be populated dynamically -->
+                        </div>
                     </div>
                     <div class="border border-gray-200 rounded-lg p-4">
                         <h3 class="font-medium text-gray-900 mb-2">Aciliyet Dağılımı</h3>
                         <div id="urgencyDistribution" class="space-y-2">
-                            </div>
+                            <!-- Will be populated dynamically -->
+                        </div>
                     </div>
                     <div class="border border-gray-200 rounded-lg p-4">
                         <h3 class="font-medium text-gray-900 mb-2">Günlük Başvurular</h3>
                         <div id="dailySubmissions" class="space-y-2">
-                            </div>
+                            <!-- Will be populated dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Data Management Section (Admin Only) -->
         <div id="managementSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
@@ -617,6 +640,7 @@
             </div>
         </div>
 
+        <!-- Daily Reports Section (Admin Only) -->
         <div id="reportsSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
@@ -649,7 +673,8 @@
                     <div class="mb-4">
                         <h4 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h4>
                         <div id="reportNeedsChart" class="space-y-2">
-                            </div>
+                            <!-- Will be populated -->
+                        </div>
                     </div>
                     
                     <button id="exportReportBtn" class="bg-turquoise-600 text-white px-4 py-2 rounded-lg hover:bg-turquoise-700">
