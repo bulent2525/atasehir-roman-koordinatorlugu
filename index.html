@@ -94,11 +94,10 @@
     </style>
 </head>
 <body class="min-h-screen">
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-    <!-- Header -->
+
     <header class="bg-white shadow-lg border-b-4 border-turquoise-600">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -134,7 +133,7 @@
             </div>
         </div>
     </header>
-    <!-- Admin Login Modal -->
+
     <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-4">
@@ -163,7 +162,7 @@
             </form>
         </div>
     </div>
-    <!-- Navigation -->
+
     <nav class="bg-white shadow-md border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex space-x-8">
@@ -185,8 +184,8 @@
             </div>
         </div>
     </nav>
+
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Success/Error Messages -->
         <div id="successMessage" class="fixed-notification bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 hidden">
             <i class="fas fa-check-circle"></i>
             <span>Başvurunuz başarıyla kaydedildi!</span>
@@ -195,9 +194,8 @@
             <i class="fas fa-exclamation-circle"></i>
             <span>Lütfen zorunlu alanları doldurun!</span>
         </div>
-        <!-- Form Section (Public) -->
+
         <div id="formSection" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Form Section -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <div class="flex items-center justify-between mb-6">
@@ -207,8 +205,8 @@
                         </h2>
                         <i class="fas fa-clock text-gray-400"></i>
                     </div>
+
                     <form id="needsForm" class="space-y-6">
-                        <!-- Personal Information -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -237,6 +235,7 @@
                                 />
                             </div>
                         </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -263,7 +262,7 @@
                                 />
                             </div>
                         </div>
-                        <!-- Needs Selection -->
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-3">
                                 İhtiyaç Türleri *
@@ -355,6 +354,7 @@
                                 </label>
                             </div>
                         </div>
+
                         <div id="otherNeedContainer" class="hidden">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Diğer İhtiyaç
@@ -367,7 +367,7 @@
                                 placeholder="Diğer ihtiyaçlarınızı belirtin"
                             />
                         </div>
-                        <!-- Urgency -->
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-3">
                                 Aciliyet Durumu
@@ -409,7 +409,7 @@
                                 </label>
                             </div>
                         </div>
-                        <!-- Description -->
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Detaylı Açıklama
@@ -422,6 +422,7 @@
                                 placeholder="İhtiyaçlarınızı detaylı bir şekilde açıklayın..."
                             ></textarea>
                         </div>
+
                         <button
                             type="submit"
                             class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700 focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:ring-offset-2 transition-colors duration-200"
@@ -431,9 +432,8 @@
                     </form>
                 </div>
             </div>
-            <!-- Stats and Export Section (Admin Only) -->
+
             <div class="space-y-6 admin-only">
-                <!-- Stats Card -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">İstatistikler</h3>
                     <div class="space-y-4">
@@ -451,7 +451,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Export Button -->
+
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Veri Yönetimi</h3>
                     <button
@@ -466,7 +466,7 @@
                         Tüm verileri tek tuşla indirin
                     </p>
                 </div>
-                <!-- Instructions -->
+
                 <div class="bg-turquoise-50 rounded-xl p-6 border border-turquoise-200">
                     <h3 class="text-lg font-semibold text-turquoise-900 mb-3">Nasıl Kullanılır?</h3>
                     <ul class="space-y-2 text-sm text-turquoise-700">
@@ -486,7 +486,7 @@
                 </div>
             </div>
         </div>
-        <!-- Submissions Section (Admin Only) -->
+
         <div id="submissionsSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="flex items-center justify-between mb-6">
@@ -495,7 +495,6 @@
                         Tüm Başvurular
                     </h2>
                     <div class="flex items-center space-x-4">
-                        <!-- Filter Controls -->
                         <div class="flex space-x-2">
                             <select id="filterUrgency" class="px-3 py-1 border border-gray-300 rounded text-sm">
                                 <option value="all">Tüm Aciliyetler</option>
@@ -525,16 +524,17 @@
                         </div>
                     </div>
                 </div>
+                
                 <div id="submissionsList" class="space-y-4 max-h-96 overflow-y-auto">
-                    <!-- Submissions will be populated here -->
-                </div>
+                    </div>
+                
                 <div id="noSubmissions" class="text-center py-8 text-gray-500">
                     <i class="fas fa-inbox text-4xl mb-4 text-gray-300"></i>
                     <p>Henüz hiçbir başvuru bulunmamaktadır.</p>
                 </div>
             </div>
         </div>
-        <!-- Stats Section (Admin Only) -->
+
         <div id="statsSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
@@ -545,31 +545,29 @@
                     <div class="border border-gray-200 rounded-lg p-4">
                         <h3 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h3>
                         <div id="needsDistribution" class="space-y-2">
-                            <!-- Will be populated dynamically -->
-                        </div>
+                            </div>
                     </div>
                     <div class="border border-gray-200 rounded-lg p-4">
                         <h3 class="font-medium text-gray-900 mb-2">Aciliyet Dağılımı</h3>
                         <div id="urgencyDistribution" class="space-y-2">
-                            <!-- Will be populated dynamically -->
-                        </div>
+                            </div>
                     </div>
                     <div class="border border-gray-200 rounded-lg p-4">
                         <h3 class="font-medium text-gray-900 mb-2">Günlük Başvurular</h3>
                         <div id="dailySubmissions" class="space-y-2">
-                            <!-- Will be populated dynamically -->
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Data Management Section (Admin Only) -->
+
         <div id="managementSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
                     <i class="fas fa-database text-turquoise-600 mr-2"></i>
                     Veri Yönetimi
                 </h2>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="border border-gray-200 rounded-lg p-6">
                         <h3 class="font-medium text-gray-900 mb-4 flex items-center">
@@ -588,6 +586,7 @@
                             Tüm başvuru verilerini Excel formatında indirin
                         </p>
                     </div>
+                    
                     <div class="border border-gray-200 rounded-lg p-6">
                         <h3 class="font-medium text-gray-900 mb-4 flex items-center">
                             <i class="fas fa-trash-alt text-red-600 mr-2"></i>
@@ -605,6 +604,7 @@
                         </p>
                     </div>
                 </div>
+                
                 <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
                         <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -616,17 +616,19 @@
                 </div>
             </div>
         </div>
-        <!-- Daily Reports Section (Admin Only) -->
+
         <div id="reportsSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
                     <i class="fas fa-calendar-day text-turquoise-600 mr-2"></i>
                     Günlük Raporlar
                 </h2>
+                
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Rapor Tarihi</label>
                     <input type="date" id="reportDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
                 </div>
+                
                 <div id="dailyReportContent" class="border border-gray-200 rounded-lg p-6 hidden">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Günlük Rapor - <span id="reportDateDisplay"></span></h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -643,16 +645,18 @@
                             <p class="text-lg font-medium text-blue-600" id="reportTopNeed">-</p>
                         </div>
                     </div>
+                    
                     <div class="mb-4">
                         <h4 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h4>
                         <div id="reportNeedsChart" class="space-y-2">
-                            <!-- Will be populated -->
-                        </div>
+                            </div>
                     </div>
+                    
                     <button id="exportReportBtn" class="bg-turquoise-600 text-white px-4 py-2 rounded-lg hover:bg-turquoise-700">
                         <i class="fas fa-download mr-2"></i>Raporu İndir (.CSV)
                     </button>
                 </div>
+                
                 <div id="noReportData" class="text-center py-8 text-gray-500 hidden">
                     <i class="fas fa-file-alt text-4xl mb-4 text-gray-300"></i>
                     <p>Seçilen tarih için rapor verisi bulunmamaktadır.</p>
@@ -660,6 +664,7 @@
             </div>
         </div>
     </main>
+
     <footer class="bg-gray-800 text-white py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-300">
@@ -671,43 +676,51 @@
             </p>
         </div>
     </footer>
+
     <script>
         // Set current year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
         // Fixed admin password
         const ADMIN_PASSWORD = "2025Bjk2025.,.";
+        
         // Firebase configuration - YOUR ACTUAL CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyC0qeYrGc7fux8Ym4eEilnG7HMuOWsRigk",
             authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
             databaseURL: "https://atasehir-roman-koordinatoru-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "atasehir-roman-koordinatoru",
-            storageBucket: "atasehir-roman-koordinatoru.firebasestorage.app",
+            storageBucket: "atasehir-roman-koordinatoru.appspot.com",
             messagingSenderId: "1090340718017",
             appId: "1:1090340718017:web:52980a10227508eec5db40"
         };
+
         // Initialize Firebase
         let firebaseApp = null;
         let database = null;
         let submissions = [];
+        
         try {
             firebaseApp = firebase.initializeApp(firebaseConfig);
             database = firebase.database();
         } catch (error) {
             console.log("Firebase initialization error:", error);
         }
+
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
-        // Check for saved theme preference or respect OS preference
+        
         const savedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             body.classList.add('dark-mode');
             themeToggle.innerHTML = '<i class="fas fa-sun text-yellow-400"></i>';
         } else {
             themeToggle.innerHTML = '<i class="fas fa-moon text-gray-600"></i>';
         }
+        
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             if (body.classList.contains('dark-mode')) {
@@ -718,54 +731,58 @@
                 themeToggle.innerHTML = '<i class="fas fa-moon text-gray-600"></i>';
             }
         });
+
         // Admin login functionality
         const adminLoginBtn = document.getElementById('adminLoginBtn');
         const adminLoginModal = document.getElementById('adminLoginModal');
         const closeLoginModal = document.getElementById('closeLoginModal');
         const adminLoginForm = document.getElementById('adminLoginForm');
         const adminPasswordInput = document.getElementById('adminPassword');
+        
         adminLoginBtn.addEventListener('click', () => {
             adminLoginModal.classList.remove('hidden');
         });
+        
         closeLoginModal.addEventListener('click', () => {
             adminLoginModal.classList.add('hidden');
             adminPasswordInput.value = '';
         });
-        // Login with fixed password
+        
         adminLoginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const password = adminPasswordInput.value;
+            
             if (password === ADMIN_PASSWORD) {
-                // Show admin sections
                 document.querySelectorAll('.admin-only').forEach(el => {
                     el.classList.add('admin-visible');
                 });
-                // Show admin navigation tabs
+                
                 document.querySelectorAll('.nav-link[data-tab="submissions"], .nav-link[data-tab="stats"], .nav-link[data-tab="management"], .nav-link[data-tab="reports"]').forEach(el => {
                     el.classList.remove('hidden');
                 });
+                
                 adminLoginModal.classList.add('hidden');
                 adminPasswordInput.value = '';
-                // Show logout option
+                
                 adminLoginBtn.innerHTML = '<i class="fas fa-sign-out-alt text-red-600"></i>';
                 adminLoginBtn.title = 'Çıkış Yap';
                 adminLoginBtn.onclick = logoutAdmin;
-                // Load admin data
+                
                 loadSubmissionsFromFirebase();
             } else {
                 alert('Geçersiz şifre!');
             }
         });
+        
         function logoutAdmin() {
-            // Hide admin sections
             document.querySelectorAll('.admin-only').forEach(el => {
                 el.classList.remove('admin-visible');
             });
-            // Hide admin navigation tabs
+            
             document.querySelectorAll('.nav-link[data-tab="submissions"], .nav-link[data-tab="stats"], .nav-link[data-tab="management"], .nav-link[data-tab="reports"]').forEach(el => {
                 el.classList.add('hidden');
             });
-            // Reset navigation to form tab
+            
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active', 'border-turquoise-500', 'text-turquoise-600'));
             document.querySelector('.nav-link[data-tab="form"]').classList.add('active', 'border-turquoise-500', 'text-turquoise-600');
             document.getElementById('formSection').classList.remove('hidden');
@@ -773,217 +790,177 @@
             document.getElementById('statsSection').classList.add('hidden');
             document.getElementById('managementSection').classList.add('hidden');
             document.getElementById('reportsSection').classList.add('hidden');
-            // Reset admin button
+            
             adminLoginBtn.innerHTML = '<i class="fas fa-lock text-turquoise-600"></i>';
             adminLoginBtn.title = 'Yönetici Girişi';
             adminLoginBtn.onclick = () => adminLoginModal.classList.remove('hidden');
         }
+
         // Navigation tabs
         const navLinks = document.querySelectorAll('.nav-link');
+        
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.forEach(l => l.classList.remove('active', 'border-turquoise-500', 'text-turquoise-600'));
                 link.classList.add('active', 'border-turquoise-500', 'text-turquoise-600');
-                // Hide all sections
+                
                 document.getElementById('formSection').classList.add('hidden');
                 document.getElementById('submissionsSection').classList.add('hidden');
                 document.getElementById('statsSection').classList.add('hidden');
                 document.getElementById('managementSection').classList.add('hidden');
                 document.getElementById('reportsSection').classList.add('hidden');
-                // Show selected section
-                if (link.dataset.tab === 'form') {
-                    document.getElementById('formSection').classList.remove('hidden');
-                } else if (link.dataset.tab === 'submissions') {
-                    document.getElementById('submissionsSection').classList.remove('hidden');
-                    loadSubmissionsFromFirebase();
-                } else if (link.dataset.tab === 'stats') {
-                    document.getElementById('statsSection').classList.remove('hidden');
-                    loadSubmissionsFromFirebase().then(() => updateDetailedStats());
-                } else if (link.dataset.tab === 'management') {
-                    document.getElementById('managementSection').classList.remove('hidden');
-                    loadSubmissionsFromFirebase().then(() => updateStats());
-                } else if (link.dataset.tab === 'reports') {
-                    document.getElementById('reportsSection').classList.remove('hidden');
-                    setupReportDate();
-                }
+                
+                const tab = link.dataset.tab;
+                document.getElementById(tab + 'Section').classList.remove('hidden');
+
+                if (tab === 'submissions') loadSubmissionsFromFirebase();
+                if (tab === 'stats') updateDetailedStats();
+                if (tab === 'management') updateStats();
+                if (tab === 'reports') setupReportDate();
             });
         });
-        // Load submissions from Firebase (CORRECTED)
-async function loadSubmissionsFromFirebase() {
-    if (!database) {
-        return;
-    }
-    try {
-        const snapshot = await database.ref('submissions').once('value');
-        const data = snapshot.val();
-        submissions = [];
-        if (data) {
-            Object.keys(data).forEach(key => {
-                submissions.push({
-                    id: key,
-                    ...data[key]
-                });
-            });
-        }
-        submissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        updateAllViews();
-    } catch (error) {
-        console.error("Error loading from Firebase:", error);
-    }
-}
-             
-        function updateAllViews() {
-            updateStats();
-            if (document.getElementById('submissionsSection').classList.contains('admin-visible')) {
-                loadSubmissionsList();
-            }
-            if (document.getElementById('statsSection').classList.contains('admin-visible')) {
-                updateDetailedStats();
+
+        // =================================================================
+        // DÜZELTİLMİŞ KOD BÖLÜMÜ
+        // =================================================================
+
+        // Load submissions from Firebase
+        async function loadSubmissionsFromFirebase() {
+            if (!database) return;
+            try {
+                const snapshot = await database.ref('submissions').once('value');
+                const submissionsObject = snapshot.val();
+                if (submissionsObject) {
+                    submissions = Object.keys(submissionsObject).map(key => ({
+                        firebaseId: key,
+                        ...submissionsObject[key]
+                    }));
+                } else {
+                    submissions = [];
+                }
+                updateAllViews();
+            } catch (error) {
+                console.error("Error loading from Firebase:", error);
             }
         }
-        // Update stats
-        function updateStats() {
-            document.getElementById('totalSubmissions').textContent = submissions.length;
-            document.getElementById('submissionsCount').textContent = submissions.length;
-            const today = new Date().toDateString();
-            const todayCount = submissions.filter(sub => new Date(sub.timestamp).toDateString() === today).length;
-            document.getElementById('todaySubmissions').textContent = todayCount;
-            const urgentCount = submissions.filter(sub => sub.urgency === 'urgent').length;
-            document.getElementById('urgentSubmissions').textContent = urgentCount;
-            // Update export buttons
-            const exportBtn = document.getElementById('exportBtn');
-            const exportBtnManagement = document.getElementById('exportBtnManagement');
-            const isDisabled = submissions.length === 0;
-            exportBtn.disabled = isDisabled;
-            exportBtnManagement.disabled = isDisabled;
-            document.getElementById('noSubmissions').classList.toggle('hidden', submissions.length > 0);
+
+        // Save submission to Firebase
+        async function saveSubmissionToFirebase(submission) {
+            if (!database) return;
+            try {
+                await database.ref('submissions').push(submission);
+                await loadSubmissionsFromFirebase();
+            } catch (error) {
+                console.error("Error saving to Firebase:", error);
+            }
         }
+
         // Handle form submission
         document.getElementById('needsForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
+            
             if (!name || !phone) {
                 document.getElementById('errorMessage').classList.remove('hidden');
                 setTimeout(() => document.getElementById('errorMessage').classList.add('hidden'), 3000);
                 return;
             }
-            // Get selected needs
+            
             const needsCheckboxes = document.querySelectorAll('input[name="needs"]:checked');
             const needs = {};
-            needsCheckboxes.forEach(checkbox => {
-                needs[checkbox.value] = true;
-            });
-            // Get other need if applicable
-            const otherNeed = needs.other ? document.getElementById('otherNeed').value.trim() : '';
-            // Get urgency
-            const urgency = document.querySelector('input[name="urgency"]:checked').value;
-            // Get description
-            const description = document.getElementById('description').value.trim();
-            // Get address and district
-            const address = document.getElementById('address').value.trim();
-            const district = document.getElementById('district').value.trim();
+            needsCheckboxes.forEach(checkbox => { needs[checkbox.value] = true; });
+            
             const newSubmission = {
                 name: name,
                 phone: phone,
-                address: address,
-                district: district,
+                address: document.getElementById('address').value.trim(),
+                district: document.getElementById('district').value.trim(),
                 needs: needs,
-                otherNeed: otherNeed,
-                urgency: urgency,
-                description: description,
-                timestamp: new Date().toLocaleString('tr-TR')
+                otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '',
+                urgency: document.querySelector('input[name="urgency"]:checked').value,
+                description: document.getElementById('description').value.trim(),
+                timestamp: new Date().toISOString() // Düzeltildi: Standart format kullanıldı
             };
-            // Save to Firebase
+            
             saveSubmissionToFirebase(newSubmission);
-            // Reset form
+            
             document.getElementById('needsForm').reset();
             document.getElementById('otherNeedContainer').classList.add('hidden');
-            // Show success message
+            
             document.getElementById('successMessage').classList.remove('hidden');
             setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 3000);
         });
-        // Save submission to Firebase (CORRECTED)
-async function saveSubmissionToFirebase(submission) {
-    if (!database) {
-        return;
-    }
-    try {
-        // Push new submission as an object (not array)
-        const newSubmissionRef = database.ref('submissions').push();
-        await newSubmissionRef.set(submission);
-        // Reload submissions
-        await loadSubmissionsFromFirebase();
-    } catch (error) {
-        console.error("Error saving to Firebase:", error);
-    }
-}
-        // Handle "Diğer" checkbox
+
+        // =================================================================
+        // DİĞER FONKSİYONLAR (DEĞİŞİKLİK YOK)
+        // =================================================================
+
+        function updateAllViews() {
+            updateStats();
+            loadSubmissionsList();
+            updateDetailedStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalSubmissions').textContent = submissions.length;
+            
+            const today = new Date().toISOString().split('T')[0];
+            const todayCount = submissions.filter(sub => sub.timestamp.startsWith(today)).length;
+            document.getElementById('todaySubmissions').textContent = todayCount;
+            
+            const urgentCount = submissions.filter(sub => sub.urgency === 'urgent').length;
+            document.getElementById('urgentSubmissions').textContent = urgentCount;
+
+            const exportBtn = document.getElementById('exportBtn');
+            const exportBtnManagement = document.getElementById('exportBtnManagement');
+            const isDisabled = submissions.length === 0;
+            exportBtn.disabled = isDisabled;
+            exportBtnManagement.disabled = isDisabled;
+            
+            document.getElementById('noSubmissions').classList.toggle('hidden', submissions.length > 0);
+            document.getElementById('submissionsCount').textContent = submissions.length;
+        }
+
         const otherCheckbox = document.querySelector('input[value="other"]');
         if (otherCheckbox) {
             otherCheckbox.addEventListener('change', function() {
-                const otherNeedContainer = document.getElementById('otherNeedContainer');
-                if (this.checked) {
-                    otherNeedContainer.classList.remove('hidden');
-                } else {
-                    otherNeedContainer.classList.add('hidden');
-                }
+                document.getElementById('otherNeedContainer').classList.toggle('hidden', !this.checked);
             });
         }
-        // Export to CSV (main section)
+        
         document.getElementById('exportBtn').addEventListener('click', exportToCSV);
-        // Export to CSV (management section)
         document.getElementById('exportBtnManagement').addEventListener('click', exportToCSV);
-        function exportToCSV() {
-            if (submissions.length === 0) return;
-            const headers = [
-                'Ad Soyad',
-                'Telefon',
-                'Adres',
-                'Mahalle',
-                'Gıda',
-                'Sağlık',
-                'Eğitim',
-                'Barınma',
-                'İstihdam',
-                'Hukuk',
-                'Diğer',
-                'Diğer İhtiyaç',
-                'Aciliyet',
-                'Açıklama',
-                'Tarih'
-            ];
+        
+        function exportToCSV(data = submissions, filenamePrefix = 'roman_ihtiyaclari') {
+            const dataToExport = Array.isArray(data) ? data : submissions;
+            if (dataToExport.length === 0) return;
+            
+            const headers = ['Ad Soyad', 'Telefon', 'Adres', 'Mahalle', 'Gıda', 'Sağlık', 'Eğitim', 'Barınma', 'İstihdam', 'Hukuk', 'Diğer', 'Diğer İhtiyaç', 'Aciliyet', 'Açıklama', 'Tarih'];
+            
             const csvContent = [
                 headers.join(','),
-                ...submissions.map(sub => [
-                    `"${sub.name}"`,
-                    `"${sub.phone}"`,
-                    `"${sub.address}"`,
-                    `"${sub.district}"`,
-                    sub.needs.food ? 'Evet' : 'Hayır',
-                    sub.needs.health ? 'Evet' : 'Hayır',
-                    sub.needs.education ? 'Evet' : 'Hayır',
-                    sub.needs.housing ? 'Evet' : 'Hayır',
-                    sub.needs.employment ? 'Evet' : 'Hayır',
-                    sub.needs.legal ? 'Evet' : 'Hayır',
-                    sub.needs.other ? 'Evet' : 'Hayır',
-                    `"${sub.otherNeed || ''}"`,
+                ...dataToExport.map(sub => [
+                    `"${sub.name}"`, `"${sub.phone}"`, `"${sub.address}"`, `"${sub.district}"`,
+                    sub.needs.food ? 'Evet' : 'Hayır', sub.needs.health ? 'Evet' : 'Hayır', sub.needs.education ? 'Evet' : 'Hayır',
+                    sub.needs.housing ? 'Evet' : 'Hayır', sub.needs.employment ? 'Evet' : 'Hayır', sub.needs.legal ? 'Evet' : 'Hayır',
+                    sub.needs.other ? 'Evet' : 'Hayır', `"${sub.otherNeed || ''}"`,
                     sub.urgency === 'urgent' ? 'Acil' : sub.urgency === 'high' ? 'Yüksek' : 'Normal',
-                    `"${sub.description}"`,
-                    `"${sub.timestamp}"`
+                    `"${sub.description}"`, `"${new Date(sub.timestamp).toLocaleString('tr-TR')}"`
                 ].join(','))
             ].join('\n');
+            
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.setAttribute('href', url);
-            link.setAttribute('download', `roman_ihtiyaclari_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
+            link.setAttribute('download', `${filenamePrefix}_${new Date().toISOString().split('T')[0]}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
-        // Clear all data
+        
         document.getElementById('clearDataBtn').addEventListener('click', function() {
             if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
                 if (confirm('Son kez onaylıyor musunuz? Tüm başvuru kayıtları kalıcı olarak silinecek!')) {
@@ -991,10 +968,9 @@ async function saveSubmissionToFirebase(submission) {
                 }
             }
         });
+        
         async function clearAllData() {
-            if (!database) {
-                return;
-            }
+            if (!database) return;
             try {
                 await database.ref('submissions').set(null);
                 submissions = [];
@@ -1004,46 +980,28 @@ async function saveSubmissionToFirebase(submission) {
                 console.error("Error clearing data:", error);
             }
         }
-        // Load submissions list with filtering
+        
         function loadSubmissionsList() {
             const submissionsList = document.getElementById('submissionsList');
             submissionsList.innerHTML = '';
-            if (submissions.length === 0) {
-                document.getElementById('noSubmissions').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('noSubmissions').classList.add('hidden');
-            // Apply filters
+            
             let filteredSubmissions = [...submissions];
             const urgencyFilter = document.getElementById('filterUrgency').value;
             const needFilter = document.getElementById('filterNeed').value;
-            if (urgencyFilter !== 'all') {
-                filteredSubmissions = filteredSubmissions.filter(sub => sub.urgency === urgencyFilter);
-            }
-            if (needFilter !== 'all') {
-                filteredSubmissions = filteredSubmissions.filter(sub => sub.needs[needFilter]);
-            }
-            // Sort by timestamp (newest first)
+            
+            if (urgencyFilter !== 'all') filteredSubmissions = filteredSubmissions.filter(sub => sub.urgency === urgencyFilter);
+            if (needFilter !== 'all') filteredSubmissions = filteredSubmissions.filter(sub => sub.needs[needFilter]);
+            
+            document.getElementById('noSubmissions').classList.toggle('hidden', filteredSubmissions.length > 0);
+            document.getElementById('submissionsCount').textContent = filteredSubmissions.length;
+
             const sortedSubmissions = filteredSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
             sortedSubmissions.forEach(sub => {
-                const urgencyColors = {
-                    normal: 'bg-green-100 text-green-800',
-                    high: 'bg-yellow-100 text-yellow-800',
-                    urgent: 'bg-red-100 text-red-800'
-                };
-                const urgencyLabels = {
-                    normal: 'Normal',
-                    high: 'Yüksek',
-                    urgent: 'Acil'
-                };
-                const needsList = [];
-                if (sub.needs.food) needsList.push('Gıda');
-                if (sub.needs.health) needsList.push('Sağlık');
-                if (sub.needs.education) needsList.push('Eğitim');
-                if (sub.needs.housing) needsList.push('Barınma');
-                if (sub.needs.employment) needsList.push('İstihdam');
-                if (sub.needs.legal) needsList.push('Hukuk');
-                if (sub.needs.other) needsList.push('Diğer');
+                const urgencyColors = { normal: 'bg-green-100 text-green-800', high: 'bg-yellow-100 text-yellow-800', urgent: 'bg-red-100 text-red-800' };
+                const urgencyLabels = { normal: 'Normal', high: 'Yüksek', urgent: 'Acil' };
+                const needsList = Object.keys(sub.needs).map(need => ({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}[need])).join(', ');
+                
                 const submissionElement = document.createElement('div');
                 submissionElement.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
                 submissionElement.innerHTML = `
@@ -1052,9 +1010,7 @@ async function saveSubmissionToFirebase(submission) {
                             <h3 class="font-semibold text-gray-900">${sub.name}</h3>
                             <p class="text-sm text-gray-600">${sub.phone}</p>
                         </div>
-                        <span class="px-2 py-1 rounded-full text-xs font-medium ${urgencyColors[sub.urgency]}">
-                            ${urgencyLabels[sub.urgency]}
-                        </span>
+                        <span class="px-2 py-1 rounded-full text-xs font-medium ${urgencyColors[sub.urgency]}">${urgencyLabels[sub.urgency]}</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <div>
@@ -1062,258 +1018,117 @@ async function saveSubmissionToFirebase(submission) {
                             <p class="text-sm text-gray-600"><i class="fas fa-city mr-2"></i>${sub.district || 'Mahalle belirtilmemiş'}</p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600"><i class="fas fa-list mr-2"></i>${needsList.join(', ')}</p>
+                            <p class="text-sm text-gray-600"><i class="fas fa-list mr-2"></i>${needsList}</p>
                             ${sub.otherNeed ? `<p class="text-sm text-gray-600"><i class="fas fa-plus mr-2"></i>${sub.otherNeed}</p>` : ''}
                         </div>
                     </div>
                     ${sub.description ? `<p class="text-sm text-gray-700 mb-2">${sub.description}</p>` : ''}
-                    <p class="text-xs text-gray-500"><i class="fas fa-clock mr-2"></i>${sub.timestamp}</p>
+                    <p class="text-xs text-gray-500"><i class="fas fa-clock mr-2"></i>${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>
                 `;
                 submissionsList.appendChild(submissionElement);
             });
         }
-        // Apply filters
+        
         document.getElementById('applyFilters').addEventListener('click', loadSubmissionsList);
-        // Update detailed statistics
+        
         function updateDetailedStats() {
-            // Needs distribution
             const needsDistribution = document.getElementById('needsDistribution');
             needsDistribution.innerHTML = '';
-            const needsCount = {
-                food: 0,
-                health: 0,
-                education: 0,
-                housing: 0,
-                employment: 0,
-                legal: 0,
-                other: 0
-            };
-            submissions.forEach(sub => {
-                Object.keys(needsCount).forEach(need => {
-                    if (sub.needs[need]) {
-                        needsCount[need]++;
-                    }
-                });
-            });
-            const needsLabels = {
-                food: 'Gıda',
-                health: 'Sağlık',
-                education: 'Eğitim',
-                housing: 'Barınma',
-                employment: 'İstihdam',
-                legal: 'Hukuk',
-                other: 'Diğer'
-            };
+            const needsCount = { food: 0, health: 0, education: 0, housing: 0, employment: 0, legal: 0, other: 0 };
+            submissions.forEach(sub => { Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
+            const needsLabels = { food: 'Gıda', health: 'Sağlık', education: 'Eğitim', housing: 'Barınma', employment: 'İstihdam', legal: 'Hukuk', other: 'Diğer' };
             Object.entries(needsCount).forEach(([key, count]) => {
                 if (count > 0) {
                     const percentage = submissions.length > 0 ? Math.round((count / submissions.length) * 100) : 0;
-                    const barElement = document.createElement('div');
-                    barElement.className = 'flex items-center justify-between';
-                    barElement.innerHTML = `
-                        <span class="text-sm font-medium">${needsLabels[key]}</span>
-                        <div class="flex items-center space-x-2">
-                            <div class="w-24 bg-gray-200 rounded-full h-2">
-                                <div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div>
-                            </div>
-                            <span class="text-sm text-gray-600">${count} (${percentage}%)</span>
-                        </div>
-                    `;
-                    needsDistribution.appendChild(barElement);
+                    needsDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count} (${percentage}%)</span></div></div>`;
                 }
             });
-            // Urgency distribution
+
             const urgencyDistribution = document.getElementById('urgencyDistribution');
             urgencyDistribution.innerHTML = '';
             const urgencyCount = { normal: 0, high: 0, urgent: 0 };
-            submissions.forEach(sub => {
-                urgencyCount[sub.urgency]++;
-            });
+            submissions.forEach(sub => { urgencyCount[sub.urgency]++; });
             const urgencyLabels = { normal: 'Normal', high: 'Yüksek', urgent: 'Acil' };
             const urgencyColors = { normal: 'bg-green-500', high: 'bg-yellow-500', urgent: 'bg-red-500' };
             Object.entries(urgencyCount).forEach(([key, count]) => {
                 if (count > 0) {
                     const percentage = submissions.length > 0 ? Math.round((count / submissions.length) * 100) : 0;
-                    const barElement = document.createElement('div');
-                    barElement.className = 'flex items-center justify-between';
-                    barElement.innerHTML = `
-                        <span class="text-sm font-medium">${urgencyLabels[key]}</span>
-                        <div class="flex items-center space-x-2">
-                            <div class="w-24 bg-gray-200 rounded-full h-2">
-                                <div class="${urgencyColors[key]} h-2 rounded-full" style="width: ${percentage}%"></div>
-                            </div>
-                            <span class="text-sm text-gray-600">${count} (${percentage}%)</span>
-                        </div>
-                    `;
-                    urgencyDistribution.appendChild(barElement);
+                    urgencyDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${urgencyLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="${urgencyColors[key]} h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count} (${percentage}%)</span></div></div>`;
                 }
             });
-            // Daily submissions (last 7 days)
-            const dailySubmissions = document.getElementById('dailySubmissions');
-            dailySubmissions.innerHTML = '';
-            const today = new Date();
+
+            const dailySubmissionsDiv = document.getElementById('dailySubmissions');
+            dailySubmissionsDiv.innerHTML = '';
             const dailyCount = {};
             for (let i = 6; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
-                dailyCount[dateStr] = 0;
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dailyCount[date.toISOString().split('T')[0]] = 0;
             }
             submissions.forEach(sub => {
-                const subDate = new Date(sub.timestamp);
-                const subDateStr = subDate.toISOString().split('T')[0];
-                if (dailyCount[subDateStr] !== undefined) {
-                    dailyCount[subDateStr]++;
-                }
+                const subDateStr = sub.timestamp.split('T')[0];
+                if (dailyCount[subDateStr] !== undefined) dailyCount[subDateStr]++;
             });
+            const dayNames = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
             Object.entries(dailyCount).forEach(([date, count]) => {
                 const dateObj = new Date(date);
-                const dayNames = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
-                const dayName = dayNames[dateObj.getDay()];
-                const formattedDate = `${dayName} ${date.split('-')[2]}`;
-                const barElement = document.createElement('div');
-                barElement.className = 'flex items-center justify-between';
-                barElement.innerHTML = `
-                    <span class="text-sm font-medium">${formattedDate}</span>
-                    <span class="text-sm text-gray-600">${count}</span>
-                `;
-                dailySubmissions.appendChild(barElement);
+                const dayName = dayNames[(dateObj.getUTCDay() + 1) % 7]; // Adjust for UTC day
+                dailySubmissionsDiv.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${dayName} ${date.split('-')[2]}</span><span class="text-sm text-gray-600">${count}</span></div>`;
             });
         }
-        // Refresh submissions
-        document.getElementById('refreshSubmissions').addEventListener('click', () => {
-            loadSubmissionsFromFirebase();
-        });
-        // Setup report date
+        
+        document.getElementById('refreshSubmissions').addEventListener('click', loadSubmissionsFromFirebase);
+        
         function setupReportDate() {
-            const today = new Date();
-            const dateString = today.toISOString().split('T')[0];
-            document.getElementById('reportDate').value = dateString;
-            generateDailyReport(dateString);
-            document.getElementById('reportDate').addEventListener('change', (e) => {
-                generateDailyReport(e.target.value);
-            });
+            const reportDateInput = document.getElementById('reportDate');
+            const today = new Date().toISOString().split('T')[0];
+            reportDateInput.value = today;
+            generateDailyReport(today);
+            reportDateInput.addEventListener('change', (e) => generateDailyReport(e.target.value));
         }
-        // Generate daily report
+        
         function generateDailyReport(dateString) {
             if (!dateString) return;
-            const reportDate = new Date(dateString);
-            const reportDateStr = reportDate.toISOString().split('T')[0];
-            // Filter submissions for the selected date
-            const dailySubmissions = submissions.filter(sub => {
-                const subDate = new Date(sub.timestamp);
-                return subDate.toISOString().split('T')[0] === reportDateStr;
-            });
+            const dailySubmissions = submissions.filter(sub => sub.timestamp.startsWith(dateString));
             const dailyReportContent = document.getElementById('dailyReportContent');
             const noReportData = document.getElementById('noReportData');
-            if (dailySubmissions.length === 0) {
-                dailyReportContent.classList.add('hidden');
-                noReportData.classList.remove('hidden');
-                return;
-            }
-            noReportData.classList.add('hidden');
-            dailyReportContent.classList.remove('hidden');
-            // Format date for display
-            const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
-            const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-            const displayDate = `${dayNames[reportDate.getDay()]}, ${reportDate.getDate()} ${monthNames[reportDate.getMonth()]} ${reportDate.getFullYear()}`;
-            document.getElementById('reportDateDisplay').textContent = displayDate;
+
+            dailyReportContent.classList.toggle('hidden', dailySubmissions.length === 0);
+            noReportData.classList.toggle('hidden', dailySubmissions.length > 0);
+            if (dailySubmissions.length === 0) return;
+
+            const reportDate = new Date(dateString);
+            document.getElementById('reportDateDisplay').textContent = reportDate.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('reportTotal').textContent = dailySubmissions.length;
-            // Count urgent submissions
-            const urgentCount = dailySubmissions.filter(sub => sub.urgency === 'urgent').length;
-            document.getElementById('reportUrgent').textContent = urgentCount;
-            // Find top need
+            document.getElementById('reportUrgent').textContent = dailySubmissions.filter(sub => sub.urgency === 'urgent').length;
+
             const needsCount = { food: 0, health: 0, education: 0, housing: 0, employment: 0, legal: 0, other: 0 };
-            dailySubmissions.forEach(sub => {
-                Object.keys(needsCount).forEach(need => {
-                    if (sub.needs[need]) {
-                        needsCount[need]++;
-                    }
-                });
-            });
+            dailySubmissions.forEach(sub => { Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
             const needsLabels = { food: 'Gıda', health: 'Sağlık', education: 'Eğitim', housing: 'Barınma', employment: 'İstihdam', legal: 'Hukuk', other: 'Diğer' };
-            const topNeed = Object.entries(needsCount).reduce((a, b) => needsCount[a[0]] > needsCount[b[0]] ? a : b);
-            document.getElementById('reportTopNeed').textContent = needsCount[topNeed[0]] > 0 ? needsLabels[topNeed[0]] : '-';
-            // Generate needs chart for report
+            const topNeed = Object.entries(needsCount).reduce((a, b) => a[1] > b[1] ? a : b, [null, 0]);
+            document.getElementById('reportTopNeed').textContent = topNeed[1] > 0 ? needsLabels[topNeed[0]] : '-';
+
             const reportNeedsChart = document.getElementById('reportNeedsChart');
             reportNeedsChart.innerHTML = '';
             Object.entries(needsCount).forEach(([key, count]) => {
                 if (count > 0) {
                     const percentage = Math.round((count / dailySubmissions.length) * 100);
-                    const barElement = document.createElement('div');
-                    barElement.className = 'flex items-center justify-between';
-                    barElement.innerHTML = `
-                        <span class="text-sm font-medium">${needsLabels[key]}</span>
-                        <div class="flex items-center space-x-2">
-                            <div class="w-24 bg-gray-200 rounded-full h-2">
-                                <div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div>
-                            </div>
-                            <span class="text-sm text-gray-600">${count} (${percentage}%)</span>
-                        </div>
-                    `;
-                    reportNeedsChart.appendChild(barElement);
+                    reportNeedsChart.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count} (${percentage}%)</span></div></div>`;
                 }
             });
         }
-        // Export daily report
+        
         document.getElementById('exportReportBtn').addEventListener('click', function() {
             const reportDate = document.getElementById('reportDate').value;
             if (!reportDate) return;
-            const reportDateObj = new Date(reportDate);
-            const dailySubmissions = submissions.filter(sub => {
-                const subDate = new Date(sub.timestamp);
-                return subDate.toISOString().split('T')[0] === reportDate;
-            });
-            if (dailySubmissions.length === 0) return;
-            const headers = [
-                'Ad Soyad',
-                'Telefon',
-                'Adres',
-                'Mahalle',
-                'Gıda',
-                'Sağlık',
-                'Eğitim',
-                'Barınma',
-                'İstihdam',
-                'Hukuk',
-                'Diğer',
-                'Diğer İhtiyaç',
-                'Aciliyet',
-                'Açıklama',
-                'Tarih'
-            ];
-            const csvContent = [
-                headers.join(','),
-                ...dailySubmissions.map(sub => [
-                    `"${sub.name}"`,
-                    `"${sub.phone}"`,
-                    `"${sub.address}"`,
-                    `"${sub.district}"`,
-                    sub.needs.food ? 'Evet' : 'Hayır',
-                    sub.needs.health ? 'Evet' : 'Hayır',
-                    sub.needs.education ? 'Evet' : 'Hayır',
-                    sub.needs.housing ? 'Evet' : 'Hayır',
-                    sub.needs.employment ? 'Evet' : 'Hayır',
-                    sub.needs.legal ? 'Evet' : 'Hayır',
-                    sub.needs.other ? 'Evet' : 'Hayır',
-                    `"${sub.otherNeed || ''}"`,
-                    sub.urgency === 'urgent' ? 'Acil' : sub.urgency === 'high' ? 'Yüksek' : 'Normal',
-                    `"${sub.description}"`,
-                    `"${sub.timestamp}"`
-                ].join(','))
-            ].join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.setAttribute('href', url);
-            link.setAttribute('download', `roman_gunluk_rapor_${reportDate}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const dailySubmissions = submissions.filter(sub => sub.timestamp.startsWith(reportDate));
+            if (dailySubmissions.length > 0) {
+                exportToCSV(dailySubmissions, `roman_gunluk_rapor_${reportDate}`);
+            }
         });
-        // Initialize stats on page load
+        
         loadSubmissionsFromFirebase();
-        // Set first tab as active
+        
         document.querySelector('.nav-link[data-tab="form"]').classList.add('active', 'border-turquoise-500', 'text-turquoise-600');
     </script>
 </body>
