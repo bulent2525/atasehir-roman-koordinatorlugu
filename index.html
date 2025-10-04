@@ -3,15 +3,260 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ataşehir Roman Koordinatörlüğü</title>
+  <title>Ataşehir Valilik Roman Koordinatörlüğü</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-    .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    h1 { color: #2c3e50; text-align: center; }
-    ul { list-style: none; padding: 0; }
-    li { padding: 12px; margin: 8px 0; background: #ecf0f1; border-radius: 4px; }
-    .error { color: #e74c3c; background: #fadbd8; padding: 12px; border-radius: 4px; }
-    .loading { color: #3498db; }
+    :root {
+      --primary: #1e293b;
+      --secondary: #334155;
+      --accent: #2dd4bf;
+      --light: #f1f5f9;
+      --dark: #0f172a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--primary);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    .header {
+      background-color: var(--dark);
+      padding: 1rem 2rem;
+      border-bottom: 3px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-left .logo {
+      width: 40px;
+      height: 40px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark);
+      font-weight: bold;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .header-subtitle {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .contact-info i {
+      color: var(--accent);
+    }
+
+    .icons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background-color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: var(--secondary);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .form-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background-color: #1e293b;
+      color: var(--light);
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(16, 185, 128, 0.2);
+    }
+
+    .row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .needs-section {
+      margin-top: 1.5rem;
+    }
+
+    .needs-title {
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .needs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .need-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background-color: #1e293b;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .need-item:hover {
+      background-color: #334155;
+      border-color: var(--accent);
+    }
+
+    .need-item input[type="checkbox"] {
+      accent-color: var(--accent);
+    }
+
+    .need-item i {
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    .btn:hover {
+      background-color: #10b981;
+    }
+
+    .message {
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
+    }
+
+    .message.success {
+      background-color: #10b981;
+      color: white;
+    }
+
+    .message.error {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+
+      .row {
+        flex-direction: column;
+      }
+
+      .col {
+        min-width: 100%;
+      }
+    }
   </style>
 
   <!-- Firebase SDK -->
@@ -20,53 +265,629 @@
 
   <script>
     // 🔥 Firebase Config - BURAYI KENDİ BİLGİLERİNLE DEĞİŞTİR!
-   const firebaseConfig = {
-  apiKey: "AIzaSyCOqeYrGc7fux8Ym4eEilnG7HMuOWsRigk",
-  authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
-  databaseURL: "https://atasehir-roman-koordinatoru-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "atasehir-roman-koordinatoru",
-  storageBucket: "atasehir-roman-koordinatoru.firebasestorage.app",
-  messagingSenderId: "1090340718017",
-  appId: "1:1090340718017:web:52980a10227508eec5db40"
-};
+    <!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ataşehir Valilik Roman Koordinatörlüğü</title>
+  <style>
+    :root {
+      --primary: #1e293b;
+      --secondary: #334155;
+      --accent: #2dd4bf;
+      --light: #f1f5f9;
+      --dark: #0f172a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--primary);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    .header {
+      background-color: var(--dark);
+      padding: 1rem 2rem;
+      border-bottom: 3px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-left .logo {
+      width: 40px;
+      height: 40px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark);
+      font-weight: bold;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .header-subtitle {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .contact-info i {
+      color: var(--accent);
+    }
+
+    .icons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background-color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: var(--secondary);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .form-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background-color: #1e293b;
+      color: var(--light);
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(16, 185, 128, 0.2);
+    }
+
+    .row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .needs-section {
+      margin-top: 1.5rem;
+    }
+
+    .needs-title {
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .needs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .need-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background-color: #1e293b;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .need-item:hover {
+      background-color: #334155;
+      border-color: var(--accent);
+    }
+
+    .need-item input[type="checkbox"] {
+      accent-color: var(--accent);
+    }
+
+    .need-item i {
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    .btn:hover {
+      background-color: #10b981;
+    }
+
+    .message {
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
+    }
+
+    .message.success {
+      background-color: #10b981;
+      color: white;
+    }
+
+    .message.error {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+
+      .row {
+        flex-direction: column;
+      }
+
+      .col {
+        min-width: 100%;
+      }
+    }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <script>
+    // 🔥 Firebase Config - BURAYI KENDİ BİLGİLERİNLE DEĞİŞTİR!
+    const firebaseConfig = {
+      apiKey: "AIzaSyBv...", // <-- BURAYI DEĞİŞTİR
+      authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
+      databaseURL: "https://atasehir-roman-koordinatoru-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "atasehir-roman-koordinatoru",
+      storageBucket: "atasehir-roman-koordinatoru.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abc123def456"
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   </script>
 </head>
 <body>
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">📍</div>
+      <div>
+        <div class="header-title">Ataşehir Valilik Roman Koordinatörlüğü</div>
+        <div class="header-subtitle">Dezavantajlı Roman Halkı Destek Sistemi</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="contact-info">
+        <i>📞</i> 545 774 27 53
+      </div>
+      <div class="contact-info">
+        <i>✉️</i> atasehirvalikoordinatoru@gmail.com
+      </div>
+      <div class="icons">
+        <div class="icon">☀️</div>
+        <div class="icon">🔒</div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
-    <h1>Ataşehir Roman Koordinatörlüğü Başvuruları</h1>
-    <div id="basvurular-listesi" class="loading">Başvurular yükleniyor...</div>
+    <div class="form-title">
+      <i>👤</i> İhtiyaç Bildirim Formu
+    </div>
+
+    <form id="basvuru-form">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="ad-soyad">Ad Soyad *</label>
+            <input type="text" id="ad-soyad" placeholder="Adınızı ve soyadınızı girin" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="telefon">Telefon *</label>
+            <input type="tel" id="telefon" placeholder="555 123 45 67" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="adres">Adres</label>
+            <input type="text" id="adres" placeholder="Tam adresinizi girin">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="mahalle">Mahalle</label>
+            <input type="text" id="mahalle" placeholder="Mahallenizi girin">
+          </div>
+        </div>
+      </div>
+
+      <div class="needs-section">
+        <div class="needs-title">İhtiyaç Türleri *</div>
+        <div class="needs-grid">
+          <div class="need-item">
+            <input type="checkbox" id="gida" value="Gıda">
+            <label for="gida"><i>🍴</i> Gıda</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="saglik" value="Sağlık">
+            <label for="saglik"><i>❤️</i> Sağlık</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="egitim" value="Eğitim">
+            <label for="egitim"><i>🎓</i> Eğitim</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="istihdam" value="İstihdam">
+            <label for="istihdam"><i>💼</i> İstihdam</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="hukuk" value="Hukuk">
+            <label for="hukuk"><i>⚖️</i> Hukuk</label>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Başvuruyu Gönder</button>
+    </form>
+
+    <div id="message" class="message"></div>
   </div>
 
   <script>
-    const db = firebase.database();
-    const basvurularRef = db.ref("basvurular"); // 👈 Firebase'deki yol
-
-    basvurularRef.on("value", (snapshot) => {
-      const container = document.getElementById("basvurular-listesi");
+    document.getElementById('basvuru-form').addEventListener('submit', function(e) {
+      e.preventDefault();
       
-      if (snapshot.exists()) {
-        let html = "<ul>";
-        snapshot.forEach((childSnapshot) => {
-          const data = childSnapshot.val();
-          const ad = data.ad || "Adsız";
-          const telefon = data.telefon || "Telefon yok";
-          html += `<li><strong>${ad}</strong> - ${telefon}</li>`;
-        });
-        html += "</ul>";
-        container.innerHTML = html;
-        container.className = ""; // loading sınıfını kaldır
-      } else {
-        container.innerHTML = "<div class='error'>Henüz başvuru yapılmadı.</div>";
-        container.className = "";
+      const adSoyad = document.getElementById('ad-soyad').value.trim();
+      const telefon = document.getElementById('telefon').value.trim();
+      const adres = document.getElementById('adres').value.trim();
+      const mahalle = document.getElementById('mahalle').value.trim();
+      
+      const needs = [];
+      if (document.getElementById('gida').checked) needs.push('Gıda');
+      if (document.getElementById('saglik').checked) needs.push('Sağlık');
+      if (document.getElementById('egitim').checked) needs.push('Eğitim');
+      if (document.getElementById('istihdam').checked) needs.push('İstihdam');
+      if (document.getElementById('hukuk').checked) needs.push('Hukuk');
+      
+      if (needs.length === 0) {
+        showMessage('Lütfen en az bir ihtiyaç türü seçin.', 'error');
+        return;
       }
-    }, (error) => {
-      const container = document.getElementById("basvurular-listesi");
-      container.innerHTML = `<div class="error">Veri yüklenirken hata oluştu: ${error.message}</div>`;
-      container.className = "";
+      
+      const db = firebase.database();
+      const basvurularRef = db.ref("basvurular");
+      
+      // Otomatik zaman damgası
+      const timestamp = new Date().toLocaleString('tr-TR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      const yeniBasvuru = {
+        ad: adSoyad,
+        telefon: telefon,
+        adres: adres,
+        mahalle: mahalle,
+        ihtiyaclar: needs,
+        tarih: timestamp,
+        status: "beklemede"
+      };
+      
+      basvurularRef.push(yeniBasvuru)
+        .then(() => {
+          showMessage('Başvurunuz başarıyla gönderildi!', 'success');
+          document.getElementById('basvuru-form').reset();
+          document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+          
+          // Mail bildirimi için webhook çağrısı
+          fetch('https://script.google.com/macros/s/YOUR_GOOGLE_APPS_SCRIPT_ID/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(yeniBasvuru)
+          }).catch(() => {
+            // Mail hatası sessizce geçilsin
+          });
+        })
+        .catch(error => {
+          showMessage('Başvuru gönderilirken hata oluştu: ' + error.message, 'error');
+        });
     });
+    
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+      
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">📍</div>
+      <div>
+        <div class="header-title">Ataşehir Valilik Roman Koordinatörlüğü</div>
+        <div class="header-subtitle">Dezavantajlı Roman Halkı Destek Sistemi</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="contact-info">
+        <i>📞</i> 545 774 27 53
+      </div>
+      <div class="contact-info">
+        <i>✉️</i> atasehirvalikoordinatoru@gmail.com
+      </div>
+      <div class="icons">
+        <div class="icon">☀️</div>
+        <div class="icon">🔒</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="form-title">
+      <i>👤</i> İhtiyaç Bildirim Formu
+    </div>
+
+    <form id="basvuru-form">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="ad-soyad">Ad Soyad *</label>
+            <input type="text" id="ad-soyad" placeholder="Adınızı ve soyadınızı girin" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="telefon">Telefon *</label>
+            <input type="tel" id="telefon" placeholder="555 123 45 67" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="adres">Adres</label>
+            <input type="text" id="adres" placeholder="Tam adresinizi girin">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="mahalle">Mahalle</label>
+            <input type="text" id="mahalle" placeholder="Mahallenizi girin">
+          </div>
+        </div>
+      </div>
+
+      <div class="needs-section">
+        <div class="needs-title">İhtiyaç Türleri *</div>
+        <div class="needs-grid">
+          <div class="need-item">
+            <input type="checkbox" id="gida" value="Gıda">
+            <label for="gida"><i>🍴</i> Gıda</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="saglik" value="Sağlık">
+            <label for="saglik"><i>❤️</i> Sağlık</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="egitim" value="Eğitim">
+            <label for="egitim"><i>🎓</i> Eğitim</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="istihdam" value="İstihdam">
+            <label for="istihdam"><i>💼</i> İstihdam</label>
+          </div>
+          <div class="need-item">
+            <input type="checkbox" id="hukuk" value="Hukuk">
+            <label for="hukuk"><i>⚖️</i> Hukuk</label>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Başvuruyu Gönder</button>
+    </form>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('basvuru-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const adSoyad = document.getElementById('ad-soyad').value.trim();
+      const telefon = document.getElementById('telefon').value.trim();
+      const adres = document.getElementById('adres').value.trim();
+      const mahalle = document.getElementById('mahalle').value.trim();
+      
+      const needs = [];
+      if (document.getElementById('gida').checked) needs.push('Gıda');
+      if (document.getElementById('saglik').checked) needs.push('Sağlık');
+      if (document.getElementById('egitim').checked) needs.push('Eğitim');
+      if (document.getElementById('istihdam').checked) needs.push('İstihdam');
+      if (document.getElementById('hukuk').checked) needs.push('Hukuk');
+      
+      if (needs.length === 0) {
+        showMessage('Lütfen en az bir ihtiyaç türü seçin.', 'error');
+        return;
+      }
+      
+      const db = firebase.database();
+      const basvurularRef = db.ref("basvurular");
+      
+      // Otomatik zaman damgası
+      const timestamp = new Date().toLocaleString('tr-TR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      const yeniBasvuru = {
+        ad: adSoyad,
+        telefon: telefon,
+        adres: adres,
+        mahalle: mahalle,
+        ihtiyaclar: needs,
+        tarih: timestamp,
+        status: "beklemede"
+      };
+      
+      basvurularRef.push(yeniBasvuru)
+        .then(() => {
+          showMessage('Başvurunuz başarıyla gönderildi!', 'success');
+          document.getElementById('basvuru-form').reset();
+          document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+          
+          // Mail bildirimi için webhook çağrısı
+          fetch('https://script.google.com/macros/s/YOUR_GOOGLE_APPS_SCRIPT_ID/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(yeniBasvuru)
+          }).catch(() => {
+            // Mail hatası sessizce geçilsin
+          });
+        })
+        .catch(error => {
+          showMessage('Başvuru gönderilirken hata oluştu: ' + error.message, 'error');
+        });
+    });
+    
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+      
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 5000);
+    }
   </script>
 </body>
 </html>
