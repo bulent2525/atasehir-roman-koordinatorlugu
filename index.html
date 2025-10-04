@@ -903,17 +903,20 @@
             setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 3000);
         });
         // Save submission to Firebase (CORRECTED)
-        async function saveSubmissionToFirebase(submission) {
-            if (!database) {
-                return;
-            }
-            try {
-                await database.ref('submissions').push(submission);
-                await loadSubmissionsFromFirebase();
-            } catch (error) {
-                console.error("Error saving to Firebase:", error);
-            }
-        }
+async function saveSubmissionToFirebase(submission) {
+    if (!database) {
+        return;
+    }
+    try {
+        // Push new submission as an object (not array)
+        const newSubmissionRef = database.ref('submissions').push();
+        await newSubmissionRef.set(submission);
+        // Reload submissions
+        await loadSubmissionsFromFirebase();
+    } catch (error) {
+        console.error("Error saving to Firebase:", error);
+    }
+}
         // Handle "Diğer" checkbox
         const otherCheckbox = document.querySelector('input[value="other"]');
         if (otherCheckbox) {
