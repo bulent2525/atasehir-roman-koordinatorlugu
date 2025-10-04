@@ -94,9 +94,9 @@
     </style>
 </head>
 <body class="min-h-screen">
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
     <header class="bg-white shadow-lg border-b-4 border-turquoise-600">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -678,13 +678,8 @@
     </footer>
 
     <script>
-        // Set current year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // Fixed admin password
         const ADMIN_PASSWORD = "2025Bjk2025.,.";
-        
-        // Firebase configuration - YOUR ACTUAL CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyC0qeYrGc7fux8Ym4eEilnG7HMuOWsRigk",
             authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
@@ -695,32 +690,26 @@
             appId: "1:1090340718017:web:52980a10227508eec5db40"
         };
 
-        // Initialize Firebase
-        let firebaseApp = null;
         let database = null;
         let submissions = [];
-        
         try {
-            firebaseApp = firebase.initializeApp(firebaseConfig);
+            firebase.initializeApp(firebaseConfig);
             database = firebase.database();
         } catch (error) {
-            console.log("Firebase initialization error:", error);
+            console.error("Firebase initialization error:", error);
+            alert("Firebase başlatılırken bir hata oluştu. Lütfen konsolu kontrol edin.");
         }
 
-        // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
-        
         const savedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             body.classList.add('dark-mode');
             themeToggle.innerHTML = '<i class="fas fa-sun text-yellow-400"></i>';
         } else {
             themeToggle.innerHTML = '<i class="fas fa-moon text-gray-600"></i>';
         }
-        
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             if (body.classList.contains('dark-mode')) {
@@ -732,87 +721,51 @@
             }
         });
 
-        // Admin login functionality
         const adminLoginBtn = document.getElementById('adminLoginBtn');
         const adminLoginModal = document.getElementById('adminLoginModal');
         const closeLoginModal = document.getElementById('closeLoginModal');
         const adminLoginForm = document.getElementById('adminLoginForm');
         const adminPasswordInput = document.getElementById('adminPassword');
-        
-        adminLoginBtn.addEventListener('click', () => {
-            adminLoginModal.classList.remove('hidden');
-        });
-        
+        adminLoginBtn.addEventListener('click', () => adminLoginModal.classList.remove('hidden'));
         closeLoginModal.addEventListener('click', () => {
             adminLoginModal.classList.add('hidden');
             adminPasswordInput.value = '';
         });
-        
         adminLoginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const password = adminPasswordInput.value;
-            
-            if (password === ADMIN_PASSWORD) {
-                document.querySelectorAll('.admin-only').forEach(el => {
-                    el.classList.add('admin-visible');
-                });
-                
-                document.querySelectorAll('.nav-link[data-tab="submissions"], .nav-link[data-tab="stats"], .nav-link[data-tab="management"], .nav-link[data-tab="reports"]').forEach(el => {
-                    el.classList.remove('hidden');
-                });
-                
+            if (adminPasswordInput.value === ADMIN_PASSWORD) {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('admin-visible'));
                 adminLoginModal.classList.add('hidden');
                 adminPasswordInput.value = '';
-                
                 adminLoginBtn.innerHTML = '<i class="fas fa-sign-out-alt text-red-600"></i>';
                 adminLoginBtn.title = 'Çıkış Yap';
                 adminLoginBtn.onclick = logoutAdmin;
-                
                 loadSubmissionsFromFirebase();
             } else {
                 alert('Geçersiz şifre!');
             }
         });
-        
+
         function logoutAdmin() {
-            document.querySelectorAll('.admin-only').forEach(el => {
-                el.classList.remove('admin-visible');
-            });
-            
-            document.querySelectorAll('.nav-link[data-tab="submissions"], .nav-link[data-tab="stats"], .nav-link[data-tab="management"], .nav-link[data-tab="reports"]').forEach(el => {
-                el.classList.add('hidden');
-            });
-            
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active', 'border-turquoise-500', 'text-turquoise-600'));
-            document.querySelector('.nav-link[data-tab="form"]').classList.add('active', 'border-turquoise-500', 'text-turquoise-600');
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('admin-visible'));
+            const formTab = document.querySelector('.nav-link[data-tab="form"]');
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            formTab.classList.add('active');
+            document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
             document.getElementById('formSection').classList.remove('hidden');
-            document.getElementById('submissionsSection').classList.add('hidden');
-            document.getElementById('statsSection').classList.add('hidden');
-            document.getElementById('managementSection').classList.add('hidden');
-            document.getElementById('reportsSection').classList.add('hidden');
-            
             adminLoginBtn.innerHTML = '<i class="fas fa-lock text-turquoise-600"></i>';
             adminLoginBtn.title = 'Yönetici Girişi';
             adminLoginBtn.onclick = () => adminLoginModal.classList.remove('hidden');
         }
 
-        // Navigation tabs
         const navLinks = document.querySelectorAll('.nav-link');
-        
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.forEach(l => l.classList.remove('active', 'border-turquoise-500', 'text-turquoise-600'));
-                link.classList.add('active', 'border-turquoise-500', 'text-turquoise-600');
-                
-                document.getElementById('formSection').classList.add('hidden');
-                document.getElementById('submissionsSection').classList.add('hidden');
-                document.getElementById('statsSection').classList.add('hidden');
-                document.getElementById('managementSection').classList.add('hidden');
-                document.getElementById('reportsSection').classList.add('hidden');
-                
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                document.querySelectorAll('main > div[id$="Section"]').forEach(el => el.classList.add('hidden'));
                 const tab = link.dataset.tab;
                 document.getElementById(tab + 'Section').classList.remove('hidden');
-
                 if (tab === 'submissions') loadSubmissionsFromFirebase();
                 if (tab === 'stats') updateDetailedStats();
                 if (tab === 'management') updateStats();
@@ -820,58 +773,40 @@
             });
         });
 
-        // =================================================================
-        // DÜZELTİLMİŞ KOD BÖLÜMÜ
-        // =================================================================
-
-        // Load submissions from Firebase
         async function loadSubmissionsFromFirebase() {
             if (!database) return;
             try {
                 const snapshot = await database.ref('submissions').once('value');
                 const submissionsObject = snapshot.val();
-                if (submissionsObject) {
-                    submissions = Object.keys(submissionsObject).map(key => ({
-                        firebaseId: key,
-                        ...submissionsObject[key]
-                    }));
-                } else {
-                    submissions = [];
-                }
+                submissions = submissionsObject ? Object.keys(submissionsObject).map(key => ({ ...submissionsObject[key], firebaseId: key })) : [];
                 updateAllViews();
             } catch (error) {
-                console.error("Error loading from Firebase:", error);
+                console.error("Firebase'den veri yüklenirken hata:", error);
             }
         }
 
-        // Save submission to Firebase
         async function saveSubmissionToFirebase(submission) {
             if (!database) return;
             try {
                 await database.ref('submissions').push(submission);
                 await loadSubmissionsFromFirebase();
             } catch (error) {
-                console.error("Error saving to Firebase:", error);
+                console.error("Firebase'e veri kaydedilirken hata:", error);
             }
         }
 
-        // Handle form submission
         document.getElementById('needsForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
-            
             if (!name || !phone) {
                 document.getElementById('errorMessage').classList.remove('hidden');
                 setTimeout(() => document.getElementById('errorMessage').classList.add('hidden'), 3000);
                 return;
             }
-            
             const needsCheckboxes = document.querySelectorAll('input[name="needs"]:checked');
             const needs = {};
             needsCheckboxes.forEach(checkbox => { needs[checkbox.value] = true; });
-            
             const newSubmission = {
                 name: name,
                 phone: phone,
@@ -881,21 +816,14 @@
                 otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '',
                 urgency: document.querySelector('input[name="urgency"]:checked').value,
                 description: document.getElementById('description').value.trim(),
-                timestamp: new Date().toISOString() // Düzeltildi: Standart format kullanıldı
+                timestamp: new Date().toISOString()
             };
-            
             saveSubmissionToFirebase(newSubmission);
-            
             document.getElementById('needsForm').reset();
             document.getElementById('otherNeedContainer').classList.add('hidden');
-            
             document.getElementById('successMessage').classList.remove('hidden');
             setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 3000);
         });
-
-        // =================================================================
-        // DİĞER FONKSİYONLAR (DEĞİŞİKLİK YOK)
-        // =================================================================
 
         function updateAllViews() {
             updateStats();
@@ -905,40 +833,26 @@
 
         function updateStats() {
             document.getElementById('totalSubmissions').textContent = submissions.length;
-            
             const today = new Date().toISOString().split('T')[0];
             const todayCount = submissions.filter(sub => sub.timestamp.startsWith(today)).length;
             document.getElementById('todaySubmissions').textContent = todayCount;
-            
             const urgentCount = submissions.filter(sub => sub.urgency === 'urgent').length;
             document.getElementById('urgentSubmissions').textContent = urgentCount;
-
-            const exportBtn = document.getElementById('exportBtn');
-            const exportBtnManagement = document.getElementById('exportBtnManagement');
             const isDisabled = submissions.length === 0;
-            exportBtn.disabled = isDisabled;
-            exportBtnManagement.disabled = isDisabled;
-            
-            document.getElementById('noSubmissions').classList.toggle('hidden', submissions.length > 0);
-            document.getElementById('submissionsCount').textContent = submissions.length;
+            document.getElementById('exportBtn').disabled = isDisabled;
+            document.getElementById('exportBtnManagement').disabled = isDisabled;
         }
 
-        const otherCheckbox = document.querySelector('input[value="other"]');
-        if (otherCheckbox) {
-            otherCheckbox.addEventListener('change', function() {
-                document.getElementById('otherNeedContainer').classList.toggle('hidden', !this.checked);
-            });
-        }
+        document.querySelector('input[value="other"]').addEventListener('change', function() {
+            document.getElementById('otherNeedContainer').classList.toggle('hidden', !this.checked);
+        });
         
-        document.getElementById('exportBtn').addEventListener('click', exportToCSV);
-        document.getElementById('exportBtnManagement').addEventListener('click', exportToCSV);
+        document.getElementById('exportBtn').addEventListener('click', () => exportToCSV(submissions, 'roman_ihtiyaclari'));
+        document.getElementById('exportBtnManagement').addEventListener('click', () => exportToCSV(submissions, 'roman_ihtiyaclari'));
         
-        function exportToCSV(data = submissions, filenamePrefix = 'roman_ihtiyaclari') {
-            const dataToExport = Array.isArray(data) ? data : submissions;
+        function exportToCSV(dataToExport, filenamePrefix) {
             if (dataToExport.length === 0) return;
-            
             const headers = ['Ad Soyad', 'Telefon', 'Adres', 'Mahalle', 'Gıda', 'Sağlık', 'Eğitim', 'Barınma', 'İstihdam', 'Hukuk', 'Diğer', 'Diğer İhtiyaç', 'Aciliyet', 'Açıklama', 'Tarih'];
-            
             const csvContent = [
                 headers.join(','),
                 ...dataToExport.map(sub => [
@@ -947,11 +861,10 @@
                     sub.needs.housing ? 'Evet' : 'Hayır', sub.needs.employment ? 'Evet' : 'Hayır', sub.needs.legal ? 'Evet' : 'Hayır',
                     sub.needs.other ? 'Evet' : 'Hayır', `"${sub.otherNeed || ''}"`,
                     sub.urgency === 'urgent' ? 'Acil' : sub.urgency === 'high' ? 'Yüksek' : 'Normal',
-                    `"${sub.description}"`, `"${new Date(sub.timestamp).toLocaleString('tr-TR')}"`
+                    `"${sub.description.replace(/"/g, '""')}"`, `"${new Date(sub.timestamp).toLocaleString('tr-TR')}"`
                 ].join(','))
             ].join('\n');
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.setAttribute('href', url);
@@ -977,70 +890,63 @@
                 updateAllViews();
                 alert('Tüm veriler başarıyla silindi!');
             } catch (error) {
-                console.error("Error clearing data:", error);
+                console.error("Veri temizlenirken hata:", error);
             }
         }
         
         function loadSubmissionsList() {
             const submissionsList = document.getElementById('submissionsList');
             submissionsList.innerHTML = '';
-            
             let filteredSubmissions = [...submissions];
             const urgencyFilter = document.getElementById('filterUrgency').value;
             const needFilter = document.getElementById('filterNeed').value;
-            
             if (urgencyFilter !== 'all') filteredSubmissions = filteredSubmissions.filter(sub => sub.urgency === urgencyFilter);
-            if (needFilter !== 'all') filteredSubmissions = filteredSubmissions.filter(sub => sub.needs[needFilter]);
-            
+            if (needFilter !== 'all') filteredSubmissions = filteredSubmissions.filter(sub => sub.needs && sub.needs[needFilter]);
             document.getElementById('noSubmissions').classList.toggle('hidden', filteredSubmissions.length > 0);
             document.getElementById('submissionsCount').textContent = filteredSubmissions.length;
-
             const sortedSubmissions = filteredSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
             sortedSubmissions.forEach(sub => {
                 const urgencyColors = { normal: 'bg-green-100 text-green-800', high: 'bg-yellow-100 text-yellow-800', urgent: 'bg-red-100 text-red-800' };
                 const urgencyLabels = { normal: 'Normal', high: 'Yüksek', urgent: 'Acil' };
-                const needsList = Object.keys(sub.needs).map(need => ({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}[need])).join(', ');
-                
+                const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'};
+                const needsList = sub.needs ? Object.keys(sub.needs).map(need => needsLabels[need]).join(', ') : 'Belirtilmemiş';
                 const submissionElement = document.createElement('div');
                 submissionElement.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
                 submissionElement.innerHTML = `
                     <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-gray-900">${sub.name}</h3>
-                            <p class="text-sm text-gray-600">${sub.phone}</p>
-                        </div>
+                        <div><h3 class="font-semibold text-gray-900">${sub.name}</h3><p class="text-sm text-gray-600">${sub.phone}</p></div>
                         <span class="px-2 py-1 rounded-full text-xs font-medium ${urgencyColors[sub.urgency]}">${urgencyLabels[sub.urgency]}</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <div>
-                            <p class="text-sm text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>${sub.address || 'Adres belirtilmemiş'}</p>
-                            <p class="text-sm text-gray-600"><i class="fas fa-city mr-2"></i>${sub.district || 'Mahalle belirtilmemiş'}</p>
+                            <p class="text-sm text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>${sub.address || '...'}</p>
+                            <p class="text-sm text-gray-600"><i class="fas fa-city mr-2"></i>${sub.district || '...'}</p>
                         </div>
                         <div>
                             <p class="text-sm text-gray-600"><i class="fas fa-list mr-2"></i>${needsList}</p>
                             ${sub.otherNeed ? `<p class="text-sm text-gray-600"><i class="fas fa-plus mr-2"></i>${sub.otherNeed}</p>` : ''}
                         </div>
                     </div>
-                    ${sub.description ? `<p class="text-sm text-gray-700 mb-2">${sub.description}</p>` : ''}
-                    <p class="text-xs text-gray-500"><i class="fas fa-clock mr-2"></i>${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>
-                `;
+                    ${sub.description ? `<p class="text-sm text-gray-700 bg-gray-50 p-2 rounded">${sub.description}</p>` : ''}
+                    <p class="text-xs text-gray-500 mt-2 text-right"><i class="fas fa-clock mr-1"></i>${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>`;
                 submissionsList.appendChild(submissionElement);
             });
         }
         
         document.getElementById('applyFilters').addEventListener('click', loadSubmissionsList);
+        document.getElementById('refreshSubmissions').addEventListener('click', loadSubmissionsFromFirebase);
         
         function updateDetailedStats() {
             const needsDistribution = document.getElementById('needsDistribution');
             needsDistribution.innerHTML = '';
             const needsCount = { food: 0, health: 0, education: 0, housing: 0, employment: 0, legal: 0, other: 0 };
-            submissions.forEach(sub => { Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
+            submissions.forEach(sub => { if(sub.needs) Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
             const needsLabels = { food: 'Gıda', health: 'Sağlık', education: 'Eğitim', housing: 'Barınma', employment: 'İstihdam', legal: 'Hukuk', other: 'Diğer' };
             Object.entries(needsCount).forEach(([key, count]) => {
                 if (count > 0) {
-                    const percentage = submissions.length > 0 ? Math.round((count / submissions.length) * 100) : 0;
-                    needsDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count} (${percentage}%)</span></div></div>`;
+                    const totalNeeds = Object.values(needsCount).reduce((a, b) => a + b, 0);
+                    const percentage = totalNeeds > 0 ? Math.round((count / totalNeeds) * 100) : 0;
+                    needsDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count}</span></div></div>`;
                 }
             });
 
@@ -1053,7 +959,7 @@
             Object.entries(urgencyCount).forEach(([key, count]) => {
                 if (count > 0) {
                     const percentage = submissions.length > 0 ? Math.round((count / submissions.length) * 100) : 0;
-                    urgencyDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${urgencyLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="${urgencyColors[key]} h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count} (${percentage}%)</span></div></div>`;
+                    urgencyDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${urgencyLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="${urgencyColors[key]} h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count}</span></div></div>`;
                 }
             });
 
@@ -1072,12 +978,10 @@
             const dayNames = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
             Object.entries(dailyCount).forEach(([date, count]) => {
                 const dateObj = new Date(date);
-                const dayName = dayNames[(dateObj.getUTCDay() + 1) % 7]; // Adjust for UTC day
+                const dayName = dayNames[dateObj.getUTCDay()];
                 dailySubmissionsDiv.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${dayName} ${date.split('-')[2]}</span><span class="text-sm text-gray-600">${count}</span></div>`;
             });
         }
-        
-        document.getElementById('refreshSubmissions').addEventListener('click', loadSubmissionsFromFirebase);
         
         function setupReportDate() {
             const reportDateInput = document.getElementById('reportDate');
@@ -1103,7 +1007,7 @@
             document.getElementById('reportUrgent').textContent = dailySubmissions.filter(sub => sub.urgency === 'urgent').length;
 
             const needsCount = { food: 0, health: 0, education: 0, housing: 0, employment: 0, legal: 0, other: 0 };
-            dailySubmissions.forEach(sub => { Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
+            dailySubmissions.forEach(sub => { if(sub.needs) Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
             const needsLabels = { food: 'Gıda', health: 'Sağlık', education: 'Eğitim', housing: 'Barınma', employment: 'İstihdam', legal: 'Hukuk', other: 'Diğer' };
             const topNeed = Object.entries(needsCount).reduce((a, b) => a[1] > b[1] ? a : b, [null, 0]);
             document.getElementById('reportTopNeed').textContent = topNeed[1] > 0 ? needsLabels[topNeed[0]] : '-';
@@ -1112,8 +1016,9 @@
             reportNeedsChart.innerHTML = '';
             Object.entries(needsCount).forEach(([key, count]) => {
                 if (count > 0) {
-                    const percentage = Math.round((count / dailySubmissions.length) * 100);
-                    reportNeedsChart.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count} (${percentage}%)</span></div></div>`;
+                    const totalNeeds = Object.values(needsCount).reduce((a, b) => a + b, 0);
+                    const percentage = totalNeeds > 0 ? Math.round((count / totalNeeds) * 100) : 0;
+                    reportNeedsChart.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count}</span></div></div>`;
                 }
             });
         }
@@ -1127,9 +1032,10 @@
             }
         });
         
-        loadSubmissionsFromFirebase();
-        
-        document.querySelector('.nav-link[data-tab="form"]').classList.add('active', 'border-turquoise-500', 'text-turquoise-600');
+        document.querySelector('.nav-link[data-tab="form"]').classList.add('active');
+        if(database) {
+            loadSubmissionsFromFirebase();
+        }
     </script>
 </body>
 </html>
