@@ -809,28 +809,29 @@
             });
         });
         // Load submissions from Firebase (CORRECTED)
-        async function loadSubmissionsFromFirebase() {
-            if (!database) {
-                return;
-            }
-            try {
-                const snapshot = await database.ref('submissions').once('value');
-                const data = snapshot.val();
-                submissions = [];
-                if (data) {
-                    Object.keys(data).forEach(key => {
-                        submissions.push({
-                            id: key,
-                            ...data[key]
-                        });
-                    });
-                }
-                submissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                updateAllViews();
-            } catch (error) {
-                console.error("Error loading from Firebase:", error);
-            }
+async function loadSubmissionsFromFirebase() {
+    if (!database) {
+        return;
+    }
+    try {
+        const snapshot = await database.ref('submissions').once('value');
+        const data = snapshot.val();
+        submissions = [];
+        if (data) {
+            Object.keys(data).forEach(key => {
+                submissions.push({
+                    id: key,
+                    ...data[key]
+                });
+            });
         }
+        submissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        updateAllViews();
+    } catch (error) {
+        console.error("Error loading from Firebase:", error);
+    }
+}
+             
         function updateAllViews() {
             updateStats();
             if (document.getElementById('submissionsSection').classList.contains('admin-visible')) {
