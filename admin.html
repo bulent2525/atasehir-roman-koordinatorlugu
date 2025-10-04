@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Ataşehir Roman Koordinatörlüğü</title>
+  <style>
+    :root {
+      --primary: #1e293b;
+      --secondary: #334155;
+      --accent: #2dd4bf;
+      --light: #f1f5f9;
+      --dark: #0f172a;
+      --danger: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--primary);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 2rem;
+      background-color: var(--secondary);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .login-title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background-color: #1e293b;
+      color: var(--light);
+      font-size: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: var(--secondary);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .admin-title {
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    .btn-export {
+      background-color: #10b981;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-export:hover {
+      background-color: #0da271;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #475569;
+    }
+
+    th {
+      background-color: var(--dark);
+      color: var(--accent);
+    }
+
+    tr:hover {
+      background-color: #1e293b;
+    }
+
+    .status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+
+    .status.beklemede {
+      background-color: #f59e0b;
+      color: #0f172a;
+    }
+
+    .status.tamamlandi {
+      background-color: #10b981;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .admin-container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      th {
+        display: none;
+      }
+
+      td {
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+      }
+
+      td:before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+    }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <script>
+    // 🔥 Firebase Config - BURAYI KENDİ BİLGİLERİNLE DEĞİŞTİR!
+    const firebaseConfig = {
+  apiKey: "AIzaSyCOqeYrGc7fux8Ym4eEilnG7HMuOWsRigk",
+  authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
+  databaseURL: "https://atasehir-roman-koordinatoru-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "atasehir-roman-koordinatoru",
+  storageBucket: "atasehir-roman-koordinatoru.firebasestorage.app",
+  messagingSenderId: "1090340718017",
+  appId: "1:1090340718017:web:52980a10227508eec5db40"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <div id="login-section" class="login-container">
+    <h2 class="login-title">Admin Girişi</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="password">Şifre</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit" class="btn">Giriş Yap</button>
+    </form>
+  </div>
+
+  <div id="admin-section" class="admin-container" style="display: none;">
+    <div class="admin-header">
+      <h2 class="admin-title">Başvurular</h2>
+      <button id="export-btn" class="btn-export">CSV Olarak İndir</button>
+    </div>
+    <table id="basvurular-table">
+      <thead>
+        <tr>
+          <th>Tarih</th>
+          <th>Ad Soyad</th>
+          <th>Telefon</th>
+          <th>Adres</th>
+          <th>İhtiyaçlar</th>
+          <th>Durum</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Veriler buraya gelecek -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "2025Bjk2025."; // 👈 BURAYI DEĞİŞTİR!
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      if (password === ADMIN_PASSWORD) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('admin-section').style.display = 'block';
+        loadBasvurular();
+      } else {
+        alert('Yanlış şifre!');
+      }
+    });
+
+    function loadBasvurular() {
+      const db = firebase.database();
+      const basvurularRef = db.ref("basvurular");
+      
+      basvurularRef.on("value", (snapshot) => {
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = '';
+        
+        if (snapshot.exists()) {
+          const basvurular = [];
+          snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            basvurular.push({
+              id: childSnapshot.key,
+              ...data
+            });
+          });
+          
+          // En yeni başvurular ilk sırada
+          basvurular.sort((a, b) => new Date(b.tarih) - new Date(a.tarih));
+          
+          basvurular.forEach(basvuru => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td data-label="Tarih">${basvuru.tarih || '-'}</td>
+              <td data-label="Ad Soyad">${basvuru.ad || '-'}</td>
+              <td data-label="Telefon">${basvuru.telefon || '-'}</td>
+              <td data-label="Adres">${basvuru.adres || '-'}</td>
+              <td data-label="İhtiyaçlar">${basvuru.ihtiyaclar ? basvuru.ihtiyaclar.join(', ') : '-'}</td>
+              <td data-label="Durum"><span class="status ${basvuru.status}">${basvuru.status || 'beklemede'}</span></td>
+            `;
+            tableBody.appendChild(row);
+          });
+        }
+      });
+    }
+
+    document.getElementById('export-btn').addEventListener('click', function() {
+      const db = firebase.database();
+      const basvurularRef = db.ref("basvurular");
+      
+      basvurularRef.once("value").then((snapshot) => {
+        let csv = 'Tarih,Ad Soyad,Telefon,Adres,Mahalle,İhtiyaçlar,Durum\n';
+        
+        if (snapshot.exists()) {
+          snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            const ihtiyaclar = data.ihtiyaclar ? `"${data.ihtiyaclar.join(', ')}"` : '';
+            csv += `"${data.tarih || ''}","${data.ad || ''}","${data.telefon || ''}","${data.adres || ''}","${data.mahalle || ''}",${ihtiyaclar},"${data.status || 'beklemede'}"\n`;
+          });
+        }
+        
+        // CSV dosyasını indir
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'basvurular.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    });
+  </script>
+</body>
+</html>
