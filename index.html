@@ -119,6 +119,20 @@
         </div>
     </div>
 
+    <!-- SMS Modal -->
+    <div id="smsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="glass-panel rounded-2xl p-6 w-full max-w-lg mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Hızlı SMS Gönder</h3>
+                <button id="closeSmsModal" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="space-y-2 mb-4" id="smsTemplates"></div>
+            <textarea id="smsContent" class="w-full p-2 border-none rounded-lg" rows="4"></textarea>
+            <button id="copySmsBtn" class="mt-2 w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-turquoise-700 shadow-md">Metni Kopyala</button>
+        </div>
+    </div>
+
+
     <!-- Navigation -->
     <nav class="glass-panel sticky top-[108px] z-30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -190,9 +204,9 @@
 
         function renderInitialHTML() {
             document.getElementById('formSection').innerHTML = `<div class="lg:col-span-2"><div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 flex items-center mb-6"><i class="fas fa-user text-turquoise-600 mr-2"></i>İhtiyaç Bildirim Formu</h2><form id="needsForm" class="space-y-6"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold text-gray-900 mb-2">Ad Soyad *</label><input type="text" id="name" class="w-full px-4 py-2 border-none rounded-lg" required></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Telefon *</label><input type="tel" id="phone" class="w-full px-4 py-2 border-none rounded-lg" required></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold text-gray-900 mb-2">Adres</label><input type="text" id="address" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Mahalle</label><select id="district" class="w-full px-4 py-2 border-none rounded-lg"><option value="">Mahalle Seçin</option></select></div></div><div><label class="block text-sm font-semibold text-gray-900 mb-3">İhtiyaç Türleri *</label><div class="grid grid-cols-2 md:grid-cols-3 gap-3">${['food:Gıda:red:utensils','health:Sağlık:green:heartbeat','education:Eğitim:blue:graduation-cap','housing:Barınma:purple:home','employment:İstihdam:yellow:briefcase','legal:Hukuk:indigo:balance-scale','other:Diğer:gray:building'].map(n=>{const [v,t,c,i]=n.split(':');return `<label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" name="needs" value="${v}" class="h-4 w-4 rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"><div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-${c}-100 text-${c}-800 font-medium"><i class="fas fa-${i} text-sm"></i><span>${t}</span></div></label>`}).join('')}</div></div><div id="otherNeedContainer" class="hidden"><label class="block text-sm font-semibold text-gray-900 mb-2">Diğer İhtiyaç</label><input type="text" id="otherNeed" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-semibold text-gray-900 mb-3">Aciliyet Durumu</label><div class="flex space-x-3">${['normal:Normal:green','high:Yüksek:yellow','urgent:Acil:red'].map(u=>{const [v,t,c]=u.split(':');return `<label class="flex items-center space-x-2 cursor-pointer"><input type="radio" name="urgency" value="${v}" class="text-turquoise-600" ${v==='normal'?'checked':''}><span class="px-3 py-1 rounded-full text-xs font-medium bg-${c}-100 text-${c}-800">${t}</span></label>`}).join('')}</div></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Detaylı Açıklama</label><textarea id="description" rows="4" class="w-full px-4 py-2 border-none rounded-lg"></textarea></div><button type="submit" class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700 shadow-lg">İhtiyacı Bildir</button></form></div></div>`;
-            document.getElementById('submissionsSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><div class="flex items-center justify-between mb-6"><h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-file-alt text-turquoise-600 mr-2"></i>Başvurular</h2><div class="flex items-center space-x-2"><span class="text-sm text-gray-800">Toplam: <span id="submissionsCount" class="font-bold">0</span></span><button id="exportBtn" class="p-2 rounded-full glass-panel text-green-600" title="Tüm Verileri İndir (.CSV)"><i class="fas fa-file-excel"></i></button><button id="clearDataBtn" class="p-2 rounded-full glass-panel text-red-600" title="Tüm Verileri Sil"><i class="fas fa-trash-alt"></i></button><button id="refreshSubmissions" class="p-2 rounded-full glass-panel"><i class="fas fa-sync-alt text-gray-800"></i></button></div></div><div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6"><div class="md:col-span-2 relative"><input type="text" id="searchInput" placeholder="İsim veya telefona göre ara..." class="w-full pl-10 pr-4 py-2 border-none rounded-lg"><i class="fas fa-search absolute top-3 left-3 text-gray-400"></i></div><select id="filterStatus" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm Durumlar</option></select><select id="filterUrgency" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm Aciliyetler</option><option value="urgent">Acil</option><option value="high">Yüksek</option><option value="normal">Normal</option></select></div><div id="submissionsList" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div><div id="noSubmissions" class="text-center py-8 text-gray-500"><i class="fas fa-inbox text-4xl mb-4"></i><p>Henüz hiçbir başvuru bulunmamaktadır.</p></div></div>`;
+            document.getElementById('submissionsSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><div class="flex items-center justify-between mb-6"><div id="submissionsHeader"><h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-file-alt text-turquoise-600 mr-2"></i>Başvurular</h2></div><div class="flex items-center space-x-2"><span class="text-sm text-gray-800">Toplam: <span id="submissionsCount" class="font-bold">0</span></span><button id="exportBtn" class="p-2 rounded-full glass-panel text-green-600" title="Tüm Verileri İndir (.CSV)"><i class="fas fa-file-excel"></i></button><button id="clearDataBtn" class="p-2 rounded-full glass-panel text-red-600" title="Tüm Verileri Sil"><i class="fas fa-trash-alt"></i></button><button id="refreshSubmissions" class="p-2 rounded-full glass-panel"><i class="fas fa-sync-alt text-gray-800"></i></button></div></div><div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6"><div class="md:col-span-2 relative"><input type="text" id="searchInput" placeholder="İsim veya telefona göre ara..." class="w-full pl-10 pr-4 py-2 border-none rounded-lg"><i class="fas fa-search absolute top-3 left-3 text-gray-400"></i></div><select id="filterStatus" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm Durumlar</option></select><select id="filterUrgency" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm Aciliyetler</option><option value="urgent">Acil</option><option value="high">Yüksek</option><option value="normal">Normal</option></select></div><div id="submissionsList" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div><div id="noSubmissions" class="text-center py-8 text-gray-500"><i class="fas fa-inbox text-4xl mb-4"></i><p>Henüz hiçbir başvuru bulunmamaktadır.</p></div></div>`;
             document.getElementById('resourcesSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 mb-2 flex items-center"><i class="fas fa-cubes text-turquoise-600 mr-2"></i>Kaynaklar</h2><p class="text-sm text-gray-800 mb-6">Bir başvurunun durumu <strong class="text-gray-900">'Yardım Ulaştırıldı'</strong> olarak değiştirildiğinde, işlem notlarına <code class="bg-gray-200 dark:bg-gray-700 text-sm p-1 rounded">2 adet Gıda Kolisi</code> gibi yazılan ürünler stoktan otomatik düşülür.</p><div class="space-y-4" id="resourcesList"></div><div class="mt-6 flex items-center space-x-2"><input type="text" id="newResourceName" placeholder="Yeni Kaynak Adı" class="w-full px-4 py-2 border-none rounded-lg"><button id="addResourceBtn" class="bg-turquoise-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md"><i class="fas fa-plus"></i></button></div></div>`;
-            document.getElementById('reportsSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><i class="fas fa-calendar-alt text-turquoise-600 mr-2"></i>Raporlar</h2><div class="border-b border-gray-200 mb-4"><nav class="-mb-px flex space-x-8" aria-label="Tabs"><button id="tab-daterange" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-turquoise-500 text-turquoise-600">Tarih Aralığı Raporu</button><button id="tab-calendar" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Aylık Takvim</button></nav></div><div id="daterange-report-content"></div><div id="calendar-report-content" class="hidden"></div></div>`;
+            document.getElementById('reportsSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><i class="fas fa-calendar-alt text-turquoise-600 mr-2"></i>Raporlar</h2><div class="border-b border-gray-200 mb-4"><nav class="-mb-px flex space-x-8" aria-label="Tabs"><button id="tab-daterange" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-turquoise-500 text-turquoise-600">Tarih Aralığı</button><button id="tab-calendar" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Aylık Takvim</button><button id="tab-neighborhood" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Mahalle Analizi</button></nav></div><div id="daterange-report-content"></div><div id="calendar-report-content" class="hidden"></div><div id="neighborhood-report-content" class="hidden"></div></div>`;
             populateDistrictDropdown();
             populateStatusFilterDropdown();
         }
@@ -210,6 +224,8 @@
             document.getElementById('exportBtn').addEventListener('click', () => exportToCSV(submissions, 'tum_basvurular'));
             document.getElementById('clearDataBtn').addEventListener('click', confirmClearAllData);
             document.getElementById('addResourceBtn').addEventListener('click', addNewResource);
+            document.getElementById('closeSmsModal').addEventListener('click', () => document.getElementById('smsModal').classList.add('hidden'));
+            document.getElementById('copySmsBtn').addEventListener('click', copySmsContent);
         }
 
         function toggleTheme() {
@@ -234,7 +250,7 @@
 
         function updateAllViews() { loadSubmissionsList(); renderResources(); }
         
-        function renderResources() { const list = document.getElementById('resourcesList'); list.innerHTML = ''; if(Object.keys(resources).length === 0) { list.innerHTML = `<p class="text-gray-500">Henüz kaynak eklenmemiş.</p>`; return; } for (const [name, quantity] of Object.entries(resources)) { list.innerHTML += `<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"><span class="font-semibold text-gray-800">${name}</span><div class="flex items-center space-x-2"><input type="number" value="${quantity}" onchange="updateResource('${name}', this.value)" class="w-24 text-center p-1 border rounded-md"></div></div>`; } }
+        function renderResources() { const list = document.getElementById('resourcesList'); list.innerHTML = ''; if(Object.keys(resources).length === 0) { list.innerHTML = `<p class="text-gray-500">Henüz kaynak eklenmemiş.</p>`; return; } for (const [name, quantity] of Object.entries(resources)) { list.innerHTML += `<div class="flex items-center justify-between p-3 glass-panel rounded-lg"><span class="font-semibold text-gray-800">${name}</span><div class="flex items-center space-x-2"><input type="number" value="${quantity}" onchange="updateResource('${name}', this.value)" class="w-24 text-center p-1 border-none rounded-md"></div></div>`; } }
         
         function handleFormSubmit(e) { e.preventDefault(); const name = document.getElementById('name').value.trim(); const phone = document.getElementById('phone').value.trim(); if (!name || !phone) { document.getElementById('errorMessage').classList.remove('hidden'); setTimeout(() => document.getElementById('errorMessage').classList.add('hidden'), 3000); return; } const needsCheckboxes = document.querySelectorAll('input[name="needs"]:checked'); const needs = {}; needsCheckboxes.forEach(checkbox => { needs[checkbox.value] = true; }); const today = new Date(); const datePart = today.toISOString().slice(0, 10).replace(/-/g, ''); const timePart = today.getTime().toString().slice(-5); const newSubmission = { submissionId: `${datePart}-${timePart}`, name, phone, address: document.getElementById('address').value.trim(), district: document.getElementById('district').value, needs, otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '', urgency: document.querySelector('input[name="urgency"]:checked').value, description: document.getElementById('description').value.trim(), timestamp: today.toISOString(), status: 'new', notes: '' }; saveSubmissionToFirebase(newSubmission); document.getElementById('needsForm').reset(); document.getElementById('otherNeedContainer').classList.add('hidden'); }
         
@@ -251,7 +267,7 @@
 
             const systemPrompt = "Sen Ataşehir'deki Roman vatandaşlara yardım eden bir koordinatörsün. Sana verilen başvuru bilgilerine göre, yapılması gerekenleri özetleyen 3 adımlık pratik bir eylem planı oluştur. Cevabın kısa, net ve sadece numaralandırılmış 3 maddeden oluşsun.";
             const userQuery = `Başvuru Bilgileri:\n- İhtiyaçlar: ${needsList}\n- Aciliyet: ${sub.urgency}\n- Açıklama: ${sub.description || 'Yok'}\n\nBu başvuru için 3 adımlık eylem planı nedir?`;
-            const apiKey = "AIzaSyBjKhV79OZfEsWWqZpVKZywntRPowZonII"; 
+            const apiKey = ""; // Önizleme için boş bırakılmalıdır. Canlıda kendi anahtarınızı girin.
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const payload = {
@@ -296,29 +312,99 @@
 
         function populateDistrictDropdown() { const districtSelect = document.getElementById('district'); if(!districtSelect) return; atasehirDistricts.sort().forEach(district => { const option = document.createElement('option'); option.value = district; option.textContent = district; districtSelect.appendChild(option); }); }
         function populateStatusFilterDropdown() { const statusFilter = document.getElementById('filterStatus'); if(!statusFilter) return; for (const [key, value] of Object.entries(statusMap)) { const option = document.createElement('option'); option.value = key; option.textContent = value; statusFilter.appendChild(option); } }
-        function loadSubmissionsList() { const listContainer = document.getElementById('submissionsList'); if(!listContainer) return; listContainer.innerHTML = ''; const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const statusFilter = document.getElementById('filterStatus').value; const urgencyFilter = document.getElementById('filterUrgency').value; let filteredSubmissions = submissions.filter(sub => { const nameMatch = sub.name.toLowerCase().includes(searchTerm); const phoneMatch = sub.phone.includes(searchTerm); const statusMatch = statusFilter === 'all' || sub.status === statusFilter; const urgencyMatch = urgencyFilter === 'all' || sub.urgency === urgencyFilter; return (nameMatch || phoneMatch) && statusMatch && urgencyMatch; }); document.getElementById('noSubmissions').classList.toggle('hidden', filteredSubmissions.length > 0); document.getElementById('submissionsCount').textContent = filteredSubmissions.length; const sortedSubmissions = filteredSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); sortedSubmissions.forEach(sub => { const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}; const needsList = sub.needs ? Object.keys(sub.needs).map(need => needsLabels[need]).join(', ') : 'Belirtilmemiş'; let statusDropdownHTML = `<select onchange="updateSubmissionField('${sub.firebaseId}', 'status', this.value)" class="w-full p-1 border border-gray-300 rounded-md text-sm">`; for (const [key, value] of Object.entries(statusMap)) { statusDropdownHTML += `<option value="${key}" ${sub.status === key ? 'selected' : ''}>${value}</option>`; } statusDropdownHTML += `</select>`; const el = document.createElement('div'); el.className = 'bg-white rounded-xl shadow-lg p-4'; el.innerHTML = `<div class="flex justify-between items-center mb-3"><div class="flex-1"><h3 class="font-semibold text-gray-900">${sub.name}</h3><p class="text-sm text-gray-800">${sub.phone}</p><p class="text-xs text-gray-500 mt-1">#${sub.submissionId}</p></div><div class="flex items-center space-x-2"><span class="status-badge ${statusColors[sub.status]||'bg-gray-200'}">${statusMap[sub.status]||sub.status}</span><button onclick="printSubmission('${sub.firebaseId}')" class="p-2 rounded-full bg-gray-100 text-gray-800"><i class="fas fa-print"></i></button></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3"><p class="text-sm text-gray-800 font-medium"><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>${sub.address||'...'}</p><p class="text-sm text-gray-800 font-medium"><i class="fas fa-city mr-2 text-gray-400"></i>${sub.district||'...'}</p><p class="text-sm text-gray-800 font-medium"><i class="fas fa-list mr-2 text-gray-400"></i>${needsList}</p>${sub.otherNeed?`<p class="text-sm text-gray-800 font-medium"><i class="fas fa-plus mr-2 text-gray-400"></i>${sub.otherNeed}</p>`:''}</div>${sub.description?`<p class="text-sm font-medium text-gray-900 bg-gray-100 p-3 rounded-lg mb-3">${sub.description}</p>`:''}<div class="border-t border-gray-200 pt-3 mt-3 space-y-3"><div id="ai-plan-${sub.firebaseId}" class="hidden p-3 bg-blue-50 text-blue-800 rounded-lg text-sm"></div><button id="ai-btn-${sub.firebaseId}" onclick="generateActionPlan('${sub.firebaseId}')" class="w-full text-sm bg-blue-100 text-blue-800 px-3 py-2 rounded-lg hover:bg-blue-200 font-semibold">✨ Eylem Planı Oluştur</button><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div class="md:col-span-2"><label class="block text-xs font-semibold text-gray-700 mb-1">İşlem Notları</label><textarea id="notes-${sub.firebaseId}" class="w-full text-sm p-2 border rounded-md" rows="2">${sub.notes||''}</textarea><button onclick="updateSubmissionField('${sub.firebaseId}','notes',document.getElementById('notes-${sub.firebaseId}').value)" class="mt-1 text-xs bg-turquoise-100 text-turquoise-800 px-2 py-1 rounded hover:bg-turquoise-200">Notu Kaydet</button></div><div><label class="block text-xs font-semibold text-gray-700 mb-1">Durumu Değiştir</label>${statusDropdownHTML}</div></div></div><p class="text-xs text-gray-500 mt-3 text-right"><i class="fas fa-clock mr-1"></i>${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>`; listContainer.appendChild(el); }); }
+        
+        function showApplicantHistory(phone, name) {
+            const header = document.getElementById('submissionsHeader');
+            header.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <div>
+                         <h2 class="text-xl font-semibold text-gray-900">${name} Geçmişi</h2>
+                         <p class="text-sm text-gray-700">${phone}</p>
+                    </div>
+                    <button id="backToAllBtn" class="py-1 px-3 rounded-full text-sm text-gray-800 font-medium glass-panel">Tümüne Dön</button>
+                </div>`;
+            document.getElementById('backToAllBtn').addEventListener('click', () => {
+                header.innerHTML = `<h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-file-alt text-turquoise-600 mr-2"></i>Başvurular</h2>`;
+                document.getElementById('searchInput').value = '';
+                loadSubmissionsList();
+            });
+            document.getElementById('searchInput').value = phone;
+            loadSubmissionsList();
+        }
+        
+        function openSmsModal(firebaseId) {
+            const sub = submissions.find(s => s.firebaseId === firebaseId);
+            if (!sub) return;
+            const templatesContainer = document.getElementById('smsTemplates');
+            templatesContainer.innerHTML = '';
+            const smsTemplates = {
+                received: `Sayın ${sub.name}, #${sub.submissionId} numaralı başvurunuz Ataşehir Kaymakamlığı Roman Koordinatörlüğü'ne ulaşmıştır. En kısa sürede sizinle iletişime geçilecektir.`,
+                appointment: `Sayın ${sub.name}, #${sub.submissionId} numaralı başvurunuz hakkında görüşmek üzere sizinle bir randevu planlamak istiyoruz. Lütfen geri dönüş yapınız.`,
+                onway: `Sayın ${sub.name}, #${sub.submissionId} numaralı başvurunuz ile ilgili ekibimiz adresinize doğru yola çıkmıştır. Bilginize.`
+            };
+            Object.keys(smsTemplates).forEach(key => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left text-sm bg-gray-100 dark:bg-gray-700 p-2 rounded-lg hover:bg-gray-200';
+                button.textContent = {received: 'Başvuru Alındı', appointment: 'Randevu Talebi', onway: 'Ekip Yolda'}[key];
+                button.onclick = () => generateSmsMessage(smsTemplates[key]);
+                templatesContainer.appendChild(button);
+            });
+            document.getElementById('smsContent').value = '';
+            document.getElementById('smsModal').classList.remove('hidden');
+        }
+
+        function generateSmsMessage(message) {
+            document.getElementById('smsContent').value = message;
+        }
+
+        function copySmsContent() {
+            const content = document.getElementById('smsContent');
+            content.select();
+            document.execCommand('copy');
+            alert('Mesaj panoya kopyalandı!');
+        }
+
+        function loadSubmissionsList() { const listContainer = document.getElementById('submissionsList'); if(!listContainer) return; listContainer.innerHTML = ''; const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const statusFilter = document.getElementById('filterStatus').value; const urgencyFilter = document.getElementById('filterUrgency').value; let filteredSubmissions = submissions.filter(sub => { const nameMatch = sub.name.toLowerCase().includes(searchTerm); const phoneMatch = sub.phone.includes(searchTerm); const statusMatch = statusFilter === 'all' || sub.status === statusFilter; const urgencyMatch = urgencyFilter === 'all' || sub.urgency === urgencyFilter; return (nameMatch || phoneMatch) && statusMatch && urgencyMatch; }); document.getElementById('noSubmissions').classList.toggle('hidden', filteredSubmissions.length > 0); document.getElementById('submissionsCount').textContent = filteredSubmissions.length; const sortedSubmissions = filteredSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); sortedSubmissions.forEach(sub => { const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}; const needsList = sub.needs ? Object.keys(sub.needs).map(need => needsLabels[need]).join(', ') : 'Belirtilmemiş'; let statusDropdownHTML = `<select onchange="updateSubmissionField('${sub.firebaseId}', 'status', this.value)" class="w-full p-1 border-none rounded-md text-sm">`; for (const [key, value] of Object.entries(statusMap)) { statusDropdownHTML += `<option value="${key}" ${sub.status === key ? 'selected' : ''}>${value}</option>`; } statusDropdownHTML += `</select>`; const el = document.createElement('div'); el.className = 'glass-panel rounded-xl p-4'; el.innerHTML = `<div class="flex justify-between items-center mb-3"><div class="flex-1"><h3 class="font-semibold text-gray-900">${sub.name}</h3><div class="flex items-center space-x-2"><p class="text-sm text-gray-800">${sub.phone}</p><button onclick="showApplicantHistory('${sub.phone}', '${sub.name}')" title="Kişi Geçmişi" class="text-xs text-turquoise-600"><i class="fas fa-history"></i></button><button onclick="openSmsModal('${sub.firebaseId}')" title="Hızlı SMS" class="text-xs text-turquoise-600"><i class="fas fa-comment-sms"></i></button></div><p class="text-xs text-gray-500 mt-1">#${sub.submissionId}</p></div><div class="flex items-center space-x-2"><span class="status-badge ${statusColors[sub.status]||'bg-gray-200'}">${statusMap[sub.status]||sub.status}</span><button onclick="printSubmission('${sub.firebaseId}')" class="p-2 rounded-full glass-panel text-gray-800" title="Yazdır"><i class="fas fa-print"></i></button></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3"><p class="text-sm text-gray-800 font-medium"><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>${sub.address||'...'}</p><p class="text-sm text-gray-800 font-medium"><i class="fas fa-city mr-2 text-gray-400"></i>${sub.district||'...'}</p><p class="text-sm text-gray-800 font-medium"><i class="fas fa-list mr-2 text-gray-400"></i>${needsList}</p>${sub.otherNeed?`<p class="text-sm text-gray-800 font-medium"><i class="fas fa-plus mr-2 text-gray-400"></i>${sub.otherNeed}</p>`:''}</div>${sub.description?`<p class="text-sm font-medium text-gray-900 glass-panel p-3 rounded-lg mb-3">${sub.description}</p>`:''}<div class="border-t border-gray-200 pt-3 mt-3 space-y-3"><div id="ai-plan-${sub.firebaseId}" class="hidden p-3 bg-blue-50 text-blue-800 rounded-lg text-sm"></div><button id="ai-btn-${sub.firebaseId}" onclick="generateActionPlan('${sub.firebaseId}')" class="w-full text-sm bg-blue-100 text-blue-800 px-3 py-2 rounded-lg hover:bg-blue-200 font-semibold">✨ Eylem Planı Oluştur</button><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div class="md:col-span-2"><label class="block text-xs font-semibold text-gray-700 mb-1">İşlem Notları</label><textarea id="notes-${sub.firebaseId}" class="w-full text-sm p-2 border-none rounded-md" rows="2">${sub.notes||''}</textarea><button onclick="updateSubmissionField('${sub.firebaseId}','notes',document.getElementById('notes-${sub.firebaseId}').value)" class="mt-1 text-xs bg-turquoise-100 text-turquoise-800 px-2 py-1 rounded hover:bg-turquoise-200">Notu Kaydet</button></div><div><label class="block text-xs font-semibold text-gray-700 mb-1">Durumu Değiştir</label>${statusDropdownHTML}</div></div></div><p class="text-xs text-gray-500 mt-3 text-right"><i class="fas fa-clock mr-1"></i>${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>`; listContainer.appendChild(el); }); }
         
         async function parseNotesAndDecreaseStock(notesText) { if (!notesText) return; let updatesMade = false; let updateSummary = []; const currentResources = { ...resources }; for (const resourceName in currentResources) { const escapedResourceName = resourceName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const regex = new RegExp(`(\\d+)\\s*(?:x|adet|paket|tane)?\\s*${escapedResourceName}|${escapedResourceName}\\s*x\\s*(\\d+)`, "i"); const match = notesText.match(regex); if (match) { const quantityToDecrease = parseInt(match[1] || match[2], 10); if (!isNaN(quantityToDecrease) && quantityToDecrease > 0) { const currentStock = currentResources[resourceName] || 0; const newStock = currentStock - quantityToDecrease; await updateResource(resourceName, newStock); resources[resourceName] = newStock; updateSummary.push(`${resourceName}: -${quantityToDecrease}`); updatesMade = true; } } } if (updatesMade) { renderResources(); alert("Stok güncellendi:\n" + updateSummary.join("\n")); } }
         
         function initializeReportsTab() {
-            const daterangeContent = `<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-end"><div><label class="block text-sm font-medium text-gray-900 mb-2">Başlangıç</label><input type="date" id="reportDateStart" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div><div><label class="block text-sm font-medium text-gray-900 mb-2">Bitiş</label><input type="date" id="reportDateEnd" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div><button id="generateReportBtn" class="w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold shadow-md">Rapor Oluştur</button></div><div id="dailyReportContent" class="bg-white rounded-xl p-6 hidden"><h3 class="text-lg font-semibold text-gray-900 mb-4">Rapor: <span id="reportDateDisplay"></span></h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"><div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-medium text-gray-800">Toplam Başvuru</h4><p id="reportTotal" class="text-2xl font-bold text-gray-900">0</p></div><div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-medium text-gray-800">Acil Durumlar</h4><p id="reportUrgent" class="text-2xl font-bold text-gray-900">0</p></div><div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-medium text-gray-800">En Çok İhtiyaç</h4><p id="reportTopNeed" class="text-lg font-medium text-gray-900">-</p></div></div><div class="mb-4"><h4 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h4><div id="reportNeedsChart" class="space-y-2"></div></div><button id="exportReportBtn" class="bg-turquoise-600 text-white px-4 py-2 rounded-lg shadow-md"><i class="fas fa-download mr-2"></i>İndir</button></div><div id="noReportData" class="text-center py-8 text-gray-500"><i class="fas fa-file-alt text-4xl mb-4"></i><p>Tarih aralığı seçip "Rapor Oluştur" butonuna basın.</p></div>`;
-            const calendarContent = `<div class="flex items-center justify-between mb-4"><button id="prevMonthBtn" class="p-2 rounded-full bg-gray-100"><i class="fas fa-chevron-left"></i></button><h3 id="monthYearDisplay" class="text-lg font-semibold text-gray-900"></h3><button id="nextMonthBtn" class="p-2 rounded-full bg-gray-100"><i class="fas fa-chevron-right"></i></button></div><div class="grid grid-cols-7 gap-2 text-center font-semibold text-gray-700 mb-2"><div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div></div><div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>`;
+            const daterangeContent = `<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-end"><div><label class="block text-sm font-medium text-gray-900 mb-2">Başlangıç</label><input type="date" id="reportDateStart" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-medium text-gray-900 mb-2">Bitiş</label><input type="date" id="reportDateEnd" class="w-full px-4 py-2 border-none rounded-lg"></div><button id="generateReportBtn" class="w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold shadow-md">Rapor Oluştur</button></div><div id="dailyReportContent" class="glass-panel rounded-xl p-6 hidden"><h3 class="text-lg font-semibold text-gray-900 mb-4">Rapor: <span id="reportDateDisplay"></span></h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"><div class="glass-panel p-4 rounded-lg"><h4 class="font-medium text-gray-800">Toplam Başvuru</h4><p id="reportTotal" class="text-2xl font-bold text-gray-900">0</p></div><div class="glass-panel p-4 rounded-lg"><h4 class="font-medium text-gray-800">Acil Durumlar</h4><p id="reportUrgent" class="text-2xl font-bold text-gray-900">0</p></div><div class="glass-panel p-4 rounded-lg"><h4 class="font-medium text-gray-800">En Çok İhtiyaç</h4><p id="reportTopNeed" class="text-lg font-medium text-gray-900">-</p></div></div><div class="mb-4"><h4 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h4><div id="reportNeedsChart" class="space-y-2"></div></div><button id="exportReportBtn" class="bg-turquoise-600 text-white px-4 py-2 rounded-lg shadow-md"><i class="fas fa-download mr-2"></i>İndir</button></div><div id="noReportData" class="text-center py-8 text-gray-500"><i class="fas fa-file-alt text-4xl mb-4"></i><p>Tarih aralığı seçip "Rapor Oluştur" butonuna basın.</p></div>`;
+            const calendarContent = `<div class="flex items-center justify-between mb-4"><button id="prevMonthBtn" class="p-2 rounded-full glass-panel"><i class="fas fa-chevron-left"></i></button><h3 id="monthYearDisplay" class="text-lg font-semibold text-gray-900"></h3><button id="nextMonthBtn" class="p-2 rounded-full glass-panel"><i class="fas fa-chevron-right"></i></button></div><div class="grid grid-cols-7 gap-2 text-center font-semibold text-gray-700 mb-2"><div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div></div><div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>`;
+            const neighborhoodContent = `<div id="neighborhoodAnalysis" class="space-y-4"></div>`;
             document.getElementById('reportsSection').querySelector('#daterange-report-content').innerHTML = daterangeContent;
             document.getElementById('reportsSection').querySelector('#calendar-report-content').innerHTML = calendarContent;
+            document.getElementById('reportsSection').querySelector('#neighborhood-report-content').innerHTML = neighborhoodContent;
             document.getElementById('generateReportBtn').addEventListener('click', generateReportByDateRange);
             document.getElementById('prevMonthBtn').addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1); renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth()); });
             document.getElementById('nextMonthBtn').addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1); renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth()); });
             document.getElementById('tab-daterange').addEventListener('click', switchReportTab);
             document.getElementById('tab-calendar').addEventListener('click', switchReportTab);
+            document.getElementById('tab-neighborhood').addEventListener('click', switchReportTab);
             renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
         }
 
         function switchReportTab(e) {
-            const isDaterange = e.target.id === 'tab-daterange';
-            document.getElementById('tab-daterange').classList.toggle('border-turquoise-500', isDaterange); document.getElementById('tab-daterange').classList.toggle('text-turquoise-600', isDaterange); document.getElementById('tab-daterange').classList.toggle('border-transparent', !isDaterange); document.getElementById('tab-daterange').classList.toggle('text-gray-500', !isDaterange);
-            document.getElementById('tab-calendar').classList.toggle('border-turquoise-500', !isDaterange); document.getElementById('tab-calendar').classList.toggle('text-turquoise-600', !isDaterange); document.getElementById('tab-calendar').classList.toggle('border-transparent', isDaterange); document.getElementById('tab-calendar').classList.toggle('text-gray-500', isDaterange);
-            document.getElementById('daterange-report-content').classList.toggle('hidden', !isDaterange);
-            document.getElementById('calendar-report-content').classList.toggle('hidden', isDaterange);
+            const tabs = ['tab-daterange', 'tab-calendar', 'tab-neighborhood'];
+            const contents = ['daterange-report-content', 'calendar-report-content', 'neighborhood-report-content'];
+            const selectedTab = e.target.id;
+            
+            tabs.forEach(tabId => {
+                const tab = document.getElementById(tabId);
+                const isSelected = tabId === selectedTab;
+                tab.classList.toggle('border-turquoise-500', isSelected);
+                tab.classList.toggle('text-turquoise-600', isSelected);
+                tab.classList.toggle('border-transparent', !isSelected);
+                tab.classList.toggle('text-gray-500', !isSelected);
+            });
+
+            contents.forEach(contentId => {
+                document.getElementById(contentId).classList.toggle('hidden', contentId !== `${selectedTab.split('-')[1]}-report-content`);
+            });
+
+            if (selectedTab === 'tab-neighborhood') {
+                renderNeighborhoodAnalysis();
+            }
         }
 
         function renderCalendar(year, month) {
@@ -334,7 +420,7 @@
                 const dateString = date.toISOString().split('T')[0];
                 const daySubmissions = submissions.filter(s => s.timestamp.startsWith(dateString));
                 const count = daySubmissions.length;
-                let cellClass = 'bg-white p-2 rounded-lg text-left h-24 flex flex-col justify-between';
+                let cellClass = 'glass-panel p-2 rounded-lg text-left h-24 flex flex-col justify-between';
                 if(count > 0) cellClass += ' bg-turquoise-100/50 dark:bg-turquoise-900/50';
                 grid.innerHTML += `<div class="${cellClass}"><span class="font-bold text-gray-900">${day}</span>${count > 0 ? `<span class="text-xs text-turquoise-700 font-semibold">${count} başvuru</span>` : ''}</div>`;
             }
@@ -372,6 +458,50 @@
             document.getElementById('exportReportBtn').onclick = () => {
                 exportToCSV(filteredSubmissions, `rapor_${startDate}_${endDate}`);
             };
+        }
+
+        function renderNeighborhoodAnalysis() {
+            const container = document.getElementById('neighborhoodAnalysis');
+            container.innerHTML = '';
+            const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'};
+            
+            const districtNeeds = submissions.reduce((acc, sub) => {
+                if (sub.district) {
+                    if (!acc[sub.district]) {
+                        acc[sub.district] = { total: 0, needs: {} };
+                    }
+                    acc[sub.district].total++;
+                    if (sub.needs) {
+                        for (const need in sub.needs) {
+                            if (sub.needs[need]) {
+                                acc[sub.district].needs[need] = (acc[sub.district].needs[need] || 0) + 1;
+                            }
+                        }
+                    }
+                }
+                return acc;
+            }, {});
+
+            const sortedDistricts = Object.entries(districtNeeds).sort((a, b) => b[1].total - a[1].total);
+
+            if (sortedDistricts.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">Analiz için yeterli mahalle verisi bulunmuyor.</p>';
+                return;
+            }
+
+            sortedDistricts.forEach(([district, data]) => {
+                const topNeeds = Object.entries(data.needs).sort((a,b) => b[1] - a[1]).slice(0, 3).map(([need, count]) => `${needsLabels[need]} (${count})`).join(', ');
+                const el = document.createElement('div');
+                el.className = 'glass-panel p-4 rounded-lg';
+                el.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-semibold text-gray-900">${district}</h4>
+                        <span class="font-bold text-turquoise-600">${data.total} Başvuru</span>
+                    </div>
+                    <p class="text-sm text-gray-700 mt-2"><strong>Yoğunlaşan İhtiyaçlar:</strong> ${topNeeds || 'Belirtilmemiş'}</p>
+                `;
+                container.appendChild(el);
+            });
         }
     </script>
 </body>
