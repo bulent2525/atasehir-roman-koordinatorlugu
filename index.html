@@ -267,7 +267,7 @@
 
             const systemPrompt = "Sen Ataşehir'deki Roman vatandaşlara yardım eden bir koordinatörsün. Sana verilen başvuru bilgilerine göre, yapılması gerekenleri özetleyen 3 adımlık pratik bir eylem planı oluştur. Cevabın kısa, net ve sadece numaralandırılmış 3 maddeden oluşsun.";
             const userQuery = `Başvuru Bilgileri:\n- İhtiyaçlar: ${needsList}\n- Aciliyet: ${sub.urgency}\n- Açıklama: ${sub.description || 'Yok'}\n\nBu başvuru için 3 adımlık eylem planı nedir?`;
-            const apiKey = ""; // Önizleme için boş bırakılmalıdır. Canlıda kendi anahtarınızı girin.
+            const apiKey = "AIzaSyBjKhV79OZfEsWWqZpVKZywntRPowZonII"; // Önizleme için boş bırakılmalıdır. Canlıda kendi anahtarınızı girin.
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const payload = {
