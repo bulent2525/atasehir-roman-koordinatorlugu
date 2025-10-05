@@ -6,22 +6,18 @@
     <title>Ataşehir Valilik Roman Koordinatörlüğü</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet.js for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         'turquoise': {
-                            50: '#f0fdfa',
-                            100: '#ccfbf1',
-                            200: '#99f6e4',
-                            300: '#5eead4',
-                            400: '#2dd4bf',
-                            500: '#14b8a6',
-                            600: '#0d9488',
-                            700: '#0f766e',
-                            800: '#115e59',
-                            900: '#134e4a'
+                            50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
+                            400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e',
+                            800: '#115e59', 900: '#134e4a'
                         }
                     }
                 }
@@ -30,88 +26,31 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
-        }
-        .dark-mode {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #f8fafc;
-        }
-        .dark-mode .bg-white {
-            background-color: #1e293b !important;
-            color: #f8fafc;
-        }
-        .dark-mode .text-gray-900 {
-            color: #f8fafc !important;
-        }
-        .dark-mode .text-gray-800 { 
-            color: #e5e7eb !important; /* text-gray-200 */
-        }
-        .dark-mode .text-gray-700 {
-            color: #d1d5db !important; /* text-gray-300 */
-        }
-        .dark-mode .text-gray-600 {
-            color: #94a3b8 !important;
-        }
-        .dark-mode .border-gray-300 {
-            border-color: #334155 !important;
-        }
-        .dark-mode input, .dark-mode textarea, .dark-mode select {
-            background-color: #334155 !important;
-            color: #f8fafc !important;
-            border-color: #475569 !important;
-        }
-        .dark-mode .bg-gray-50 {
-             background-color: #374151 !important;
-        }
-        .dark-mode .bg-gray-100 {
-             background-color: #374151 !important;
-        }
-        .dark-mode .bg-indigo-50 {
-            background-color: #1e1b4b !important;
-            border-color: #312e81 !important;
-        }
-        .dark-mode .text-indigo-700 {
-            color: #c4b5fd !important;
-        }
-        .dark-mode .text-indigo-900 {
-            color: #e0e7ff !important;
-        }
-        .fixed-notification {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 50;
-        }
-        .nav-link {
-            transition: all 0.3s ease;
-        }
-        .nav-link:hover {
-            transform: translateY(-2px);
-        }
-        .nav-link.active {
-            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-            color: white !important;
-        }
-        .admin-only {
-            display: none;
-        }
-        .admin-visible {
-            display: block !important;
-        }
-        .status-badge {
-            padding: 2px 8px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: capitalize;
-        }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
+        .dark-mode { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; }
+        .dark-mode .bg-white { background-color: #1e293b !important; color: #f8fafc; }
+        .dark-mode .text-gray-900 { color: #f8fafc !important; }
+        .dark-mode .text-gray-800 { color: #e5e7eb !important; }
+        .dark-mode .text-gray-700 { color: #d1d5db !important; }
+        .dark-mode .text-gray-600 { color: #94a3b8 !important; }
+        .dark-mode .border-gray-200 { border-color: #374151 !important; }
+        .dark-mode .border-gray-300 { border-color: #334155 !important; }
+        .dark-mode input, .dark-mode textarea, .dark-mode select { background-color: #334155 !important; color: #f8fafc !important; border-color: #475569 !important; }
+        .dark-mode .bg-gray-50 { background-color: #374151 !important; }
+        .dark-mode .bg-gray-100 { background-color: #374151 !important; }
+        .fixed-notification { position: fixed; top: 1rem; right: 1rem; z-index: 50; }
+        .nav-link { transition: all 0.3s ease; }
+        .nav-link:hover { transform: translateY(-2px); }
+        .nav-link.active { background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); color: white !important; }
+        .admin-only { display: none; }
+        .admin-visible { display: block !important; }
+        .status-badge { padding: 2px 8px; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; text-transform: capitalize; }
         .status-new { background-color: #e0f2fe; color: #0c4a6e; }
         .status-inProgress { background-color: #fef9c3; color: #713f12; }
         .status-appointment { background-color: #e0e7ff; color: #312e81; }
         .status-completed { background-color: #dcfce7; color: #15803d; }
         .status-cancelled { background-color: #fee2e2; color: #991b1b; }
+        #map { height: 75vh; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
     </style>
 </head>
 <body class="min-h-screen">
@@ -129,29 +68,17 @@
                         <i class="fas fa-map-marker-alt text-white text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-gray-900">
-                            Ataşehir Valilik Roman Koordinatörlüğü
-                        </h1>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Ataşehir Valilik Roman Koordinatörlüğü</h1>
                         <p class="text-gray-800 mt-1">Dezavantajlı Roman Halkı Destek Sistemi</p>
                     </div>
                 </div>
                 <div class="mt-4 md:mt-0 flex items-center space-x-4">
                     <div class="flex flex-col space-y-2">
-                        <div class="flex items-center space-x-2 text-gray-800">
-                            <i class="fas fa-phone text-turquoise-600"></i>
-                            <span class="font-medium">545 774 27 53</span>
-                        </div>
-                        <div class="flex items-center space-x-2 text-gray-800">
-                            <i class="fas fa-envelope text-turquoise-600"></i>
-                            <span class="font-medium">atasehirvalikoordinatoru@gmail.com</span>
-                        </div>
+                        <div class="flex items-center space-x-2 text-gray-800"><i class="fas fa-phone text-turquoise-600"></i><span class="font-medium">545 774 27 53</span></div>
+                        <div class="flex items-center space-x-2 text-gray-800"><i class="fas fa-envelope text-turquoise-600"></i><span class="font-medium">atasehirvalikoordinatoru@gmail.com</span></div>
                     </div>
-                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
-                        <i class="fas fa-moon text-gray-600"></i>
-                    </button>
-                    <button id="adminLoginBtn" class="p-2 rounded-lg bg-turquoise-100 hover:bg-turquoise-200 transition-colors">
-                        <i class="fas fa-lock text-turquoise-600"></i>
-                    </button>
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"><i class="fas fa-moon text-gray-600"></i></button>
+                    <button id="adminLoginBtn" class="p-2 rounded-lg bg-turquoise-100 hover:bg-turquoise-200 transition-colors"><i class="fas fa-lock text-turquoise-600"></i></button>
                 </div>
             </div>
         </div>
@@ -162,27 +89,14 @@
         <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">Yönetici Girişi</h3>
-                <button id="closeLoginModal" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button id="closeLoginModal" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
             </div>
             <form id="adminLoginForm" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-900 mb-2">Şifre</label>
-                    <input
-                        type="password"
-                        id="adminPassword"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
-                        placeholder="Yönetici şifresini girin"
-                        required
-                    />
+                    <input type="password" id="adminPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="Yönetici şifresini girin" required/>
                 </div>
-                <button
-                    type="submit"
-                    class="w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-turquoise-700 focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:ring-offset-2 transition-colors duration-200"
-                >
-                    Giriş Yap
-                </button>
+                <button type="submit" class="w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-turquoise-700 focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:ring-offset-2 transition-colors duration-200">Giriş Yap</button>
             </form>
         </div>
     </div>
@@ -191,21 +105,13 @@
     <nav class="bg-white shadow-md border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex space-x-8">
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium" data-tab="form">
-                    İhtiyaç Bildirimi
-                </button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="submissions">
-                    Başvurular
-                </button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="stats">
-                    İstatistikler
-                </button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="management">
-                    Veri Yönetimi
-                </button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="reports">
-                    Raporlar
-                </button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium" data-tab="form">İhtiyaç Bildirimi</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="dashboard">Ana Panel</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="submissions">Başvurular</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="map">Harita</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="resources">Kaynaklar</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="reports">Raporlar</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="management">Veri Yönetimi</button>
             </div>
         </div>
     </nav>
@@ -213,665 +119,471 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Success/Error Messages -->
         <div id="successMessage" class="fixed-notification bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 hidden">
-            <i class="fas fa-check-circle"></i>
-            <span id="successMessageText">Başvurunuz başarıyla kaydedildi!</span>
+            <i class="fas fa-check-circle"></i><span id="successMessageText">Başvurunuz başarıyla kaydedildi!</span>
         </div>
         <div id="errorMessage" class="fixed-notification bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 hidden">
-            <i class="fas fa-exclamation-circle"></i>
-            <span>Lütfen zorunlu alanları doldurun!</span>
+            <i class="fas fa-exclamation-circle"></i><span>Lütfen zorunlu alanları doldurun!</span>
         </div>
 
-        <!-- Form Section (Public) -->
+        <!-- Sections -->
         <div id="formSection" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Form Section -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-user text-turquoise-600 mr-2"></i>
-                            İhtiyaç Bildirim Formu
-                        </h2>
-                        <i class="fas fa-clock text-gray-400"></i>
-                    </div>
-
-                    <form id="needsForm" class="space-y-6">
-                        <!-- Personal Information -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Ad Soyad *
-                                </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
-                                    placeholder="Adınızı ve soyadınızı girin"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Telefon *
-                                </label>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    id="phone"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
-                                    placeholder="555 123 45 67"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Adres
-                                </label>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    id="address"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
-                                    placeholder="Tam adresinizi girin"
-                                />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Mahalle
-                                </label>
-                                <select name="district" id="district" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
-                                  <option value="">Mahalle Seçin</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Needs Selection -->
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900 mb-3">
-                                İhtiyaç Türleri *
-                            </label>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="needsContainer">
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="food"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-red-100 text-red-600">
-                                        <i class="fas fa-utensils text-sm"></i>
-                                        <span class="text-sm font-medium">Gıda</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="health"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-green-100 text-green-600">
-                                        <i class="fas fa-heartbeat text-sm"></i>
-                                        <span class="text-sm font-medium">Sağlık</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="education"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-blue-100 text-blue-600">
-                                        <i class="fas fa-graduation-cap text-sm"></i>
-                                        <span class="text-sm font-medium">Eğitim</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="housing"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-purple-100 text-purple-600">
-                                        <i class="fas fa-home text-sm"></i>
-                                        <span class="text-sm font-medium">Barınma</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="employment"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-yellow-100 text-yellow-600">
-                                        <i class="fas fa-briefcase text-sm"></i>
-                                        <span class="text-sm font-medium">İstihdam</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="legal"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-indigo-100 text-indigo-600">
-                                        <i class="fas fa-balance-scale text-sm"></i>
-                                        <span class="text-sm font-medium">Hukuk</span>
-                                    </div>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        name="needs"
-                                        value="other"
-                                        class="rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-600">
-                                        <i class="fas fa-building text-sm"></i>
-                                        <span class="text-sm font-medium">Diğer</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div id="otherNeedContainer" class="hidden">
-                            <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                Diğer İhtiyaç
-                            </label>
-                            <input
-                                type="text"
-                                name="otherNeed"
-                                id="otherNeed"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
-                                placeholder="Diğer ihtiyaçlarınızı belirtin"
-                            />
-                        </div>
-
-                        <!-- Urgency -->
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900 mb-3">
-                                Aciliyet Durumu
-                            </label>
-                            <div class="flex space-x-3">
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="urgency"
-                                        value="normal"
-                                        class="text-turquoise-600 focus:ring-turquoise-500"
-                                        checked
-                                    />
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Normal
-                                    </span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="urgency"
-                                        value="high"
-                                        class="text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                        Yüksek
-                                    </span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="urgency"
-                                        value="urgent"
-                                        class="text-turquoise-600 focus:ring-turquoise-500"
-                                    />
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        Acil
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Description -->
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                Detaylı Açıklama
-                            </label>
-                            <textarea
-                                name="description"
-                                id="description"
-                                rows="4"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
-                                placeholder="İhtiyaçlarınızı detaylı bir şekilde açıklayın..."
-                            ></textarea>
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700 focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:ring-offset-2 transition-colors duration-200"
-                        >
-                            İhtiyacı Bildir
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Stats and Export Section (Admin Only) -->
-            <div class="space-y-6 admin-only">
-                <!-- Stats Card -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">İstatistikler</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-800">Toplam Başvuru</span>
-                            <span id="totalSubmissions" class="font-bold text-turquoise-600">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-800">Bugünkü Başvurular</span>
-                            <span id="todaySubmissions" class="font-bold text-green-600">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-800">Acil Durumlar</span>
-                            <span id="urgentSubmissions" class="font-bold text-red-600">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Export Button -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Veri Yönetimi</h3>
-                    <button
-                        id="exportBtn"
-                        class="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                        disabled
-                    >
-                        <i class="fas fa-download"></i>
-                        <span>Excel Olarak İndir</span>
-                    </button>
-                    <p class="text-xs text-gray-500 mt-2 text-center">
-                        Tüm verileri tek tuşla indirin
-                    </p>
-                </div>
-
-                <!-- Instructions -->
-                <div class="bg-turquoise-50 rounded-xl p-6 border border-turquoise-200">
-                    <h3 class="text-lg font-semibold text-turquoise-900 mb-3">Nasıl Kullanılır?</h3>
-                    <ul class="space-y-2 text-sm text-turquoise-700">
-                        <li class="flex items-start space-x-2">
-                            <span class="text-turquoise-600 font-bold">1.</span>
-                            <span>İhtiyaçlarınızı formdan bildirin</span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <span class="text-turquoise-600 font-bold">2.</span>
-                            <span>Koordinatör ekibi başvurunuzu değerlendirecek</span>
-                        </li>
-                        <li class="flex items-start space-x-2">
-                            <span class="text-turquoise-600 font-bold">3.</span>
-                            <span>Gün sonu tüm verileri Excel olarak indirin</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <!-- Form will be here -->
         </div>
-
-        <!-- Submissions Section (Admin Only) -->
+        <div id="dashboardSection" class="hidden admin-only">
+            <!-- Dashboard will be here -->
+        </div>
         <div id="submissionsSection" class="hidden admin-only">
+            <!-- Submissions list will be here -->
+        </div>
+        <div id="mapSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 flex items-center">
-                        <i class="fas fa-file-alt text-turquoise-600 mr-2"></i>
-                        Tüm Başvurular
-                    </h2>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm text-gray-800">Toplam: <span id="submissionsCount" class="font-bold">0</span></span>
-                        <button id="refreshSubmissions" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
-                            <i class="fas fa-sync-alt text-gray-600"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Search and Filter Controls -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div class="md:col-span-2 relative">
-                         <input type="text" id="searchInput" placeholder="İsim veya telefona göre ara..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
-                         <i class="fas fa-search absolute top-3 left-3 text-gray-400"></i>
-                    </div>
-                    <select id="filterStatus" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
-                        <option value="all">Tüm Durumlar</option>
-                    </select>
-                    <select id="filterUrgency" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
-                        <option value="all">Tüm Aciliyetler</option>
-                        <option value="urgent">Acil</option>
-                        <option value="high">Yüksek</option>
-                        <option value="normal">Normal</option>
-                    </select>
-                </div>
-                
-                <div id="submissionsList" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    <!-- Submissions will be populated here -->
-                </div>
-                
-                <div id="noSubmissions" class="text-center py-8 text-gray-500">
-                    <i class="fas fa-inbox text-4xl mb-4 text-gray-300"></i>
-                    <p>Henüz hiçbir başvuru bulunmamaktadır.</p>
-                </div>
+                 <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center"><i class="fas fa-map-marked-alt text-turquoise-600 mr-2"></i>Başvuru Haritası</h2>
+                 <p class="text-sm text-gray-700 mb-4">Başvurular adreslerine göre harita üzerinde gösterilmektedir. Kırmızı iğneler acil durumları belirtir.</p>
+                 <div id="map"></div>
             </div>
         </div>
-
-        <!-- Stats Section (Admin Only) -->
-        <div id="statsSection" class="hidden admin-only">
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                    <i class="fas fa-chart-bar text-turquoise-600 mr-2"></i>
-                    Detaylı İstatistikler
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="border border-gray-200 rounded-lg p-4">
-                        <h3 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h3>
-                        <div id="needsDistribution" class="space-y-2">
-                            <!-- Will be populated dynamically -->
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg p-4">
-                        <h3 class="font-medium text-gray-900 mb-2">Aciliyet Dağılımı</h3>
-                        <div id="urgencyDistribution" class="space-y-2">
-                            <!-- Will be populated dynamically -->
-                        </div>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg p-4">
-                        <h3 class="font-medium text-gray-900 mb-2">Son 7 Günlük Başvurular</h3>
-                        <div id="dailySubmissions" class="space-y-2">
-                            <!-- Will be populated dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="resourcesSection" class="hidden admin-only">
+            <!-- Resources management will be here -->
         </div>
-
-        <!-- Data Management Section (Admin Only) -->
-        <div id="managementSection" class="hidden admin-only">
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                    <i class="fas fa-database text-turquoise-600 mr-2"></i>
-                    Veri Yönetimi
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="border border-gray-200 rounded-lg p-6">
-                        <h3 class="font-medium text-gray-900 mb-4 flex items-center">
-                            <i class="fas fa-download text-green-600 mr-2"></i>
-                            Veri İndirme
-                        </h3>
-                        <button
-                            id="exportBtnManagement"
-                            class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                            disabled
-                        >
-                            <i class="fas fa-file-excel"></i>
-                            <span>Tüm Verileri İndir (.CSV)</span>
-                        </button>
-                        <p class="text-xs text-gray-500 mt-2 text-center">
-                            Tüm başvuru verilerini Excel formatında indirin
-                        </p>
-                    </div>
-                    
-                    <div class="border border-gray-200 rounded-lg p-6">
-                        <h3 class="font-medium text-gray-900 mb-4 flex items-center">
-                            <i class="fas fa-trash-alt text-red-600 mr-2"></i>
-                            Veri Temizleme
-                        </h3>
-                        <button
-                            id="clearDataBtn"
-                            class="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center space-x-2"
-                        >
-                            <i class="fas fa-eraser"></i>
-                            <span>Tüm Verileri Sil</span>
-                        </button>
-                        <p class="text-xs text-gray-500 mt-2 text-center">
-                            Tüm başvuru kayıtlarını kalıcı olarak siler
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                        Dikkat!
-                    </h4>
-                    <p class="text-sm text-yellow-700">
-                        Veri temizleme işlemi geri alınamaz. Lütfen verileri indirdikten sonra temizleme işlemi yapın.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Daily Reports Section (Admin Only) -->
         <div id="reportsSection" class="hidden admin-only">
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-                    <i class="fas fa-calendar-alt text-turquoise-600 mr-2"></i>
-                    Tarihe Göre Raporlama
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-end">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-2">Başlangıç Tarihi</label>
-                        <input type="date" id="reportDateStart" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
-                    </div>
-                     <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-2">Bitiş Tarihi</label>
-                        <input type="date" id="reportDateEnd" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500">
-                    </div>
-                    <button id="generateReportBtn" class="w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-turquoise-700">
-                        <i class="fas fa-play mr-2"></i>Rapor Oluştur
-                    </button>
-                </div>
-                
-                <div id="dailyReportContent" class="border border-gray-200 rounded-lg p-6 hidden">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Rapor: <span id="reportDateDisplay"></span></h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="bg-green-50 p-4 rounded-lg">
-                            <h4 class="font-medium text-green-800">Toplam Başvuru</h4>
-                            <p class="text-2xl font-bold text-green-600" id="reportTotal">0</p>
-                        </div>
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <h4 class="font-medium text-yellow-800">Acil Durumlar</h4>
-                            <p class="text-2xl font-bold text-yellow-600" id="reportUrgent">0</p>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-medium text-blue-800">En Çok İhtiyaç</h4>
-                            <p class="text-lg font-medium text-blue-600" id="reportTopNeed">-</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h4>
-                        <div id="reportNeedsChart" class="space-y-2">
-                            <!-- Will be populated -->
-                        </div>
-                    </div>
-                    
-                    <button id="exportReportBtn" class="bg-turquoise-600 text-white px-4 py-2 rounded-lg hover:bg-turquoise-700">
-                        <i class="fas fa-download mr-2"></i>Raporu İndir (.CSV)
-                    </button>
-                </div>
-                
-                <div id="noReportData" class="text-center py-8 text-gray-500">
-                    <i class="fas fa-file-alt text-4xl mb-4 text-gray-300"></i>
-                    <p>Lütfen bir tarih aralığı seçip "Rapor Oluştur" butonuna basın.</p>
-                </div>
-            </div>
+             <!-- Reports will be here -->
+        </div>
+        <div id="managementSection" class="hidden admin-only">
+            <!-- Data management will be here -->
         </div>
     </main>
 
     <footer class="bg-gray-800 text-white py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-300">
-                © <span id="currentYear"></span> Ataşehir Valilik Roman Koordinatörlüğü - 
-                Dezavantajlı Roman Halkı Destek Platformu
-            </p>
-            <p class="text-gray-400 mt-2 text-sm">
-                Tüm hakları saklıdır. Bu platform, yardım ihtiyaçlarını daha etkin yönetmek için oluşturulmuştur.
-            </p>
+            <p class="text-gray-300">© <span id="currentYear"></span> Ataşehir Valilik Roman Koordinatörlüğü - Dezavantajlı Roman Halkı Destek Platformu</p>
+            <p class="text-gray-400 mt-2 text-sm">Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
     <script>
+        // =================================================================
+        // GLOBAL VARIABLES & CONFIG
+        // =================================================================
         document.getElementById('currentYear').textContent = new Date().getFullYear();
         const ADMIN_PASSWORD = "2025Bjk2025.,.";
         const firebaseConfig = {
-            apiKey: "AIzaSyC0qeYrGc7fux8Ym4eEilnG7HMuOWsRigk",
-            authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
+            apiKey: "AIzaSyC0qeYrGc7fux8Ym4eEilnG7HMuOWsRigk", authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
             databaseURL: "https://atasehir-roman-koordinatoru-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "atasehir-roman-koordinatoru",
-            storageBucket: "atasehir-roman-koordinatoru.appspot.com",
-            messagingSenderId: "1090340718017",
-            appId: "1:1090340718017:web:52980a10227508eec5db40"
+            projectId: "atasehir-roman-koordinatoru", storageBucket: "atasehir-roman-koordinatoru.appspot.com",
+            messagingSenderId: "1090340718017", appId: "1:1090340718017:web:52980a10227508eec5db40"
         };
 
         let database = null;
         let submissions = [];
+        let resources = {};
         let reportSubmissions = [];
+        let map = null;
+        const markers = [];
 
         try {
             firebase.initializeApp(firebaseConfig);
             database = firebase.database();
-        } catch (error) {
-            console.error("Firebase initialization error:", error);
-            alert("Firebase başlatılırken bir hata oluştu. Lütfen konsolu kontrol edin.");
-        }
+        } catch (error) { console.error("Firebase initialization error:", error); }
         
         const atasehirDistricts = ["Aşık Veysel", "Atatürk", "Barbaros", "Esatpaşa", "Ferhatpaşa", "Fetih", "İçerenköy", "İnönü", "Kayışdağı", "Küçükbakkalköy", "Mevlana", "Mimar Sinan", "Mustafa Kemal", "Örnek", "Yeni Çamlıca", "Yeni Sahra", "Yenişehir"];
-        const statusMap = {
-            new: 'Yeni Başvuru',
-            inProgress: 'İnceleniyor',
-            appointment: 'Randevu Verildi',
-            completed: 'Yardım Ulaştırıldı',
-            cancelled: 'İptal Edildi'
-        };
-        const statusColors = {
-            new: 'status-new',
-            inProgress: 'status-inProgress',
-            appointment: 'status-appointment',
-            completed: 'status-completed',
-            cancelled: 'status-cancelled'
-        };
-
-
+        const statusMap = { new: 'Yeni Başvuru', inProgress: 'İnceleniyor', appointment: 'Randevu Verildi', completed: 'Yardım Ulaştırıldı', cancelled: 'İptal Edildi' };
+        const statusColors = { new: 'status-new', inProgress: 'status-inProgress', appointment: 'status-appointment', completed: 'status-completed', cancelled: 'status-cancelled' };
+        
+        // =================================================================
+        // INITIALIZATION
+        // =================================================================
         document.addEventListener('DOMContentLoaded', () => {
-            populateDistrictDropdown();
-            populateStatusFilterDropdown();
-            if(database) {
-                loadSubmissionsFromFirebase();
-            }
+            renderInitialHTML();
+            addEventListeners();
+            if (database) { loadAllData(); }
             document.querySelector('.nav-link[data-tab="form"]').classList.add('active');
-        });
-
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            body.classList.add('dark-mode');
-            themeToggle.innerHTML = '<i class="fas fa-sun text-yellow-400"></i>';
-        } else {
-            themeToggle.innerHTML = '<i class="fas fa-moon text-gray-600"></i>';
-        }
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                themeToggle.innerHTML = '<i class="fas fa-sun text-yellow-400"></i>';
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun text-yellow-400"></i>';
             } else {
-                localStorage.setItem('theme', 'light');
-                themeToggle.innerHTML = '<i class="fas fa-moon text-gray-600"></i>';
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon text-gray-600"></i>';
             }
         });
 
-        const adminLoginBtn = document.getElementById('adminLoginBtn');
-        const adminLoginModal = document.getElementById('adminLoginModal');
-        const closeLoginModal = document.getElementById('closeLoginModal');
-        const adminLoginForm = document.getElementById('adminLoginForm');
-        const adminPasswordInput = document.getElementById('adminPassword');
-        adminLoginBtn.addEventListener('click', () => adminLoginModal.classList.remove('hidden'));
-        closeLoginModal.addEventListener('click', () => {
-            adminLoginModal.classList.add('hidden');
-            adminPasswordInput.value = '';
-        });
-        adminLoginForm.addEventListener('submit', (e) => {
+        function renderInitialHTML() {
+            // This function injects the large HTML blocks into the main sections to keep the body clean.
+            document.getElementById('formSection').innerHTML = `
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-user text-turquoise-600 mr-2"></i>İhtiyaç Bildirim Formu</h2>
+                            <i class="fas fa-clock text-gray-400"></i>
+                        </div>
+                        <form id="needsForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-semibold text-gray-900 mb-2">Ad Soyad *</label><input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required></div>
+                                <div><label class="block text-sm font-semibold text-gray-900 mb-2">Telefon *</label><input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required></div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-semibold text-gray-900 mb-2">Adres</label><input type="text" id="address" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>
+                                <div><label class="block text-sm font-semibold text-gray-900 mb-2">Mahalle</label><select id="district" class="w-full px-4 py-2 border border-gray-300 rounded-lg"><option value="">Mahalle Seçin</option></select></div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900 mb-3">İhtiyaç Türleri *</label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                    ${['food:Gıda:red:utensils', 'health:Sağlık:green:heartbeat', 'education:Eğitim:blue:graduation-cap', 'housing:Barınma:purple:home', 'employment:İstihdam:yellow:briefcase', 'legal:Hukuk:indigo:balance-scale', 'other:Diğer:gray:building'].map(n => {
+                                        const [val, text, color, icon] = n.split(':');
+                                        return `<label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" name="needs" value="${val}" class="rounded border-gray-300 text-turquoise-600"><div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-${color}-100 text-${color}-600"><i class="fas fa-${icon} text-sm"></i><span class="text-sm font-medium">${text}</span></div></label>`;
+                                    }).join('')}
+                                </div>
+                            </div>
+                            <div id="otherNeedContainer" class="hidden">
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">Diğer İhtiyaç</label><input type="text" id="otherNeed" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900 mb-3">Aciliyet Durumu</label>
+                                <div class="flex space-x-3">${['normal:Normal:green', 'high:Yüksek:yellow', 'urgent:Acil:red'].map(u => {
+                                    const [val, text, color] = u.split(':');
+                                    return `<label class="flex items-center space-x-2 cursor-pointer"><input type="radio" name="urgency" value="${val}" class="text-turquoise-600" ${val === 'normal' ? 'checked' : ''}><span class="px-3 py-1 rounded-full text-xs font-medium bg-${color}-100 text-${color}-800">${text}</span></label>`;
+                                }).join('')}</div>
+                            </div>
+                            <div><label class="block text-sm font-semibold text-gray-900 mb-2">Detaylı Açıklama</label><textarea id="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea></div>
+                            <button type="submit" class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700">İhtiyacı Bildir</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="space-y-6 admin-only">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">İstatistikler</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center"><span class="text-gray-800">Toplam Başvuru</span><span id="totalSubmissions" class="font-bold text-turquoise-600">0</span></div>
+                            <div class="flex justify-between items-center"><span class="text-gray-800">Bugünkü Başvurular</span><span id="todaySubmissions" class="font-bold text-green-600">0</span></div>
+                            <div class="flex justify-between items-center"><span class="text-gray-800">Acil Durumlar</span><span id="urgentSubmissions" class="font-bold text-red-600">0</span></div>
+                        </div>
+                    </div>
+                </div>`;
+            document.getElementById('dashboardSection').innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-2"></i>Acil İşler</h3>
+                             <div id="urgentTasksList" class="space-y-3 max-h-64 overflow-y-auto"></div>
+                        </div>
+                         <div class="bg-white rounded-xl shadow-lg p-6">
+                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center"><i class="fas fa-history text-turquoise-500 mr-2"></i>Son Değişiklikler</h3>
+                             <div id="recentActivityList" class="space-y-3 max-h-64 overflow-y-auto"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center"><i class="fas fa-chart-pie text-blue-500 mr-2"></i>Hızlı İstatistikler</h3>
+                             <div class="space-y-4">
+                                <div class="bg-blue-50 p-4 rounded-lg"><h4 class="font-medium text-blue-800">Bugün Gelen Başvurular</h4><p id="quickStatToday" class="text-2xl font-bold text-blue-600">0</p></div>
+                                <div class="bg-yellow-50 p-4 rounded-lg"><h4 class="font-medium text-yellow-800">İncelenmeyi Bekleyen</h4><p id="quickStatPending" class="text-2xl font-bold text-yellow-600">0</p></div>
+                                <div class="bg-green-50 p-4 rounded-lg"><h4 class="font-medium text-green-800">Bu Hafta Tamamlanan</h4><p id="quickStatCompleted" class="text-2xl font-bold text-green-600">0</p></div>
+                             </div>
+                        </div>
+                    </div>
+                </div>`;
+            document.getElementById('submissionsSection').innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-file-alt text-turquoise-600 mr-2"></i>Tüm Başvurular</h2>
+                        <div class="flex items-center space-x-2"><span class="text-sm text-gray-800">Toplam: <span id="submissionsCount" class="font-bold">0</span></span><button id="refreshSubmissions" class="p-2 rounded-lg bg-gray-100"><i class="fas fa-sync-alt text-gray-600"></i></button></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="md:col-span-2 relative"><input type="text" id="searchInput" placeholder="İsim veya telefona göre ara..." class="w-full pl-10 pr-4 py-2 border rounded-lg"><i class="fas fa-search absolute top-3 left-3 text-gray-400"></i></div>
+                        <select id="filterStatus" class="w-full px-4 py-2 border rounded-lg"><option value="all">Tüm Durumlar</option></select>
+                        <select id="filterUrgency" class="w-full px-4 py-2 border rounded-lg"><option value="all">Tüm Aciliyetler</option><option value="urgent">Acil</option><option value="high">Yüksek</option><option value="normal">Normal</option></select>
+                    </div>
+                    <div id="submissionsList" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div>
+                    <div id="noSubmissions" class="text-center py-8 text-gray-500"><i class="fas fa-inbox text-4xl mb-4 text-gray-300"></i><p>Henüz hiçbir başvuru bulunmamaktadır.</p></div>
+                </div>`;
+            document.getElementById('resourcesSection').innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                     <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><i class="fas fa-cubes text-turquoise-600 mr-2"></i>Kaynak Yönetimi</h2>
+                     <div class="space-y-4" id="resourcesList"></div>
+                     <div class="mt-6 flex items-center space-x-2">
+                        <input type="text" id="newResourceName" placeholder="Yeni Kaynak Adı (Örn: Bebek Bezi)" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <button id="addResourceBtn" class="bg-turquoise-600 text-white px-5 py-2 rounded-lg font-semibold"><i class="fas fa-plus"></i></button>
+                     </div>
+                </div>`;
+             document.getElementById('reportsSection').innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><i class="fas fa-calendar-alt text-turquoise-600 mr-2"></i>Tarihe Göre Raporlama</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-end">
+                        <div><label class="block text-sm font-medium text-gray-900 mb-2">Başlangıç Tarihi</label><input type="date" id="reportDateStart" class="w-full px-4 py-2 border rounded-lg"></div>
+                        <div><label class="block text-sm font-medium text-gray-900 mb-2">Bitiş Tarihi</label><input type="date" id="reportDateEnd" class="w-full px-4 py-2 border rounded-lg"></div>
+                        <button id="generateReportBtn" class="w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold">Rapor Oluştur</button>
+                    </div>
+                    <div id="dailyReportContent" class="border border-gray-200 rounded-lg p-6 hidden">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Rapor: <span id="reportDateDisplay"></span></h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-green-50 p-4 rounded-lg"><h4 class="font-medium text-green-800">Toplam Başvuru</h4><p id="reportTotal" class="text-2xl font-bold text-green-600">0</p></div>
+                            <div class="bg-yellow-50 p-4 rounded-lg"><h4 class="font-medium text-yellow-800">Acil Durumlar</h4><p id="reportUrgent" class="text-2xl font-bold text-yellow-600">0</p></div>
+                            <div class="bg-blue-50 p-4 rounded-lg"><h4 class="font-medium text-blue-800">En Çok İhtiyaç</h4><p id="reportTopNeed" class="text-lg font-medium text-blue-600">-</p></div>
+                        </div>
+                        <div class="mb-4"><h4 class="font-medium text-gray-900 mb-2">İhtiyaç Dağılımı</h4><div id="reportNeedsChart" class="space-y-2"></div></div>
+                        <button id="exportReportBtn" class="bg-turquoise-600 text-white px-4 py-2 rounded-lg"><i class="fas fa-download mr-2"></i>Raporu İndir (.CSV)</button>
+                    </div>
+                    <div id="noReportData" class="text-center py-8 text-gray-500"><i class="fas fa-file-alt text-4xl mb-4 text-gray-300"></i><p>Tarih aralığı seçip "Rapor Oluştur" butonuna basın.</p></div>
+                </div>`;
+            document.getElementById('managementSection').innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><i class="fas fa-database text-turquoise-600 mr-2"></i>Veri Yönetimi</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border border-gray-200 rounded-lg p-6">
+                            <h3 class="font-medium text-gray-900 mb-4 flex items-center"><i class="fas fa-download text-green-600 mr-2"></i>Veri İndirme</h3>
+                            <button id="exportBtnManagement" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2" disabled><i class="fas fa-file-excel"></i><span>Tüm Verileri İndir (.CSV)</span></button>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-6">
+                            <h3 class="font-medium text-gray-900 mb-4 flex items-center"><i class="fas fa-trash-alt text-red-600 mr-2"></i>Veri Temizleme</h3>
+                            <button id="clearDataBtn" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2"><i class="fas fa-eraser"></i><span>Tüm Verileri Sil</span></button>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function addEventListeners() {
+            // General UI
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            document.getElementById('adminLoginBtn').addEventListener('click', () => document.getElementById('adminLoginModal').classList.remove('hidden'));
+            document.getElementById('closeLoginModal').addEventListener('click', () => document.getElementById('adminLoginModal').classList.add('hidden'));
+            document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
+            document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', handleNavigation));
+
+            // Form
+            document.getElementById('needsForm').addEventListener('submit', handleFormSubmit);
+            document.querySelector('input[value="other"]').addEventListener('change', (e) => document.getElementById('otherNeedContainer').classList.toggle('hidden', !e.target.checked));
+            
+            // Submissions Page
+            document.getElementById('refreshSubmissions').addEventListener('click', loadSubmissionsFromFirebase);
+            ['searchInput', 'filterStatus', 'filterUrgency'].forEach(id => document.getElementById(id).addEventListener('input', loadSubmissionsList));
+
+            // Data Management Page
+            document.getElementById('exportBtnManagement').addEventListener('click', () => exportToCSV(submissions, 'tum_basvurular'));
+            document.getElementById('clearDataBtn').addEventListener('click', confirmClearAllData);
+
+            // Reports Page
+            document.getElementById('generateReportBtn').addEventListener('click', generateReportByDateRange);
+            document.getElementById('exportReportBtn').addEventListener('click', exportReport);
+            
+            // Resources Page
+            document.getElementById('addResourceBtn').addEventListener('click', addNewResource);
+        }
+
+        // =================================================================
+        // AUTH & NAVIGATION
+        // =================================================================
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('themeToggle').innerHTML = isDark ? '<i class="fas fa-sun text-yellow-400"></i>' : '<i class="fas fa-moon text-gray-600"></i>';
+        }
+
+        function handleAdminLogin(e) {
             e.preventDefault();
-            if (adminPasswordInput.value === ADMIN_PASSWORD) {
+            if (document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('admin-visible'));
-                adminLoginModal.classList.add('hidden');
-                adminPasswordInput.value = '';
-                adminLoginBtn.innerHTML = '<i class="fas fa-sign-out-alt text-red-600"></i>';
-                adminLoginBtn.title = 'Çıkış Yap';
-                adminLoginBtn.onclick = logoutAdmin;
-                loadSubmissionsFromFirebase();
+                document.getElementById('adminLoginModal').classList.add('hidden');
+                document.getElementById('adminPassword').value = '';
+                const adminBtn = document.getElementById('adminLoginBtn');
+                adminBtn.innerHTML = '<i class="fas fa-sign-out-alt text-red-600"></i>';
+                adminBtn.title = 'Çıkış Yap';
+                adminBtn.onclick = logoutAdmin;
+                loadAllData();
+                navigateToTab('dashboard');
             } else {
                 alert('Geçersiz şifre!');
             }
-        });
+        }
 
         function logoutAdmin() {
             document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('admin-visible'));
-            const formTab = document.querySelector('.nav-link[data-tab="form"]');
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            formTab.classList.add('active');
-            document.querySelectorAll('main > div[id$="Section"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById('formSection').classList.remove('hidden');
-            adminLoginBtn.innerHTML = '<i class="fas fa-lock text-turquoise-600"></i>';
-            adminLoginBtn.title = 'Yönetici Girişi';
-            adminLoginBtn.onclick = () => adminLoginModal.classList.remove('hidden');
+            const adminBtn = document.getElementById('adminLoginBtn');
+            adminBtn.innerHTML = '<i class="fas fa-lock text-turquoise-600"></i>';
+            adminBtn.title = 'Yönetici Girişi';
+            adminBtn.onclick = () => document.getElementById('adminLoginModal').classList.remove('hidden');
+            navigateToTab('form');
         }
 
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                document.querySelectorAll('main > div[id$="Section"]').forEach(el => el.classList.add('hidden'));
-                const tab = link.dataset.tab;
-                document.getElementById(tab + 'Section').classList.remove('hidden');
-                if (tab === 'submissions') loadSubmissionsFromFirebase();
-                if (tab === 'stats') updateDetailedStats();
-                if (tab === 'management') updateStats();
-                if (tab === 'reports') setupReportDate();
-            });
-        });
+        function handleNavigation(e) {
+            navigateToTab(e.target.dataset.tab);
+        }
 
-        async function loadSubmissionsFromFirebase() {
+        function navigateToTab(tabId) {
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            const activeLink = document.querySelector(`.nav-link[data-tab="${tabId}"]`);
+            if(activeLink) activeLink.classList.add('active');
+
+            document.querySelectorAll('main > div[id$="Section"]').forEach(el => el.classList.add('hidden'));
+            const activeSection = document.getElementById(tabId + 'Section');
+            if(activeSection) activeSection.classList.remove('hidden');
+
+            if (tabId === 'map' && !map) initializeMap();
+            if (tabId === 'map') setTimeout(() => map.invalidateSize(), 100);
+            if (tabId === 'dashboard') showDashboard();
+        }
+
+        // =================================================================
+        // FIREBASE & DATA HANDLING
+        // =================================================================
+        async function loadAllData() {
             if (!database) return;
-            try {
+            await Promise.all([
+                loadSubmissionsFromFirebase(),
+                loadResourcesFromFirebase()
+            ]);
+            updateAllViews();
+        }
+        
+        async function loadSubmissionsFromFirebase() {
+             try {
                 const snapshot = await database.ref('submissions').once('value');
-                const submissionsObject = snapshot.val();
-                submissions = submissionsObject ? Object.keys(submissionsObject).map(key => ({ ...submissionsObject[key], firebaseId: key })) : [];
-                updateAllViews();
-            } catch (error) {
-                console.error("Firebase'den veri yüklenirken hata:", error);
-            }
+                const data = snapshot.val();
+                submissions = data ? Object.keys(data).map(key => ({ ...data[key], firebaseId: key })) : [];
+             } catch(error) { console.error("Error loading submissions:", error); }
+        }
+        
+        async function loadResourcesFromFirebase() {
+            try {
+                const snapshot = await database.ref('resources').once('value');
+                resources = snapshot.val() || {};
+             } catch(error) { console.error("Error loading resources:", error); }
         }
 
         async function saveSubmissionToFirebase(submission) {
             if (!database) return;
             try {
                 await database.ref('submissions').push(submission);
-                document.getElementById('successMessageText').textContent = `Başvurunuz ${submission.submissionId} numarasıyla başarıyla kaydedildi!`;
+                document.getElementById('successMessageText').textContent = `Başvurunuz ${submission.submissionId} numarasıyla kaydedildi!`;
                 document.getElementById('successMessage').classList.remove('hidden');
                 setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 5000);
-
                 await loadSubmissionsFromFirebase();
+                updateAllViews();
             } catch (error) {
-                console.error("Firebase'e veri kaydedilirken hata:", error);
+                console.error("Error saving submission:", error);
+            }
+        }
+        
+        async function updateSubmissionField(firebaseId, field, value) {
+            if (!database || !firebaseId) return;
+            try {
+                await database.ref(`submissions/${firebaseId}/${field}`).set(value);
+                const subIndex = submissions.findIndex(s => s.firebaseId === firebaseId);
+                if (subIndex > -1) {
+                    submissions[subIndex][field] = value;
+                    submissions[subIndex].lastModified = new Date().toISOString();
+                    await database.ref(`submissions/${firebaseId}/lastModified`).set(submissions[subIndex].lastModified);
+                }
+                if(field === 'status') { loadSubmissionsList(); showDashboard(); }
+            } catch (error) { console.error(`Error updating field "${field}":`, error); }
+        }
+        
+        async function updateResource(name, quantity) {
+             if (!database) return;
+             try {
+                await database.ref(`resources/${name}`).set(Number(quantity));
+                resources[name] = Number(quantity);
+             } catch (error) { console.error("Error updating resource:", error); }
+        }
+        
+        async function addNewResource() {
+            const newResourceName = document.getElementById('newResourceName').value.trim();
+            if (newResourceName && !resources.hasOwnProperty(newResourceName)) {
+                await updateResource(newResourceName, 0);
+                document.getElementById('newResourceName').value = '';
+                renderResources();
+            } else if (resources.hasOwnProperty(newResourceName)) {
+                alert("Bu kaynak zaten mevcut.");
             }
         }
 
-        document.getElementById('needsForm').addEventListener('submit', function(e) {
+        // =================================================================
+        // UI RENDERING & UPDATES (FIXED)
+        // =================================================================
+        
+        function updateAllViews() {
+            updateStats();
+            showDashboard();
+            loadSubmissionsList();
+            renderResources();
+            updateMapMarkers();
+        }
+
+        function updateStats() {
+            const totalSubmissionsEl = document.getElementById('totalSubmissions');
+            if (totalSubmissionsEl) totalSubmissionsEl.textContent = submissions.length;
+            
+            const today = new Date().toISOString().split('T')[0];
+            const todaySubmissionsEl = document.getElementById('todaySubmissions');
+            if(todaySubmissionsEl) {
+                const todayCount = submissions.filter(sub => sub.timestamp.startsWith(today)).length;
+                todaySubmissionsEl.textContent = todayCount;
+            }
+
+            const urgentSubmissionsEl = document.getElementById('urgentSubmissions');
+            if(urgentSubmissionsEl) {
+                const urgentCount = submissions.filter(sub => sub.urgency === 'urgent').length;
+                urgentSubmissionsEl.textContent = urgentCount;
+            }
+            
+            const exportBtnManagementEl = document.getElementById('exportBtnManagement');
+            if(exportBtnManagementEl) {
+                 exportBtnManagementEl.disabled = submissions.length === 0;
+            }
+        }
+
+        function showDashboard() {
+            const urgentTasksList = document.getElementById('urgentTasksList');
+            urgentTasksList.innerHTML = '';
+            const urgentTasks = submissions.filter(s => s.urgency === 'urgent' || s.status === 'new').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5);
+            if(urgentTasks.length > 0) {
+                 urgentTasks.forEach(sub => {
+                    urgentTasksList.innerHTML += `<div class="p-2 border-l-4 ${sub.urgency === 'urgent' ? 'border-red-500' : 'border-blue-500'} bg-gray-50 rounded-r-lg"><p class="font-semibold text-gray-800">${sub.name}</p><p class="text-sm text-gray-600">${statusMap[sub.status]}</p></div>`;
+                 });
+            } else {
+                 urgentTasksList.innerHTML = `<p class="text-gray-500">Acil iş bulunmuyor.</p>`;
+            }
+            
+            const recentActivityList = document.getElementById('recentActivityList');
+            recentActivityList.innerHTML = '';
+            const recentActivities = submissions.filter(s => s.lastModified).sort((a,b) => new Date(b.lastModified) - new Date(a.lastModified)).slice(0, 5);
+            if(recentActivities.length > 0) {
+                 recentActivities.forEach(sub => {
+                    recentActivityList.innerHTML += `<div class="p-2 border-l-4 border-turquoise-500 bg-gray-50 rounded-r-lg"><p class="font-semibold text-gray-800">${sub.name}</p><p class="text-sm text-gray-600">Durumu <span class="font-bold">${statusMap[sub.status]}</span> olarak güncellendi.</p></div>`;
+                 });
+            } else {
+                 recentActivityList.innerHTML = `<p class="text-gray-500">Henüz bir aktivite yok.</p>`;
+            }
+            
+            document.getElementById('quickStatToday').textContent = submissions.filter(s => s.timestamp.startsWith(new Date().toISOString().split('T')[0])).length;
+            document.getElementById('quickStatPending').textContent = submissions.filter(s => s.status === 'new' || s.status === 'inProgress').length;
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            document.getElementById('quickStatCompleted').textContent = submissions.filter(s => s.status === 'completed' && new Date(s.timestamp) >= oneWeekAgo).length;
+        }
+
+        function renderResources() {
+            const list = document.getElementById('resourcesList');
+            list.innerHTML = '';
+            if(Object.keys(resources).length === 0) {
+                 list.innerHTML = `<p class="text-gray-500">Henüz kaynak eklenmemiş.</p>`;
+                 return;
+            }
+            for (const [name, quantity] of Object.entries(resources)) {
+                list.innerHTML += `<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <span class="font-semibold text-gray-800">${name}</span>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="number" value="${quantity}" onchange="updateResource('${name}', this.value)" class="w-24 text-center p-1 border rounded-md">
+                                        </div>
+                                   </div>`;
+            }
+        }
+        
+        // =================================================================
+        // FEATURES
+        // =================================================================
+
+        function handleFormSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('name').value.trim();
             const phone = document.getElementById('phone').value.trim();
@@ -889,48 +601,123 @@
             const timePart = today.getTime().toString().slice(-5);
             
             const newSubmission = {
-                submissionId: `${datePart}-${timePart}`,
-                name: name,
-                phone: phone,
+                submissionId: `${datePart}-${timePart}`, name, phone,
                 address: document.getElementById('address').value.trim(),
                 district: document.getElementById('district').value,
-                needs: needs,
-                otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '',
+                needs, otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '',
                 urgency: document.querySelector('input[name="urgency"]:checked').value,
                 description: document.getElementById('description').value.trim(),
-                timestamp: today.toISOString(),
-                status: 'new',
-                notes: ''
+                timestamp: today.toISOString(), status: 'new', notes: ''
             };
             saveSubmissionToFirebase(newSubmission);
             document.getElementById('needsForm').reset();
             document.getElementById('otherNeedContainer').classList.add('hidden');
-        });
-
-        function updateAllViews() {
-            updateStats();
-            loadSubmissionsList();
-            updateDetailedStats();
         }
-
-        function updateStats() {
-            document.getElementById('totalSubmissions').textContent = submissions.length;
-            const today = new Date().toISOString().split('T')[0];
-            const todayCount = submissions.filter(sub => sub.timestamp.startsWith(today)).length;
-            document.getElementById('todaySubmissions').textContent = todayCount;
-            const urgentCount = submissions.filter(sub => sub.urgency === 'urgent').length;
-            document.getElementById('urgentSubmissions').textContent = urgentCount;
-            const isDisabled = submissions.length === 0;
-            document.getElementById('exportBtn').disabled = isDisabled;
-            document.getElementById('exportBtnManagement').disabled = isDisabled;
-        }
-
-        document.querySelector('input[value="other"]').addEventListener('change', function() {
-            document.getElementById('otherNeedContainer').classList.toggle('hidden', !this.checked);
-        });
         
-        document.getElementById('exportBtn').addEventListener('click', () => exportToCSV(submissions, 'roman_ihtiyaclari'));
-        document.getElementById('exportBtnManagement').addEventListener('click', () => exportToCSV(submissions, 'roman_ihtiyaclari'));
+        function initializeMap() {
+            if (map) return;
+            map = L.map('map').setView([40.9839, 29.1138], 13); // Centered on Ataşehir
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            updateMapMarkers();
+        }
+
+        function updateMapMarkers() {
+            if (!map) return;
+            markers.forEach(marker => map.removeLayer(marker));
+            markers.length = 0;
+
+            const redIcon = new L.Icon({
+              iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+              iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+            });
+            
+            submissions.forEach(sub => {
+                if (sub.address) {
+                    const fullAddress = `${sub.address}, ${sub.district}, Ataşehir, İstanbul`;
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.length > 0) {
+                                const { lat, lon } = data[0];
+                                const marker = L.marker([lat, lon], { icon: sub.urgency === 'urgent' ? redIcon : undefined }).addTo(map)
+                                    .bindPopup(`<b>${sub.name}</b><br>${sub.address}<br>Durum: ${statusMap[sub.status]}`);
+                                markers.push(marker);
+                            }
+                        }).catch(err => console.error("Geocoding error:", err));
+                }
+            });
+        }
+        
+        function printSubmission(firebaseId) {
+             const sub = submissions.find(s => s.firebaseId === firebaseId);
+             if (!sub) return;
+             const needsList = sub.needs ? Object.keys(sub.needs).map(need => ({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}[need])).join(', ') : 'Belirtilmemiş';
+             const printWindow = window.open('', '_blank');
+             printWindow.document.write(`
+                <html><head><title>Başvuru Çıktısı - ${sub.name}</title>
+                <style>body{font-family:sans-serif; margin: 20px;} h1{font-size:20px; border-bottom:1px solid #ccc; padding-bottom:10px;} .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;} p{margin:5px 0;} strong{display:inline-block; width:120px;}</style>
+                </head><body>
+                    <h1>Başvuru Detayları (#${sub.submissionId})</h1>
+                    <div class="grid">
+                        <p><strong>Ad Soyad:</strong> ${sub.name}</p>
+                        <p><strong>Telefon:</strong> ${sub.phone}</p>
+                        <p><strong>Adres:</strong> ${sub.address}</p>
+                        <p><strong>Mahalle:</strong> ${sub.district}</p>
+                    </div>
+                    <h2>İhtiyaçlar</h2>
+                    <p>${needsList}</p>
+                    ${sub.otherNeed ? `<p><strong>Diğer İhtiyaç:</strong> ${sub.otherNeed}</p>` : ''}
+                    <h2>Açıklama</h2>
+                    <p>${sub.description || 'Yok'}</p>
+                    <h2>İşlem Notları</h2>
+                    <p>${sub.notes || 'Yok'}</p>
+                    <hr>
+                    <p><strong>Tarih:</strong> ${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>
+                    <p><strong>Durum:</strong> ${statusMap[sub.status]}</p>
+                    <p><strong>Aciliyet:</strong> ${sub.urgency}</p>
+                </body></html>`);
+             printWindow.document.close();
+             printWindow.focus();
+             setTimeout(() => { printWindow.print(); }, 500);
+        }
+
+        // =================================================================
+        // UTILITY & HELPER FUNCTIONS (FIXED)
+        // =================================================================
+        
+        function confirmClearAllData() {
+            if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
+                if (confirm('Son kez onaylıyor musunuz? Tüm başvuru kayıtları kalıcı olarak silinecek!')) {
+                    clearAllData();
+                }
+            }
+        }
+        
+        async function clearAllData() {
+            if (!database) return;
+            try {
+                await database.ref('submissions').set(null);
+                await database.ref('resources').set(null); // Also clear resources
+                submissions = [];
+                resources = {};
+                updateAllViews();
+                alert('Tüm veriler başarıyla silindi!');
+            } catch (error) {
+                console.error("Veri temizlenirken hata:", error);
+            }
+        }
+        
+        function exportReport() {
+            if(reportSubmissions.length > 0) {
+                 const startDate = document.getElementById('reportDateStart').value;
+                 const endDate = document.getElementById('reportDateEnd').value;
+                 exportToCSV(reportSubmissions, `rapor_${startDate}_${endDate}`);
+            }
+        }
         
         function exportToCSV(dataToExport, filenamePrefix) {
             if (dataToExport.length === 0) return;
@@ -957,35 +744,25 @@
             link.click();
             document.body.removeChild(link);
         }
-        
-        document.getElementById('clearDataBtn').addEventListener('click', function() {
-            if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
-                if (confirm('Son kez onaylıyor musunuz? Tüm başvuru kayıtları kalıcı olarak silinecek!')) {
-                    clearAllData();
-                }
-            }
-        });
-        
-        async function clearAllData() {
-            if (!database) return;
-            try {
-                await database.ref('submissions').set(null);
-                submissions = [];
-                updateAllViews();
-                alert('Tüm veriler başarıyla silindi!');
-            } catch (error) {
-                console.error("Veri temizlenirken hata:", error);
+
+        function populateDistrictDropdown() {
+            const districtSelect = document.getElementById('district');
+            atasehirDistricts.sort().forEach(district => {
+                districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+            });
+        }
+        function populateStatusFilterDropdown() {
+            const statusFilter = document.getElementById('filterStatus');
+             for (const [key, value] of Object.entries(statusMap)) {
+                statusFilter.innerHTML += `<option value="${key}">${value}</option>`;
             }
         }
-        
         function loadSubmissionsList() {
             const listContainer = document.getElementById('submissionsList');
             listContainer.innerHTML = '';
-            
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('filterStatus').value;
             const urgencyFilter = document.getElementById('filterUrgency').value;
-            
             let filteredSubmissions = submissions.filter(sub => {
                 const nameMatch = sub.name.toLowerCase().includes(searchTerm);
                 const phoneMatch = sub.phone.includes(searchTerm);
@@ -993,32 +770,30 @@
                 const urgencyMatch = urgencyFilter === 'all' || sub.urgency === urgencyFilter;
                 return (nameMatch || phoneMatch) && statusMatch && urgencyMatch;
             });
-            
             document.getElementById('noSubmissions').classList.toggle('hidden', filteredSubmissions.length > 0);
             document.getElementById('submissionsCount').textContent = filteredSubmissions.length;
-
             const sortedSubmissions = filteredSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
             sortedSubmissions.forEach(sub => {
                 const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'};
                 const needsList = sub.needs ? Object.keys(sub.needs).map(need => needsLabels[need]).join(', ') : 'Belirtilmemiş';
-
                 let statusDropdownHTML = `<select onchange="updateSubmissionField('${sub.firebaseId}', 'status', this.value)" class="w-full p-1 border border-gray-300 rounded-md text-sm">`;
                 for (const [key, value] of Object.entries(statusMap)) {
                     statusDropdownHTML += `<option value="${key}" ${sub.status === key ? 'selected' : ''}>${value}</option>`;
                 }
                 statusDropdownHTML += `</select>`;
-
                 const submissionElement = document.createElement('div');
                 submissionElement.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
                 submissionElement.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex-1">
                             <h3 class="font-semibold text-gray-900">${sub.name}</h3>
                             <p class="text-sm text-gray-800">${sub.phone}</p>
                             <p class="text-xs text-gray-500 mt-1">#${sub.submissionId}</p>
                         </div>
-                        <span class="status-badge ${statusColors[sub.status] || 'bg-gray-200'}">${statusMap[sub.status] || sub.status}</span>
+                        <div class="flex items-center space-x-2">
+                             <span class="status-badge ${statusColors[sub.status] || 'bg-gray-200'}">${statusMap[sub.status] || sub.status}</span>
+                             <button onclick="printSubmission('${sub.firebaseId}')" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600"><i class="fas fa-print"></i></button>
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <div>
@@ -1031,7 +806,6 @@
                         </div>
                     </div>
                     ${sub.description ? `<p class="text-sm font-medium text-gray-900 bg-gray-100 p-3 rounded-lg mb-3">${sub.description}</p>` : ''}
-                    
                     <div class="border-t border-gray-200 pt-3 mt-3">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="md:col-span-2">
@@ -1049,84 +823,11 @@
                 listContainer.appendChild(submissionElement);
             });
         }
-        
-        ['searchInput', 'filterStatus', 'filterUrgency'].forEach(id => {
-            document.getElementById(id).addEventListener('input', loadSubmissionsList);
-        });
-        document.getElementById('refreshSubmissions').addEventListener('click', loadSubmissionsFromFirebase);
-        
-        async function updateSubmissionField(firebaseId, field, value) {
-            if (!database || !firebaseId) return;
-            try {
-                await database.ref(`submissions/${firebaseId}/${field}`).set(value);
-                const subIndex = submissions.findIndex(s => s.firebaseId === firebaseId);
-                if (subIndex > -1) {
-                    submissions[subIndex][field] = value;
-                }
-                 if(field === 'status') {
-                   loadSubmissionsList();
-                }
-            } catch (error) {
-                console.error(`"${field}" alanı güncellenirken hata:`, error);
-                alert('Güncelleme sırasında bir hata oluştu.');
-            }
-        }
-        
-        function updateDetailedStats() {
-            const needsDistribution = document.getElementById('needsDistribution');
-            needsDistribution.innerHTML = '';
-            const needsCount = { food: 0, health: 0, education: 0, housing: 0, employment: 0, legal: 0, other: 0 };
-            submissions.forEach(sub => { if(sub.needs) Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
-            const needsLabels = { food: 'Gıda', health: 'Sağlık', education: 'Eğitim', housing: 'Barınma', employment: 'İstihdam', legal: 'Hukuk', other: 'Diğer' };
-            Object.entries(needsCount).forEach(([key, count]) => {
-                if (count > 0) {
-                    const totalNeeds = Object.values(needsCount).reduce((a, b) => a + b, 0);
-                    const percentage = totalNeeds > 0 ? Math.round((count / totalNeeds) * 100) : 0;
-                    needsDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-800">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count}</span></div></div>`;
-                }
-            });
-
-            const urgencyDistribution = document.getElementById('urgencyDistribution');
-            urgencyDistribution.innerHTML = '';
-            const urgencyCount = { normal: 0, high: 0, urgent: 0 };
-            submissions.forEach(sub => { urgencyCount[sub.urgency]++; });
-            const urgencyLabels = { normal: 'Normal', high: 'Yüksek', urgent: 'Acil' };
-            const urgencyColors = { normal: 'bg-green-500', high: 'bg-yellow-500', urgent: 'bg-red-500' };
-            Object.entries(urgencyCount).forEach(([key, count]) => {
-                if (count > 0) {
-                    const percentage = submissions.length > 0 ? Math.round((count / submissions.length) * 100) : 0;
-                    urgencyDistribution.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-800">${urgencyLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="${urgencyColors[key]} h-2 rounded-full" style="width: ${percentage}%"></div></div><span class="text-sm text-gray-600">${count}</span></div></div>`;
-                }
-            });
-
-            const dailySubmissionsDiv = document.getElementById('dailySubmissions');
-            dailySubmissionsDiv.innerHTML = '';
-            const dailyCount = {};
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                dailyCount[date.toISOString().split('T')[0]] = 0;
-            }
-            submissions.forEach(sub => {
-                const subDateStr = sub.timestamp.split('T')[0];
-                if (dailyCount[subDateStr] !== undefined) dailyCount[subDateStr]++;
-            });
-            const dayNames = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
-            Object.entries(dailyCount).forEach(([date, count]) => {
-                const dateObj = new Date(date);
-                const dayName = dayNames[dateObj.getUTCDay()];
-                dailySubmissionsDiv.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-800">${dayName} ${date.split('-')[2]}</span><span class="text-sm text-gray-600">${count}</span></div>`;
-            });
-        }
-        
         function setupReportDate() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('reportDateStart').value = today;
             document.getElementById('reportDateEnd').value = today;
         }
-
-        document.getElementById('generateReportBtn').addEventListener('click', generateReportByDateRange);
-        
         function generateReportByDateRange() {
             const startDate = document.getElementById('reportDateStart').value;
             const endDate = document.getElementById('reportDateEnd').value;
@@ -1171,34 +872,6 @@
                 }
             });
         }
-        
-        document.getElementById('exportReportBtn').addEventListener('click', function() {
-            if(reportSubmissions.length > 0) {
-                 const startDate = document.getElementById('reportDateStart').value;
-                 const endDate = document.getElementById('reportDateEnd').value;
-                 exportToCSV(reportSubmissions, `rapor_${startDate}_${endDate}`);
-            }
-        });
-
-        function populateDistrictDropdown() {
-            const districtSelect = document.getElementById('district');
-            atasehirDistricts.forEach(district => {
-                const option = document.createElement('option');
-                option.value = district;
-                option.textContent = district;
-                districtSelect.appendChild(option);
-            });
-        }
-        function populateStatusFilterDropdown() {
-            const statusFilter = document.getElementById('filterStatus');
-             for (const [key, value] of Object.entries(statusMap)) {
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = value;
-                statusFilter.appendChild(option);
-            }
-        }
-        
     </script>
 </body>
 </html>
