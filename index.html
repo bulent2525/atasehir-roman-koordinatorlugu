@@ -38,7 +38,7 @@
         .dark-mode input, .dark-mode textarea, .dark-mode select { background-color: #334155 !important; color: #f8fafc !important; border-color: #475569 !important; }
         .dark-mode .bg-gray-50 { background-color: #374151 !important; }
         .dark-mode .bg-gray-100 { background-color: #374151 !important; }
-        .fixed-notification { position: fixed; top: 1rem; right: 1rem; z-index: 50; }
+        .fixed-notification { position: fixed; top: 1rem; right: 1rem; z-index: 1050; }
         .nav-link { transition: all 0.3s ease; }
         .nav-link:hover { transform: translateY(-2px); }
         .nav-link.active { background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); color: white !important; }
@@ -50,7 +50,7 @@
         .status-appointment { background-color: #e0e7ff; color: #312e81; }
         .status-completed { background-color: #dcfce7; color: #15803d; }
         .status-cancelled { background-color: #fee2e2; color: #991b1b; }
-        #map { height: 75vh; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        #map { height: 75vh; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); z-index: 1; }
     </style>
 </head>
 <body class="min-h-screen">
@@ -104,14 +104,14 @@
     <!-- Navigation -->
     <nav class="bg-white shadow-md border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex space-x-8">
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium" data-tab="form">İhtiyaç Bildirimi</button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="dashboard">Ana Panel</button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="submissions">Başvurular</button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="map">Harita</button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="resources">Kaynaklar</button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="reports">Raporlar</button>
-                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only" data-tab="management">Veri Yönetimi</button>
+            <div class="flex space-x-8 overflow-x-auto">
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium flex-shrink-0" data-tab="form">İhtiyaç Bildirimi</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only flex-shrink-0" data-tab="dashboard">Ana Panel</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only flex-shrink-0" data-tab="submissions">Başvurular</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only flex-shrink-0" data-tab="map">Harita</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only flex-shrink-0" data-tab="resources">Kaynaklar</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only flex-shrink-0" data-tab="reports">Raporlar</button>
+                <button class="nav-link py-4 px-2 border-b-2 border-transparent text-gray-800 hover:border-turquoise-500 hover:text-turquoise-600 font-medium admin-only flex-shrink-0" data-tab="management">Veri Yönetimi</button>
             </div>
         </div>
     </nav>
@@ -126,15 +126,9 @@
         </div>
 
         <!-- Sections -->
-        <div id="formSection" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Form will be here -->
-        </div>
-        <div id="dashboardSection" class="hidden admin-only">
-            <!-- Dashboard will be here -->
-        </div>
-        <div id="submissionsSection" class="hidden admin-only">
-            <!-- Submissions list will be here -->
-        </div>
+        <div id="formSection" class="grid grid-cols-1 lg:grid-cols-3 gap-8"></div>
+        <div id="dashboardSection" class="hidden admin-only"></div>
+        <div id="submissionsSection" class="hidden admin-only"></div>
         <div id="mapSection" class="hidden admin-only">
             <div class="bg-white rounded-xl shadow-lg p-6">
                  <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center"><i class="fas fa-map-marked-alt text-turquoise-600 mr-2"></i>Başvuru Haritası</h2>
@@ -142,15 +136,9 @@
                  <div id="map"></div>
             </div>
         </div>
-        <div id="resourcesSection" class="hidden admin-only">
-            <!-- Resources management will be here -->
-        </div>
-        <div id="reportsSection" class="hidden admin-only">
-             <!-- Reports will be here -->
-        </div>
-        <div id="managementSection" class="hidden admin-only">
-            <!-- Data management will be here -->
-        </div>
+        <div id="resourcesSection" class="hidden admin-only"></div>
+        <div id="reportsSection" class="hidden admin-only"></div>
+        <div id="managementSection" class="hidden admin-only"></div>
     </main>
 
     <footer class="bg-gray-800 text-white py-8 mt-12">
@@ -161,9 +149,6 @@
     </footer>
 
     <script>
-        // =================================================================
-        // GLOBAL VARIABLES & CONFIG
-        // =================================================================
         document.getElementById('currentYear').textContent = new Date().getFullYear();
         const ADMIN_PASSWORD = "2025Bjk2025.,.";
         const firebaseConfig = {
@@ -189,9 +174,6 @@
         const statusMap = { new: 'Yeni Başvuru', inProgress: 'İnceleniyor', appointment: 'Randevu Verildi', completed: 'Yardım Ulaştırıldı', cancelled: 'İptal Edildi' };
         const statusColors = { new: 'status-new', inProgress: 'status-inProgress', appointment: 'status-appointment', completed: 'status-completed', cancelled: 'status-cancelled' };
         
-        // =================================================================
-        // INITIALIZATION
-        // =================================================================
         document.addEventListener('DOMContentLoaded', () => {
             renderInitialHTML();
             addEventListeners();
@@ -208,14 +190,10 @@
         });
 
         function renderInitialHTML() {
-            // This function injects the large HTML blocks into the main sections to keep the body clean.
             document.getElementById('formSection').innerHTML = `
                 <div class="lg:col-span-2">
                     <div class="bg-white rounded-xl shadow-lg p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-user text-turquoise-600 mr-2"></i>İhtiyaç Bildirim Formu</h2>
-                            <i class="fas fa-clock text-gray-400"></i>
-                        </div>
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center mb-6"><i class="fas fa-user text-turquoise-600 mr-2"></i>İhtiyaç Bildirim Formu</h2>
                         <form id="needsForm" class="space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div><label class="block text-sm font-semibold text-gray-900 mb-2">Ad Soyad *</label><input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required></div>
@@ -247,16 +225,6 @@
                             <div><label class="block text-sm font-semibold text-gray-900 mb-2">Detaylı Açıklama</label><textarea id="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea></div>
                             <button type="submit" class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700">İhtiyacı Bildir</button>
                         </form>
-                    </div>
-                </div>
-                <div class="space-y-6 admin-only">
-                    <div class="bg-white rounded-xl shadow-lg p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">İstatistikler</h3>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center"><span class="text-gray-800">Toplam Başvuru</span><span id="totalSubmissions" class="font-bold text-turquoise-600">0</span></div>
-                            <div class="flex justify-between items-center"><span class="text-gray-800">Bugünkü Başvurular</span><span id="todaySubmissions" class="font-bold text-green-600">0</span></div>
-                            <div class="flex justify-between items-center"><span class="text-gray-800">Acil Durumlar</span><span id="urgentSubmissions" class="font-bold text-red-600">0</span></div>
-                        </div>
                     </div>
                 </div>`;
             document.getElementById('dashboardSection').innerHTML = `
@@ -339,39 +307,28 @@
                         </div>
                     </div>
                 </div>`;
+            
+            populateDistrictDropdown();
+            populateStatusFilterDropdown();
         }
 
         function addEventListeners() {
-            // General UI
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
             document.getElementById('adminLoginBtn').addEventListener('click', () => document.getElementById('adminLoginModal').classList.remove('hidden'));
             document.getElementById('closeLoginModal').addEventListener('click', () => document.getElementById('adminLoginModal').classList.add('hidden'));
             document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
             document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', handleNavigation));
-
-            // Form
             document.getElementById('needsForm').addEventListener('submit', handleFormSubmit);
             document.querySelector('input[value="other"]').addEventListener('change', (e) => document.getElementById('otherNeedContainer').classList.toggle('hidden', !e.target.checked));
-            
-            // Submissions Page
             document.getElementById('refreshSubmissions').addEventListener('click', loadSubmissionsFromFirebase);
             ['searchInput', 'filterStatus', 'filterUrgency'].forEach(id => document.getElementById(id).addEventListener('input', loadSubmissionsList));
-
-            // Data Management Page
             document.getElementById('exportBtnManagement').addEventListener('click', () => exportToCSV(submissions, 'tum_basvurular'));
             document.getElementById('clearDataBtn').addEventListener('click', confirmClearAllData);
-
-            // Reports Page
             document.getElementById('generateReportBtn').addEventListener('click', generateReportByDateRange);
             document.getElementById('exportReportBtn').addEventListener('click', exportReport);
-            
-            // Resources Page
             document.getElementById('addResourceBtn').addEventListener('click', addNewResource);
         }
 
-        // =================================================================
-        // AUTH & NAVIGATION
-        // =================================================================
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
@@ -391,9 +348,7 @@
                 adminBtn.onclick = logoutAdmin;
                 loadAllData();
                 navigateToTab('dashboard');
-            } else {
-                alert('Geçersiz şifre!');
-            }
+            } else { alert('Geçersiz şifre!'); }
         }
 
         function logoutAdmin() {
@@ -405,33 +360,25 @@
             navigateToTab('form');
         }
 
-        function handleNavigation(e) {
-            navigateToTab(e.target.dataset.tab);
-        }
+        function handleNavigation(e) { navigateToTab(e.target.dataset.tab); }
 
         function navigateToTab(tabId) {
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             const activeLink = document.querySelector(`.nav-link[data-tab="${tabId}"]`);
             if(activeLink) activeLink.classList.add('active');
-
             document.querySelectorAll('main > div[id$="Section"]').forEach(el => el.classList.add('hidden'));
             const activeSection = document.getElementById(tabId + 'Section');
             if(activeSection) activeSection.classList.remove('hidden');
-
-            if (tabId === 'map' && !map) initializeMap();
-            if (tabId === 'map') setTimeout(() => map.invalidateSize(), 100);
+            if (tabId === 'map') {
+                if (!map) initializeMap();
+                setTimeout(() => map.invalidateSize(), 100);
+            }
             if (tabId === 'dashboard') showDashboard();
         }
 
-        // =================================================================
-        // FIREBASE & DATA HANDLING
-        // =================================================================
         async function loadAllData() {
             if (!database) return;
-            await Promise.all([
-                loadSubmissionsFromFirebase(),
-                loadResourcesFromFirebase()
-            ]);
+            await Promise.all([loadSubmissionsFromFirebase(), loadResourcesFromFirebase()]);
             updateAllViews();
         }
         
@@ -459,9 +406,7 @@
                 setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 5000);
                 await loadSubmissionsFromFirebase();
                 updateAllViews();
-            } catch (error) {
-                console.error("Error saving submission:", error);
-            }
+            } catch (error) { console.error("Error saving submission:", error); }
         }
         
         async function updateSubmissionField(firebaseId, field, value) {
@@ -474,7 +419,7 @@
                     submissions[subIndex].lastModified = new Date().toISOString();
                     await database.ref(`submissions/${firebaseId}/lastModified`).set(submissions[subIndex].lastModified);
                 }
-                if(field === 'status') { loadSubmissionsList(); showDashboard(); }
+                updateAllViews();
             } catch (error) { console.error(`Error updating field "${field}":`, error); }
         }
         
@@ -492,15 +437,9 @@
                 await updateResource(newResourceName, 0);
                 document.getElementById('newResourceName').value = '';
                 renderResources();
-            } else if (resources.hasOwnProperty(newResourceName)) {
-                alert("Bu kaynak zaten mevcut.");
-            }
+            } else if (resources.hasOwnProperty(newResourceName)) { alert("Bu kaynak zaten mevcut."); }
         }
 
-        // =================================================================
-        // UI RENDERING & UPDATES (FIXED)
-        // =================================================================
-        
         function updateAllViews() {
             updateStats();
             showDashboard();
@@ -510,50 +449,31 @@
         }
 
         function updateStats() {
-            const totalSubmissionsEl = document.getElementById('totalSubmissions');
-            if (totalSubmissionsEl) totalSubmissionsEl.textContent = submissions.length;
-            
+            const totalEl = document.getElementById('totalSubmissions');
+            if (totalEl) totalEl.textContent = submissions.length;
             const today = new Date().toISOString().split('T')[0];
-            const todaySubmissionsEl = document.getElementById('todaySubmissions');
-            if(todaySubmissionsEl) {
-                const todayCount = submissions.filter(sub => sub.timestamp.startsWith(today)).length;
-                todaySubmissionsEl.textContent = todayCount;
-            }
-
-            const urgentSubmissionsEl = document.getElementById('urgentSubmissions');
-            if(urgentSubmissionsEl) {
-                const urgentCount = submissions.filter(sub => sub.urgency === 'urgent').length;
-                urgentSubmissionsEl.textContent = urgentCount;
-            }
-            
-            const exportBtnManagementEl = document.getElementById('exportBtnManagement');
-            if(exportBtnManagementEl) {
-                 exportBtnManagementEl.disabled = submissions.length === 0;
-            }
+            const todayEl = document.getElementById('todaySubmissions');
+            if (todayEl) todayEl.textContent = submissions.filter(s => s.timestamp.startsWith(today)).length;
+            const urgentEl = document.getElementById('urgentSubmissions');
+            if (urgentEl) urgentEl.textContent = submissions.filter(s => s.urgency === 'urgent').length;
+            const exportBtn = document.getElementById('exportBtnManagement');
+            if (exportBtn) exportBtn.disabled = submissions.length === 0;
         }
 
         function showDashboard() {
             const urgentTasksList = document.getElementById('urgentTasksList');
             urgentTasksList.innerHTML = '';
-            const urgentTasks = submissions.filter(s => s.urgency === 'urgent' || s.status === 'new').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5);
+            const urgentTasks = submissions.filter(s => s.urgency === 'urgent' && s.status !== 'completed' && s.status !== 'cancelled').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5);
             if(urgentTasks.length > 0) {
-                 urgentTasks.forEach(sub => {
-                    urgentTasksList.innerHTML += `<div class="p-2 border-l-4 ${sub.urgency === 'urgent' ? 'border-red-500' : 'border-blue-500'} bg-gray-50 rounded-r-lg"><p class="font-semibold text-gray-800">${sub.name}</p><p class="text-sm text-gray-600">${statusMap[sub.status]}</p></div>`;
-                 });
-            } else {
-                 urgentTasksList.innerHTML = `<p class="text-gray-500">Acil iş bulunmuyor.</p>`;
-            }
+                 urgentTasks.forEach(sub => { urgentTasksList.innerHTML += `<div class="p-2 border-l-4 border-red-500 bg-gray-50 rounded-r-lg"><p class="font-semibold text-gray-800">${sub.name}</p><p class="text-sm text-gray-600">${statusMap[sub.status]}</p></div>`; });
+            } else { urgentTasksList.innerHTML = `<p class="text-gray-500">Acil iş bulunmuyor.</p>`; }
             
             const recentActivityList = document.getElementById('recentActivityList');
             recentActivityList.innerHTML = '';
             const recentActivities = submissions.filter(s => s.lastModified).sort((a,b) => new Date(b.lastModified) - new Date(a.lastModified)).slice(0, 5);
             if(recentActivities.length > 0) {
-                 recentActivities.forEach(sub => {
-                    recentActivityList.innerHTML += `<div class="p-2 border-l-4 border-turquoise-500 bg-gray-50 rounded-r-lg"><p class="font-semibold text-gray-800">${sub.name}</p><p class="text-sm text-gray-600">Durumu <span class="font-bold">${statusMap[sub.status]}</span> olarak güncellendi.</p></div>`;
-                 });
-            } else {
-                 recentActivityList.innerHTML = `<p class="text-gray-500">Henüz bir aktivite yok.</p>`;
-            }
+                 recentActivities.forEach(sub => { recentActivityList.innerHTML += `<div class="p-2 border-l-4 border-turquoise-500 bg-gray-50 rounded-r-lg"><p class="font-semibold text-gray-800">${sub.name}</p><p class="text-sm text-gray-600">Durumu <span class="font-bold">${statusMap[sub.status]}</span> olarak güncellendi.</p></div>`; });
+            } else { recentActivityList.innerHTML = `<p class="text-gray-500">Henüz bir aktivite yok.</p>`; }
             
             document.getElementById('quickStatToday').textContent = submissions.filter(s => s.timestamp.startsWith(new Date().toISOString().split('T')[0])).length;
             document.getElementById('quickStatPending').textContent = submissions.filter(s => s.status === 'new' || s.status === 'inProgress').length;
@@ -579,10 +499,6 @@
             }
         }
         
-        // =================================================================
-        // FEATURES
-        // =================================================================
-
         function handleFormSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('name').value.trim();
@@ -602,8 +518,7 @@
             
             const newSubmission = {
                 submissionId: `${datePart}-${timePart}`, name, phone,
-                address: document.getElementById('address').value.trim(),
-                district: document.getElementById('district').value,
+                address: document.getElementById('address').value.trim(), district: document.getElementById('district').value,
                 needs, otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '',
                 urgency: document.querySelector('input[name="urgency"]:checked').value,
                 description: document.getElementById('description').value.trim(),
@@ -615,41 +530,36 @@
         }
         
         function initializeMap() {
-            if (map) return;
-            map = L.map('map').setView([40.9839, 29.1138], 13); // Centered on Ataşehir
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
+            if (map) { map.invalidateSize(); return; }
+            map = L.map('map').setView([40.9839, 29.1138], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
             updateMapMarkers();
         }
 
-        function updateMapMarkers() {
+        async function updateMapMarkers() {
             if (!map) return;
             markers.forEach(marker => map.removeLayer(marker));
             markers.length = 0;
-
             const redIcon = new L.Icon({
               iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
               shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
               iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
             });
-            
-            submissions.forEach(sub => {
-                if (sub.address) {
-                    const fullAddress = `${sub.address}, ${sub.district}, Ataşehir, İstanbul`;
-                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.length > 0) {
-                                const { lat, lon } = data[0];
-                                const marker = L.marker([lat, lon], { icon: sub.urgency === 'urgent' ? redIcon : undefined }).addTo(map)
-                                    .bindPopup(`<b>${sub.name}</b><br>${sub.address}<br>Durum: ${statusMap[sub.status]}`);
-                                markers.push(marker);
-                            }
-                        }).catch(err => console.error("Geocoding error:", err));
-                }
-            });
+            const submissionsWithAddress = submissions.filter(s => s.address);
+            for (const sub of submissionsWithAddress) {
+                await new Promise(resolve => setTimeout(resolve, 1100)); 
+                const fullAddress = `${sub.address}, ${sub.district}, Ataşehir, İstanbul`;
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}&limit=1`);
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        const { lat, lon } = data[0];
+                        const marker = L.marker([lat, lon], { icon: sub.urgency === 'urgent' ? redIcon : undefined }).addTo(map)
+                            .bindPopup(`<b>${sub.name}</b><br>${sub.address}<br>Durum: ${statusMap[sub.status]}`);
+                        markers.push(marker);
+                    }
+                } catch (err) { console.error("Geocoding error:", err); }
+            }
         }
         
         function printSubmission(firebaseId) {
@@ -657,37 +567,11 @@
              if (!sub) return;
              const needsList = sub.needs ? Object.keys(sub.needs).map(need => ({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}[need])).join(', ') : 'Belirtilmemiş';
              const printWindow = window.open('', '_blank');
-             printWindow.document.write(`
-                <html><head><title>Başvuru Çıktısı - ${sub.name}</title>
-                <style>body{font-family:sans-serif; margin: 20px;} h1{font-size:20px; border-bottom:1px solid #ccc; padding-bottom:10px;} .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;} p{margin:5px 0;} strong{display:inline-block; width:120px;}</style>
-                </head><body>
-                    <h1>Başvuru Detayları (#${sub.submissionId})</h1>
-                    <div class="grid">
-                        <p><strong>Ad Soyad:</strong> ${sub.name}</p>
-                        <p><strong>Telefon:</strong> ${sub.phone}</p>
-                        <p><strong>Adres:</strong> ${sub.address}</p>
-                        <p><strong>Mahalle:</strong> ${sub.district}</p>
-                    </div>
-                    <h2>İhtiyaçlar</h2>
-                    <p>${needsList}</p>
-                    ${sub.otherNeed ? `<p><strong>Diğer İhtiyaç:</strong> ${sub.otherNeed}</p>` : ''}
-                    <h2>Açıklama</h2>
-                    <p>${sub.description || 'Yok'}</p>
-                    <h2>İşlem Notları</h2>
-                    <p>${sub.notes || 'Yok'}</p>
-                    <hr>
-                    <p><strong>Tarih:</strong> ${new Date(sub.timestamp).toLocaleString('tr-TR')}</p>
-                    <p><strong>Durum:</strong> ${statusMap[sub.status]}</p>
-                    <p><strong>Aciliyet:</strong> ${sub.urgency}</p>
-                </body></html>`);
+             printWindow.document.write(`<html><head><title>Başvuru Çıktısı - ${sub.name}</title><style>body{font-family:sans-serif; margin: 20px;} h1{font-size:20px; border-bottom:1px solid #ccc; padding-bottom:10px;} .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;} p{margin:5px 0;} strong{display:inline-block; width:120px;}</style></head><body><h1>Başvuru Detayları (#${sub.submissionId})</h1><div class="grid"><p><strong>Ad Soyad:</strong> ${sub.name}</p><p><strong>Telefon:</strong> ${sub.phone}</p><p><strong>Adres:</strong> ${sub.address}</p><p><strong>Mahalle:</strong> ${sub.district}</p></div><h2>İhtiyaçlar</h2><p>${needsList}</p>${sub.otherNeed ? `<p><strong>Diğer İhtiyaç:</strong> ${sub.otherNeed}</p>` : ''}<h2>Açıklama</h2><p>${sub.description || 'Yok'}</p><h2>İşlem Notları</h2><p>${sub.notes || 'Yok'}</p><hr><p><strong>Tarih:</strong> ${new Date(sub.timestamp).toLocaleString('tr-TR')}</p><p><strong>Durum:</strong> ${statusMap[sub.status]}</p><p><strong>Aciliyet:</strong> ${sub.urgency}</p></body></html>`);
              printWindow.document.close();
              printWindow.focus();
              setTimeout(() => { printWindow.print(); }, 500);
         }
-
-        // =================================================================
-        // UTILITY & HELPER FUNCTIONS (FIXED)
-        // =================================================================
         
         function confirmClearAllData() {
             if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
@@ -701,14 +585,12 @@
             if (!database) return;
             try {
                 await database.ref('submissions').set(null);
-                await database.ref('resources').set(null); // Also clear resources
+                await database.ref('resources').set(null);
                 submissions = [];
                 resources = {};
                 updateAllViews();
                 alert('Tüm veriler başarıyla silindi!');
-            } catch (error) {
-                console.error("Veri temizlenirken hata:", error);
-            }
+            } catch (error) { console.error("Veri temizlenirken hata:", error); }
         }
         
         function exportReport() {
@@ -722,19 +604,7 @@
         function exportToCSV(dataToExport, filenamePrefix) {
             if (dataToExport.length === 0) return;
             const headers = ['Başvuru No', 'Durum', 'Ad Soyad', 'Telefon', 'Adres', 'Mahalle', 'Gıda', 'Sağlık', 'Eğitim', 'Barınma', 'İstihdam', 'Hukuk', 'Diğer', 'Diğer İhtiyaç', 'Aciliyet', 'Açıklama', 'Notlar', 'Tarih'];
-            const csvContent = [
-                headers.join(','),
-                ...dataToExport.map(sub => [
-                    `"${sub.submissionId}"`,`"${statusMap[sub.status] || 'Bilinmiyor'}"`,
-                    `"${sub.name}"`, `"${sub.phone}"`, `"${sub.address}"`, `"${sub.district}"`,
-                    sub.needs.food ? 'Evet' : 'Hayır', sub.needs.health ? 'Evet' : 'Hayır', sub.needs.education ? 'Evet' : 'Hayır',
-                    sub.needs.housing ? 'Evet' : 'Hayır', sub.needs.employment ? 'Evet' : 'Hayır', sub.needs.legal ? 'Evet' : 'Hayır',
-                    sub.needs.other ? 'Evet' : 'Hayır', `"${sub.otherNeed || ''}"`,
-                    sub.urgency === 'urgent' ? 'Acil' : sub.urgency === 'high' ? 'Yüksek' : 'Normal',
-                    `"${(sub.description || '').replace(/"/g, '""')}"`, `"${(sub.notes || '').replace(/"/g, '""')}"`,
-                    `"${new Date(sub.timestamp).toLocaleString('tr-TR')}"`
-                ].join(','))
-            ].join('\n');
+            const csvContent = [ headers.join(','), ...dataToExport.map(sub => [`"${sub.submissionId}"`,`"${statusMap[sub.status] || 'Bilinmiyor'}"`,`"${sub.name}"`, `"${sub.phone}"`, `"${sub.address}"`, `"${sub.district}"`,sub.needs.food ? 'Evet' : 'Hayır', sub.needs.health ? 'Evet' : 'Hayır', sub.needs.education ? 'Evet' : 'Hayır', sub.needs.housing ? 'Evet' : 'Hayır', sub.needs.employment ? 'Evet' : 'Hayır', sub.needs.legal ? 'Evet' : 'Hayır', sub.needs.other ? 'Evet' : 'Hayır', `"${sub.otherNeed || ''}"`, sub.urgency === 'urgent' ? 'Acil' : sub.urgency === 'high' ? 'Yüksek' : 'Normal', `"${(sub.description || '').replace(/"/g, '""')}"`, `"${(sub.notes || '').replace(/"/g, '""')}"`, `"${new Date(sub.timestamp).toLocaleString('tr-TR')}"`].join(','))].join('\n');
             const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -748,13 +618,19 @@
         function populateDistrictDropdown() {
             const districtSelect = document.getElementById('district');
             atasehirDistricts.sort().forEach(district => {
-                districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
             });
         }
         function populateStatusFilterDropdown() {
             const statusFilter = document.getElementById('filterStatus');
-             for (const [key, value] of Object.entries(statusMap)) {
-                statusFilter.innerHTML += `<option value="${key}">${value}</option>`;
+            for (const [key, value] of Object.entries(statusMap)) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = value;
+                statusFilter.appendChild(option);
             }
         }
         function loadSubmissionsList() {
@@ -777,9 +653,7 @@
                 const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'};
                 const needsList = sub.needs ? Object.keys(sub.needs).map(need => needsLabels[need]).join(', ') : 'Belirtilmemiş';
                 let statusDropdownHTML = `<select onchange="updateSubmissionField('${sub.firebaseId}', 'status', this.value)" class="w-full p-1 border border-gray-300 rounded-md text-sm">`;
-                for (const [key, value] of Object.entries(statusMap)) {
-                    statusDropdownHTML += `<option value="${key}" ${sub.status === key ? 'selected' : ''}>${value}</option>`;
-                }
+                for (const [key, value] of Object.entries(statusMap)) { statusDropdownHTML += `<option value="${key}" ${sub.status === key ? 'selected' : ''}>${value}</option>`; }
                 statusDropdownHTML += `</select>`;
                 const submissionElement = document.createElement('div');
                 submissionElement.className = 'border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow';
@@ -832,36 +706,29 @@
             const startDate = document.getElementById('reportDateStart').value;
             const endDate = document.getElementById('reportDateEnd').value;
             if (!startDate || !endDate) return;
-
             const start = new Date(startDate);
             const end = new Date(endDate);
             end.setHours(23, 59, 59, 999); 
-
             reportSubmissions = submissions.filter(sub => {
                 const subDate = new Date(sub.timestamp);
                 return subDate >= start && subDate <= end;
             });
-            
             const reportContent = document.getElementById('dailyReportContent');
             const noReportData = document.getElementById('noReportData');
-
             reportContent.classList.toggle('hidden', reportSubmissions.length === 0);
             noReportData.classList.toggle('hidden', reportSubmissions.length > 0);
             noReportData.textContent = reportSubmissions.length === 0 ? "Seçilen tarih aralığı için veri bulunmamaktadır." : 'Lütfen bir tarih aralığı seçip "Rapor Oluştur" butonuna basın.';
             if (reportSubmissions.length === 0) return;
-
             const startStr = start.toLocaleDateString('tr-TR');
             const endStr = end.toLocaleDateString('tr-TR');
             document.getElementById('reportDateDisplay').textContent = `${startStr} - ${endStr}`;
             document.getElementById('reportTotal').textContent = reportSubmissions.length;
             document.getElementById('reportUrgent').textContent = reportSubmissions.filter(sub => sub.urgency === 'urgent').length;
-
             const needsCount = { food: 0, health: 0, education: 0, housing: 0, employment: 0, legal: 0, other: 0 };
             reportSubmissions.forEach(sub => { if(sub.needs) Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
             const needsLabels = { food: 'Gıda', health: 'Sağlık', education: 'Eğitim', housing: 'Barınma', employment: 'İstihdam', legal: 'Hukuk', other: 'Diğer' };
             const topNeed = Object.entries(needsCount).reduce((a, b) => a[1] > b[1] ? a : b, [null, 0]);
             document.getElementById('reportTopNeed').textContent = topNeed[1] > 0 ? needsLabels[topNeed[0]] : '-';
-
             const reportNeedsChart = document.getElementById('reportNeedsChart');
             reportNeedsChart.innerHTML = '';
             Object.entries(needsCount).forEach(([key, count]) => {
