@@ -179,7 +179,7 @@
             authDomain: "atasehir-roman-koordinatoru.firebaseapp.com",
             databaseURL: "https://atasehir-roman-koordinatoru-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "atasehir-roman-koordinatoru",
-            storageBucket: "atasehir-roman-koordinatoru.appspot.com", // Burası düzeltildi
+            storageBucket: "atasehir-roman-koordinatoru.appspot.com", // Hata buradaydı, .appspot.com olarak düzeltildi
             messagingSenderId: "1090340718017",
             appId: "1:1090340718017:web:52980a10227508eec5db40"
         };
@@ -207,7 +207,7 @@
                 if (user) {
                     currentUser = user;
                     await fetchUserData(user.uid);
-                    if (userData) { // Sadece veritabanında kaydı olan onaylı kullanıcılar devam etsin
+                    if (userData) { 
                         initializeAdminUI();
                         loadAllData();
                     } else {
@@ -380,7 +380,7 @@
         async function loadSubmissionsFromFirebase() { 
             try { 
                 let query = database.ref('submissions'); 
-                if (userData.role === 'coordinator') { 
+                if (userData.role === 'coordinator' && userData.district !== 'Hepsi') { 
                     query = query.orderByChild('district').equalTo(userData.district); 
                 }
                 const snapshot = await query.once('value'); 
