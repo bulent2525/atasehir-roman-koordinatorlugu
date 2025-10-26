@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
+<!DOCTYPE html><html lang="tr"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İstanbul Vali Roman Koordinatörlüğü Yardım Sayfası</title>
+    <title>Ataşehir Valilik Roman Koordinatörlüğü</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -73,9 +71,7 @@
         .status-appointment { background-color: #e0e7ff; color: #312e81; }
         .status-completed { background-color: #dcfce7; color: #15803d; }
         .status-cancelled { background-color: #fee2e2; color: #991b1b; }
-    </style>
-</head>
-<body class="min-h-screen">
+    </style></head><body class="min-h-screen">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -84,9 +80,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div class="flex items-center space-x-4">
-                    <div class="bg-turquoise-600 p-3 rounded-full shadow-lg">
-                        <i class="fas fa-map-marker-alt text-white text-xl"></i>
-                    </div>
+                    <img src="https://i.ibb.co/HLdrN9Y8/Gemini-Generated-mage-3jpy1x3jpy1x3jpy.png" alt="Ataşehir Valilik Roman Koordinatörlüğü Logosu" class="h-16 w-16 rounded-full shadow-lg object-cover">
                     <div>
                         <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Ataşehir Valilik Roman Koordinatörlüğü</h1>
                         <p class="text-gray-800 mt-1">Dezavantajlı Roman Halkı Destek Sistemi</p>
@@ -176,7 +170,13 @@
             database = firebase.database();
         } catch (error) { console.error("Firebase initialization error:", error); }
         
-        const atasehirDistricts = ["Aşık Veysel", "Atatürk", "Barbaros", "Esatpaşa", "Ferhatpaşa", "Fetih", "İçerenköy", "İnönü", "Kayışdağı", "Küçükbakköy", "Mevlana", "Mimar Sinan", "Mustafa Kemal", "Örnek", "Yeni Çamlıca", "Yeni Sahra", "Yenişehir", "Adalar", "Ataşehir", "Beykoz", "Çekmeköy", "Kadıköy", "Kartal", "Maltepe", "Pendik", "Sancaktepe", "Sultanbeyli", "Şile", "Tuzla", "Ümraniye", "Üsküdar"];
+        // DEĞİŞİKLİK 2: Anadolu yakası ilçeleri eklendi ve değişken adı güncellendi.
+        const districtOptions = [
+            "Aşık Veysel", "Atatürk", "Barbaros", "Esatpaşa", "Ferhatpaşa", "Fetih", "İçerenköy", "İnönü", "Kayışdağı", "Küçükbakköy", "Mevlana", "Mimar Sinan", "Mustafa Kemal", "Örnek", "Yeni Çamlıca", "Yeni Sahra", "Yenişehir",
+            "Adalar", "Ataşehir", "Beykoz", "Çekmeköy", "Kadıköy", "Kartal", "Maltepe", "Pendik", "Sancaktepe", "Sultanbeyli", "Şile", "Tuzla", "Ümraniye", "Üsküdar"
+        ];
+        // DEĞİŞİKLİK 2 SONU
+
         const statusMap = { new: 'Yeni Başvuru', inProgress: 'İnceleniyor', appointment: 'Randevu Verildi', completed: 'Yardım Ulaştırıldı', cancelled: 'İptal Edildi' };
         const statusColors = { new: 'status-new', inProgress: 'status-inProgress', appointment: 'status-appointment', completed: 'status-completed', cancelled: 'status-cancelled' };
         
@@ -260,7 +260,7 @@
 
             const systemPrompt = "Sen Ataşehir'deki Roman vatandaşlara yardım eden bir koordinatörsün. Sana verilen başvuru bilgilerine göre, yapılması gerekenleri özetleyen 3 adımlık pratik bir eylem planı oluştur. Cevabın kısa, net ve sadece numaralandırılmış 3 maddeden oluşsun.";
             const userQuery = `Başvuru Bilgileri:\n- İhtiyaçlar: ${needsList}\n- Aciliyet: ${sub.urgency}\n- Açıklama: ${sub.description || 'Yok'}\n\nBu başvuru için 3 adımlık eylem planı nedir?`;
-            const apiKey = "AIzaSyBjKhV79OZfEsWWqZpVKZywntRPowZonII"; // Önizleme için boş bırakılmalıdır. Canlıda kendi anahtarınızı girin.
+            const apiKey = ""; // API Anahtarını boş bırakın, sistem otomatik ekleyecektir.
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const payload = {
@@ -303,7 +303,10 @@
              const headers = ['Başvuru No','Durum','Ad Soyad','Telefon','Adres','Mahalle','Gıda','Sağlık','Eğitim','Barınma','İstihdam','Hukuk','Diğer','Diğer İhtiyaç','Aciliyet','Açıklama','Notlar','Tarih'];
              const csvContent = [ headers.join(','), ...dataToExport.map(sub => { const needs = sub.needs || {}; return [`"${sub.submissionId || ''}"`,`"${statusMap[sub.status] || 'Bilinmiyor'}"`,`"${sub.name || ''}"`,`"${sub.phone || ''}"`,`"${sub.address || ''}"`,`"${sub.district || ''}"`,needs.food?'Evet':'Hayır',needs.health?'Evet':'Hayır',needs.education?'Evet':'Hayır',needs.housing?'Evet':'Hayır',needs.employment?'Evet':'Hayır',needs.legal?'Evet':'Hayır',needs.other?'Evet':'Hayır',`"${sub.otherNeed||''}"`,sub.urgency==='urgent'?'Acil':sub.urgency==='high'?'Yüksek':'Normal',`"${(sub.description||'').replace(/"/g,'""')}"`,`"${(sub.notes||'').replace(/"/g,'""')}"`,`"${new Date(sub.timestamp).toLocaleString('tr-TR')}"`].join(','); })].join('\n'); const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.setAttribute('href', url); link.setAttribute('download', `${filenamePrefix}_${new Date().toISOString().split('T')[0]}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link); }
 
-        function populateDistrictDropdown() { const districtSelect = document.getElementById('district'); if(!districtSelect) return; atasehirDistricts.sort().forEach(district => { const option = document.createElement('option'); option.value = district; option.textContent = district; districtSelect.appendChild(option); }); }
+        // DEĞİŞİKLİK 3: Fonksiyon, "districtOptions" değişkenini kullanacak şekilde güncellendi.
+        function populateDistrictDropdown() { const districtSelect = document.getElementById('district'); if(!districtSelect) return; districtOptions.sort().forEach(district => { const option = document.createElement('option'); option.value = district; option.textContent = district; districtSelect.appendChild(option); }); }
+        // DEĞİSİKLİK 3 SONU
+        
         function populateStatusFilterDropdown() { const statusFilter = document.getElementById('filterStatus'); if(!statusFilter) return; for (const [key, value] of Object.entries(statusMap)) { const option = document.createElement('option'); option.value = key; option.textContent = value; statusFilter.appendChild(option); } }
         
         function showApplicantHistory(phone, name) {
@@ -496,6 +499,9 @@
                 container.appendChild(el);
             });
         }
-    </script>
-</body>
-</html>
+    </script></body></html>
+
+
+
+
+
