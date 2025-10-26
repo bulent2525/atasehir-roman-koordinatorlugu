@@ -112,14 +112,6 @@
             </form>
         </div>
     </div>
-    <div id="smsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="glass-panel rounded-2xl p-6 w-full max-w-lg mx-4">
-            <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold text-gray-900">Hızlı SMS Gönder</h3><button id="closeSmsModal" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button></div>
-            <div class="space-y-2 mb-4" id="smsTemplates"></div>
-            <textarea id="smsContent" class="w-full p-2 border-none rounded-lg" rows="4"></textarea>
-            <button id="copySmsBtn" class="mt-2 w-full bg-turquoise-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-turquoise-700 shadow-md">Metni Kopyala</button>
-        </div>
-    </div>
     <div id="geminiAnalysisModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="glass-panel rounded-2xl p-6 w-full max-w-2xl mx-4">
             <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold text-gray-900">✨ Gemini Aylık Analizi</h3><button id="closeGeminiModal" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button></div>
@@ -132,25 +124,9 @@
             <div id="routePlanResult" class="p-4 bg-gray-50 rounded-lg max-h-96 overflow-y-auto"></div>
         </div>
     </div>
-    <div id="quickEntryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="glass-panel rounded-2xl p-6 w-full max-w-2xl mx-4">
-             <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold text-gray-900">✨ Hızlı Kayıt</h3><button id="closeQuickEntryModal" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button></div>
-             <p class="text-sm text-gray-800 mb-4">Vatandaştan gelen mesajı (SMS, WhatsApp vb.) aşağıdaki kutucuğa yapıştırın. Gemini, formu sizin için otomatik olarak dolduracaktır.</p>
-             <textarea id="quickEntryText" class="w-full p-2 border-none rounded-lg" rows="8" placeholder="Mesajı buraya yapıştırın..."></textarea>
-             <button id="fillFormWithGeminiBtn" class="mt-2 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 shadow-md">Formu Doldur</button>
-        </div>
-    </div>
-     <div id="duplicateCheckModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="glass-panel rounded-2xl p-6 w-full max-w-md mx-4 text-center">
-            <i class="fas fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Tekrarlayan Başvuru Uyarısı</h3>
-            <p class="text-gray-800 mb-6">Bu telefon numarası ile son 7 gün içinde zaten bir başvuru yapılmış. Yine de yeni bir kayıt oluşturmak istediğinize emin misiniz?</p>
-            <div class="flex justify-center space-x-4">
-                <button id="cancelDuplicateBtn" class="py-2 px-6 bg-gray-300 text-gray-800 rounded-lg font-semibold">İptal Et</button>
-                <button id="continueDuplicateBtn" class="py-2 px-6 bg-yellow-500 text-white rounded-lg font-semibold">Devam Et</button>
-            </div>
-        </div>
-    </div>
+    <!-- Hızlı Kayıt Modalı Kaldırıldı -->
+    <!-- Tekrarlayan Başvuru Modalı Kaldırıldı -->
+
 
     <!-- Navigation -->
     <nav class="glass-panel sticky top-[108px] z-30">
@@ -219,9 +195,9 @@
         });
 
         function renderInitialHTML() {
-            document.getElementById('formSection').innerHTML = `<div class="lg:col-span-2"><div class="glass-panel rounded-2xl p-6"><div class="flex justify-between items-center mb-6"><h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-user text-turquoise-600 mr-2"></i>İhtiyaç Bildirim Formu</h2><button id="quickEntryBtn" class="text-sm bg-blue-100 text-blue-800 px-3 py-2 rounded-lg hover:bg-blue-200 font-semibold admin-only">✨ Hızlı Kayıt</button></div><form id="needsForm" class="space-y-6"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold text-gray-900 mb-2">Ad Soyad *</label><input type="text" id="name" class="w-full px-4 py-2 border-none rounded-lg" required></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Telefon *</label><input type="tel" id="phone" class="w-full px-4 py-2 border-none rounded-lg" required></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold text-gray-900 mb-2">Adres</label><input type="text" id="address" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">İlçe</label><select id="district" class="w-full px-4 py-2 border-none rounded-lg"><option value="">İlçe Seçin</option></select></div></div><div><label class="block text-sm font-semibold text-gray-900 mb-3">İhtiyaç Türleri *</label><div class="grid grid-cols-2 md:grid-cols-3 gap-3">${['food:Gıda:red:utensils','health:Sağlık:green:heartbeat','education:Eğitim:blue:graduation-cap','housing:Barınma:purple:home','employment:İstihdam:yellow:briefcase','legal:Hukuk:indigo:balance-scale','marketCard:Market Kartı:pink:shopping-cart','wheelchair:Tekerlekli Sandalye:gray:wheelchair','other:Diğer:gray:building'].map(n=>{const [v,t,c,i]=n.split(':');return `<label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" name="needs" value="${v}" class="h-4 w-4 rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"><div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-${c}-100 text-${c}-800 font-medium"><i class="fas fa-${i} text-sm"></i><span>${t}</span></div></label>`}).join('')}</div></div><div id="otherNeedContainer" class="hidden"><label class="block text-sm font-semibold text-gray-900 mb-2">Diğer İhtiyaç</label><input type="text" id="otherNeed" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-semibold text-gray-900 mb-3">Aciliyet Durumu</label><div class="flex space-x-3">${['normal:Normal:green','high:Yüksek:yellow','urgent:Acil:red'].map(u=>{const [v,t,c]=u.split(':');return `<label class="flex items-center space-x-2 cursor-pointer"><input type="radio" name="urgency" value="${v}" class="text-turquoise-600" ${v==='normal'?'checked':''}><span class="px-3 py-1 rounded-full text-xs font-medium bg-${c}-100 text-${c}-800">${t}</span></label>`}).join('')}</div></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Detaylı Açıklama</label><textarea id="description" rows="4" class="w-full px-4 py-2 border-none rounded-lg"></textarea></div><button type="submit" class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700 shadow-lg">İhtiyacı Bildir</button></form></div></div>`;
+            document.getElementById('formSection').innerHTML = `<div class="lg:col-span-2"><div class="glass-panel rounded-2xl p-6"><div class="flex justify-between items-center mb-6"><h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-user text-turquoise-600 mr-2"></i>İhtiyaç Bildirim Formu</h2></div><form id="needsForm" class="space-y-6"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold text-gray-900 mb-2">Ad Soyad *</label><input type="text" id="name" class="w-full px-4 py-2 border-none rounded-lg" required></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Telefon *</label><input type="tel" id="phone" class="w-full px-4 py-2 border-none rounded-lg" required></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-semibold text-gray-900 mb-2">Adres</label><input type="text" id="address" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">İlçe</label><select id="district" class="w-full px-4 py-2 border-none rounded-lg"><option value="">İlçe Seçin</option></select></div></div><div><label class="block text-sm font-semibold text-gray-900 mb-3">İhtiyaç Türleri *</label><div class="grid grid-cols-2 md:grid-cols-3 gap-3">${['food:Gıda:red:utensils','health:Sağlık:green:heartbeat','education:Eğitim:blue:graduation-cap','housing:Barınma:purple:home','employment:İstihdam:yellow:briefcase','legal:Hukuk:indigo:balance-scale','marketCard:Market Kartı:pink:shopping-cart','wheelchair:Tekerlekli Sandalye:gray:wheelchair','other:Diğer:gray:building'].map(n=>{const [v,t,c,i]=n.split(':');return `<label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" name="needs" value="${v}" class="h-4 w-4 rounded border-gray-300 text-turquoise-600 focus:ring-turquoise-500"><div class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-${c}-100 text-${c}-800 font-medium"><i class="fas fa-${i} text-sm"></i><span>${t}</span></div></label>`}).join('')}</div></div><div id="otherNeedContainer" class="hidden"><label class="block text-sm font-semibold text-gray-900 mb-2">Diğer İhtiyaç</label><input type="text" id="otherNeed" class="w-full px-4 py-2 border-none rounded-lg"></div><div><label class="block text-sm font-semibold text-gray-900 mb-3">Aciliyet Durumu</label><div class="flex space-x-3">${['normal:Normal:green','high:Yüksek:yellow','urgent:Acil:red'].map(u=>{const [v,t,c]=u.split(':');return `<label class="flex items-center space-x-2 cursor-pointer"><input type="radio" name="urgency" value="${v}" class="text-turquoise-600" ${v==='normal'?'checked':''}><span class="px-3 py-1 rounded-full text-xs font-medium bg-${c}-100 text-${c}-800">${t}</span></label>`}).join('')}</div></div><div><label class="block text-sm font-semibold text-gray-900 mb-2">Detaylı Açıklama</label><textarea id="description" rows="4" class="w-full px-4 py-2 border-none rounded-lg"></textarea></div><button type="submit" class="w-full bg-turquoise-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-turquoise-700 shadow-lg">İhtiyacı Bildir</button></form></div></div>`;
             document.getElementById('submissionsSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><div class="flex flex-wrap items-center justify-between gap-4 mb-6"><div id="submissionsHeader"><h2 class="text-xl font-semibold text-gray-900 flex items-center"><i class="fas fa-file-alt text-turquoise-600 mr-2"></i>Başvurular</h2></div><div class="flex items-center space-x-2"><span class="text-sm text-gray-800">Toplam: <span id="submissionsCount" class="font-bold">0</span></span><button id="generateRouteBtn" class="p-2 rounded-full glass-panel text-blue-600" title="Akıllı Rota Planı Oluştur"><i class="fas fa-route"></i></button><button id="exportBtn" class="p-2 rounded-full glass-panel text-green-600" title="Tüm Verileri İndir (.CSV)"><i class="fas fa-file-excel"></i></button><button id="clearDataBtn" class="p-2 rounded-full glass-panel text-red-600" title="Tüm Verileri Sil"><i class="fas fa-trash-alt"></i></button><button id="refreshSubmissions" class="p-2 rounded-full glass-panel"><i class="fas fa-sync-alt text-gray-800"></i></button></div></div><div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6"><div class="md:col-span-2 relative"><input type="text" id="searchInput" placeholder="İsim veya telefona göre ara..." class="w-full pl-10 pr-4 py-2 border-none rounded-lg"><i class="fas fa-search absolute top-3 left-3 text-gray-400"></i></div><select id="filterDistrict" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm İlçeler</option></select><select id="filterStatus" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm Durumlar</option></select><select id="filterUrgency" class="w-full px-4 py-2 border-none rounded-lg"><option value="all">Tüm Aciliyetler</option><option value="urgent">Acil</option><option value="high">Yüksek</option><option value="normal">Normal</option></select></div><div id="submissionsList" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div><div id="noSubmissions" class="text-center py-8 text-gray-500"><i class="fas fa-inbox text-4xl mb-4"></i><p>Henüz hiçbir başvuru bulunmamaktadır.</p></div></div>`;
-            document.getElementById('resourcesSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 mb-2 flex items-center"><i class="fas fa-cubes text-turquoise-600 mr-2"></i>Kaynaklar</h2><p class="text-sm text-gray-800 mb-6">Bir başvurunun durumu <strong class="text-gray-900">'Yardım Ulaştırıldı'</strong> olarak değiştirildiğinde, işlem notlarına <code class="bg-gray-200 dark:bg-gray-700 text-sm p-1 rounded">2 adet Gıda Kolisi</code> gibi yazılan ürünler stoktan otomatik düşülür.</p><div class="space-y-4" id="resourcesList"></div><div class="mt-6"><h3 class="text-lg font-semibold text-gray-900 mb-2">Yeni Kaynak Ekle</h3><div class="flex items-center space-x-2"><input type="text" id="newResourceName" placeholder="Yeni Kaynak Adı (Örn: Bebek Bezi)" class="w-full px-4 py-2 border-none rounded-lg"><input type="number" id="newResourceMinStock" placeholder="Min. Stok" class="w-24 px-4 py-2 border-none rounded-lg"><button id="addResourceBtn" class="bg-turquoise-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md"><i class="fas fa-plus"></i></button></div></div></div>`;
+            document.getElementById('resourcesSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 mb-2 flex items-center"><i class="fas fa-cubes text-turquoise-600 mr-2"></i>Kaynaklar</h2><p class="text-sm text-gray-800 mb-6">Bir başvurunun durumu <strong class="text-gray-900">'Yardım Ulaştırıldı'</strong> olarak değiştirildiğinde, işlem notlarına <code class="bg-gray-200 dark:bg-gray-700 text-sm p-1 rounded">2 adet Gıda Kolisi</code> gibi yazılan ürünler stoktan otomatik düşülür.</p><div class="space-y-4" id="resourcesList"></div><div class="mt-6"><h3 class="text-lg font-semibold text-gray-900 mb-2">Yeni Kaynak Ekle</h3><div class="flex items-center space-x-2"><input type="text" id="newResourceName" placeholder="Yeni Kaynak Adı (Örn: Bebek Bezi)" class="w-full px-4 py-2 border-none rounded-lg"><input type="number" id="newResourceMinStock" placeholder="Min. Stok" class="w-24 px-4 py-2 border-none rounded-lg"><button id="addResourceBtn" class="bg-turquoise-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md"><i class="fas fa-plus"></i></button></div></div><div class="mt-6"><h3 class="text-lg font-semibold text-gray-900 mb-2">Tehlikeli Alan</h3><button id="resetStocksBtn" class="w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-red-700"><i class="fas fa-exclamation-triangle mr-2"></i>Tüm Stokları Sıfırla</button></div></div>`;
             document.getElementById('reportsSection').innerHTML = `<div class="glass-panel rounded-2xl p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><i class="fas fa-calendar-alt text-turquoise-600 mr-2"></i>Raporlar</h2><div class="border-b border-gray-200 mb-4"><nav class="-mb-px flex space-x-8" aria-label="Tabs"><button id="tab-daterange" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-turquoise-500 text-turquoise-600">Tarih Aralığı</button><button id="tab-calendar" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Aylık Takvim</button><button id="tab-neighborhood" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">İlçe Analizi</button></nav></div><div id="daterange-report-content"></div><div id="calendar-report-content" class="hidden"></div><div id="neighborhood-report-content" class="hidden"></div></div>`;
             populateDistrictDropdown();
             populateStatusFilterDropdown();
@@ -241,17 +217,13 @@
             document.getElementById('exportBtn').addEventListener('click', () => exportToCSV(submissions, 'tum_basvurular'));
             document.getElementById('clearDataBtn').addEventListener('click', confirmClearAllData);
             document.getElementById('addResourceBtn').addEventListener('click', addNewResource);
+            document.getElementById('resetStocksBtn').addEventListener('click', confirmResetStocks);
             document.getElementById('closeSmsModal').addEventListener('click', () => document.getElementById('smsModal').classList.add('hidden'));
             document.getElementById('copySmsBtn').addEventListener('click', copySmsContent);
             document.getElementById('closeGeminiModal').addEventListener('click', () => document.getElementById('geminiAnalysisModal').classList.add('hidden'));
             document.getElementById('generateRouteBtn').addEventListener('click', generateRoutePlan);
             document.getElementById('closeRoutePlanModal').addEventListener('click', () => document.getElementById('routePlanModal').classList.add('hidden'));
-            document.getElementById('quickEntryBtn').addEventListener('click', () => document.getElementById('quickEntryModal').classList.remove('hidden'));
-            document.getElementById('closeQuickEntryModal').addEventListener('click', () => document.getElementById('quickEntryModal').classList.add('hidden'));
-            document.getElementById('fillFormWithGeminiBtn').addEventListener('click', fillFormWithGemini);
-            document.getElementById('phone').addEventListener('blur', checkForDuplicates);
-            document.getElementById('cancelDuplicateBtn').addEventListener('click', () => document.getElementById('duplicateCheckModal').classList.add('hidden'));
-            document.getElementById('continueDuplicateBtn').addEventListener('click', () => document.getElementById('duplicateCheckModal').classList.add('hidden'));
+            // Hızlı Kayıt ve Tekrarlayan Başvuru ile ilgili dinleyiciler kaldırıldı
         }
 
         function toggleTheme() {
@@ -305,10 +277,35 @@
         async function loadAllData() { if (!database) return; await Promise.all([loadSubmissionsFromFirebase(), loadResourcesFromFirebase()]); updateAllViews(); }
         async function loadSubmissionsFromFirebase() { try { const snapshot = await database.ref('submissions').once('value'); const data = snapshot.val(); submissions = data ? Object.keys(data).map(key => ({ ...data[key], firebaseId: key })) : []; } catch(error) { console.error("Error loading submissions:", error); } }
         async function loadResourcesFromFirebase() { try { const snapshot = await database.ref('resources').once('value'); resources = snapshot.val() || {}; } catch(error) { console.error("Error loading resources:", error); } }
-        async function saveSubmissionToFirebase(submission) { if (!database) return; try { await database.ref('submissions').push(submission); document.getElementById('successMessageText').textContent = `Başvurunuz ${submission.submissionId} numarasıyla kaydedildi!`; document.getElementById('successMessage').classList.remove('hidden'); setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 5000); await loadAllData(); } catch (error) { console.error("Error saving submission:", error); } }
+        
+        async function saveSubmissionToFirebase(submission) { 
+            if (!database) return; 
+            try { 
+                // Güvenli 'push' metodunu kullan
+                await database.ref('submissions').push(submission); 
+                document.getElementById('successMessageText').textContent = `Başvurunuz ${submission.submissionId} numarasıyla kaydedildi!`; 
+                document.getElementById('successMessage').classList.remove('hidden'); 
+                setTimeout(() => document.getElementById('successMessage').classList.add('hidden'), 5000); 
+                await loadAllData(); 
+            } catch (error) { console.error("Error saving submission:", error); } 
+        }
+        
         async function updateSubmissionField(firebaseId, field, value) { if (!database || !firebaseId) return; try { const subIndex = submissions.findIndex(s => s.firebaseId === firebaseId); if (subIndex > -1) { const oldStatus = submissions[subIndex].status; await database.ref(`submissions/${firebaseId}/${field}`).set(value); submissions[subIndex][field] = value; if(field === 'status') { submissions[subIndex].lastModified = new Date().toISOString(); await database.ref(`submissions/${firebaseId}/lastModified`).set(submissions[subIndex].lastModified); if (value === 'completed' && oldStatus !== 'completed') { const notes = submissions[subIndex].notes; if (notes) { await parseNotesAndDecreaseStock(notes); } } } } updateAllViews(); } catch (error) { console.error(`Error updating field "${field}":`, error); } }
-        async function updateResource(name, field, value) { if (!database) return; try { await database.ref(`resources/${name}/${field}`).set(Number(value)); if (resources[name]) resources[name][field] = Number(value); renderResources(); } catch (error) { console.error("Error updating resource:", error); } }
-        async function addNewResource() { const name = document.getElementById('newResourceName').value.trim(); const minStock = document.getElementById('newResourceMinStock').value.trim(); if (name && !resources.hasOwnProperty(name)) { await database.ref(`resources/${name}`).set({ quantity: 0, minStock: Number(minStock) || 0 }); resources[name] = { quantity: 0, minStock: Number(minStock) || 0 }; document.getElementById('newResourceName').value = ''; document.getElementById('newResourceMinStock').value = ''; renderResources(); } else if (resources.hasOwnProperty(name)) { alert("Bu kaynak zaten mevcut."); } }
+        
+        async function updateResource(name, field, value) { 
+            if (!database) return; 
+            try { 
+                const numValue = Number(value);
+                if (resources[name]) resources[name][field] = numValue; // 1. Yerel veriyi anında güncelle
+                renderResources(); // 2. Arayüzü yerel veriye göre anında yenile
+                await database.ref(`resources/${name}/${field}`).set(numValue); // 3. Arka planda Firebase'i güncelle
+            } catch (error) { 
+                console.error("Error updating resource:", error); 
+                alert("Stok güncellenirken bir hata oluştu. Sayfayı yenileyin.");
+            } 
+        }
+        
+        async function addNewResource() { const name = document.getElementById('newResourceName').value.trim(); const minStock = document.getElementById('newResourceMinStock').value.trim(); if (name && !resources.hasOwnProperty(name)) { const newResourceData = { quantity: 0, minStock: Number(minStock) || 0 }; await database.ref(`resources/${name}`).set(newResourceData); resources[name] = newResourceData; document.getElementById('newResourceName').value = ''; document.getElementById('newResourceMinStock').value = ''; renderResources(); } else if (resources.hasOwnProperty(name)) { alert("Bu kaynak zaten mevcut."); } }
 
         function updateAllViews() { loadSubmissionsList(); renderResources(); }
         
@@ -320,9 +317,7 @@
                 return; 
             }
             
-            let resourcesHTML = ''; // HTML'i biriktir
-            
-            // Tutarlı bir sıralama için kaynakları alfabetik olarak sırala
+            let resourcesHTML = '';
             const sortedResources = Object.entries(resources).sort((a, b) => a[0].localeCompare(b[0]));
 
             for (const [name, data] of sortedResources) { 
@@ -338,7 +333,7 @@
                                    </div>`; 
             }
             
-            list.innerHTML = resourcesHTML; // HTML'i sadece bir kez ayarla
+            list.innerHTML = resourcesHTML;
         }
         
         function handleFormSubmit(e) { e.preventDefault(); const name = document.getElementById('name').value.trim(); const phone = document.getElementById('phone').value.trim(); if (!name || !phone) { document.getElementById('errorMessage').classList.remove('hidden'); setTimeout(() => document.getElementById('errorMessage').classList.add('hidden'), 3000); return; } const needsCheckboxes = document.querySelectorAll('input[name="needs"]:checked'); const needs = {}; needsCheckboxes.forEach(checkbox => { needs[checkbox.value] = true; }); const today = new Date(); const datePart = today.toISOString().slice(0, 10).replace(/-/g, ''); const timePart = today.getTime().toString().slice(-5); const newSubmission = { submissionId: `${datePart}-${timePart}`, name, phone, address: document.getElementById('address').value.trim(), district: document.getElementById('district').value, needs, otherNeed: needs.other ? document.getElementById('otherNeed').value.trim() : '', urgency: document.querySelector('input[name="urgency"]:checked').value, description: document.getElementById('description').value.trim(), timestamp: today.toISOString(), status: 'new', notes: '', submittedBy: "admin" }; saveSubmissionToFirebase(newSubmission); document.getElementById('needsForm').reset(); document.getElementById('otherNeedContainer').classList.add('hidden'); }
@@ -346,34 +341,29 @@
         async function generateActionPlan(firebaseId, type) {
             const sub = submissions.find(s => s.firebaseId === firebaseId);
             if (!sub) return;
-
             const buttonId = type === 'plan' ? `ai-btn-${firebaseId}` : `ai-summary-btn-${firebaseId}`;
             const button = document.getElementById(buttonId);
             const originalHtml = button.innerHTML;
             button.disabled = true;
             button.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
-            
             let systemPrompt, userQuery, container;
             if (type === 'plan') {
                 container = document.getElementById(`ai-plan-${firebaseId}`);
-                const needsList = sub.needs ? Object.keys(sub.needs).map(need => ({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'}[need])).join(', ') : 'Belirtilmemiş';
-                systemPrompt = "Sen Ataşehir'deki Roman vatandaşlara yardım eden bir koordinatörsün. Sana verilen başvuru bilgilerine göre, yapılması gerekenleri özetleyen 3 adımlık pratik bir eylem planı oluştur. Cevabın kısa, net ve sadece numaralandırılmış 3 maddeden oluşsun.";
-                userQuery = `Başvuru Bilgileri:\n- İhtiyaçlar: ${needsList}\n- Aciliyet: ${sub.urgency}\n- Açıklama: ${sub.description || 'Yok'}\n\nBu başvuru için 3 adımlık eylem planı nedir?`;
-            } else { // summary
+                const needsList = sub.needs ? Object.keys(sub.needs).map(need => ({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',marketCard:'Market Kartı',wheelchair:'Tekerlekli Sandalye',other:'Diğer'}[need])).join(', ') : 'Belirtilmemiş';
+            
+            const systemPrompt = "Sen Ataşehir'deki Roman vatandaşlara yardım eden bir koordinatörsün. Sana verilen başvuru bilgilerine göre, yapılması gerekenleri özetleyen 3 adımlık pratik bir eylem planı oluştur. Cevabın kısa, net ve sadece numaralandırılmış 3 maddeden oluşsun.";
+            const userQuery = `Başvuru Bilgileri:\n- İhtiyaçlar: ${needsList}\n- Aciliyet: ${sub.urgency}\n- Açıklama: ${sub.description || 'Yok'}\n\nBu başvuru için 3 adımlık eylem planı nedir?`;
                 container = document.getElementById(`notes-${firebaseId}`);
                 systemPrompt = "Sana verilecek olan bir yardım başvurusuyla ilgili işlem notlarını tek bir paragrafta, yapılan temel eylemleri vurgulayarak özetle.";
                 userQuery = `Aşağıdaki notları özetle:\n\n${container.value}`;
             }
-
             const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
-
             try {
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const result = await response.json();
                 const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
                 if (text) {
                     if(type === 'plan') {
                         container.innerHTML = text.replace(/\n/g, '<br>');
@@ -397,14 +387,11 @@
             const modalResult = document.getElementById('routePlanResult');
             modalResult.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Rota oluşturuluyor, lütfen bekleyin...';
             document.getElementById('routePlanModal').classList.remove('hidden');
-
             const relevantSubmissions = submissions.filter(s => (s.status === 'new' || s.status === 'inProgress') && (s.urgency === 'urgent' || s.urgency === 'high') && s.address);
-
             if (relevantSubmissions.length === 0) {
                 modalResult.innerHTML = 'Rota oluşturmak için uygun (Acil veya Yüksek öncelikli) başvuru bulunmuyor.';
                 return;
             }
-
             const addressList = relevantSubmissions.map(s => `- ${s.name}: ${s.address}, ${s.district}`).join('\n');
             
             const systemPrompt = "Sen bir lojistik koordinatörüsün. Sana verilen adres listesini İstanbul Anadolu Yakası içinde en verimli şekilde ziyaret edilecek bir rota haline getir. Adresleri ilçelerine göre gruplandır ve mantıklı bir ziyaret sırası öner. Cevabını net başlıklar ve listeler halinde sun.";
@@ -412,7 +399,6 @@
             const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
-
             try {
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const result = await response.json();
@@ -428,6 +414,29 @@
         function confirmClearAllData() { if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) { if (confirm('Son kez onaylıyor musunuz? Tüm başvuru kayıtları kalıcı olarak silinecek!')) { clearAllData(); } } }
         async function clearAllData() { if (!database) return; try { await database.ref('submissions').set(null); await database.ref('resources').set(null); submissions = []; resources = {}; updateAllViews(); alert('Tüm veriler başarıyla silindi!'); } catch (error) { console.error("Veri temizlenirken hata:", error); } }
         
+        function confirmResetStocks() {
+            if (confirm('Tüm kaynak stoklarını sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
+                resetAllStocks();
+            }
+        }
+        
+        async function resetAllStocks() {
+            if (!database) return;
+            try {
+                for (const resourceName in resources) {
+                    if (resources.hasOwnProperty(resourceName)) {
+                        resources[resourceName].quantity = 0;
+                        await database.ref(`resources/${resourceName}/quantity`).set(0);
+                    }
+                }
+                renderResources();
+                alert('Tüm kaynak stokları başarıyla sıfırlandı.');
+            } catch (error) {
+                console.error("Stok sıfırlanırken hata:", error);
+                alert('Stoklar sıfırlanırken bir hata oluştu.');
+            }
+        }
+
         function exportToCSV(dataToExport, filenamePrefix) {
              if (!dataToExport || dataToExport.length === 0) return;
              const headers = ['Başvuru No','Durum','Ad Soyad','Telefon','Adres','İlçe','Gıda','Sağlık','Eğitim','Barınma','İstihdam','Hukuk','Market Kartı','Tekerlekli Sandalye','Diğer','Diğer İhtiyaç','Aciliyet','Açıklama','Notlar','Tarih'];
@@ -544,11 +553,44 @@
             analyzeContainer.innerHTML = `<button onclick="analyzeMonthWithGemini(${year}, ${month})" class="w-full text-sm bg-blue-100 text-blue-800 px-3 py-2 rounded-lg hover:bg-blue-200 font-semibold">✨ ${monthNames[month]} Ayını Analiz Et</button>`;
         }
         
-        function generateReportByDateRange() { /* ... implementation from previous step ... */ }
+        function generateReportByDateRange() {
+            let filteredSubmissions = [];
+            const startDate = document.getElementById('reportDateStart').value;
+            const endDate = document.getElementById('reportDateEnd').value;
+            if (!startDate || !endDate) return;
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            end.setHours(23,59,59,999);
+            filteredSubmissions = submissions.filter(sub => { const subDate = new Date(sub.timestamp); return subDate >= start && subDate <= end; });
+            const reportContent = document.getElementById('dailyReportContent');
+            const noReportData = document.getElementById('noReportData');
+            reportContent.classList.toggle('hidden', filteredSubmissions.length === 0);
+            noReportData.classList.toggle('hidden', filteredSubmissions.length > 0);
+            noReportData.textContent = filteredSubmissions.length===0?"Seçilen tarih aralığı için veri bulunmamaktadır.":'Lütfen bir tarih aralığı seçip "Rapor Oluştur" butonuna basın.';
+            if (filteredSubmissions.length === 0) { document.getElementById('exportReportBtn').onclick = null; return; }
+            const startStr = start.toLocaleDateString('tr-TR');
+            const endStr = end.toLocaleDateString('tr-TR');
+            document.getElementById('reportDateDisplay').textContent = `${startStr} - ${endStr}`;
+            document.getElementById('reportTotal').textContent = filteredSubmissions.length;
+            document.getElementById('reportUrgent').textContent = filteredSubmissions.filter(sub => sub.urgency === 'urgent').length;
+            const needsCount = {food:0,health:0,education:0,housing:0,employment:0,legal:0,marketCard:0,wheelchair:0,other:0};
+            filteredSubmissions.forEach(sub => { if(sub.needs) Object.keys(needsCount).forEach(need => { if (sub.needs[need]) needsCount[need]++; }); });
+            const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',marketCard:'Market Kartı',wheelchair:'Tekerlekli Sandalye',other:'Diğer'};
+            const topNeedEntry = Object.entries(needsCount).reduce((a, b) => b[1] - a[1] > 0 ? b : a, [null, 0]);
+            document.getElementById('reportTopNeed').textContent = topNeedEntry[1] > 0 ? needsLabels[topNeedEntry[0]] : '-';
+            const reportNeedsChart = document.getElementById('reportNeedsChart');
+            reportNeedsChart.innerHTML = '';
+            Object.entries(needsCount).forEach(([key, count]) => { if (count > 0) { const totalNeeds = Object.values(needsCount).reduce((a,b) => a + b, 0); const percentage = totalNeeds > 0 ? Math.round((count / totalNeeds) * 100) : 0; reportNeedsChart.innerHTML += `<div class="flex items-center justify-between"><span class="text-sm font-medium">${needsLabels[key]}</span><div class="flex items-center space-x-2"><div class="w-24 bg-gray-200 rounded-full h-2"><div class="bg-turquoise-600 h-2 rounded-full" style="width:${percentage}%"></div></div><span class="text-sm text-gray-600">${count}</span></div></div>`; } });
+            
+            document.getElementById('exportReportBtn').onclick = () => {
+                exportToCSV(filteredSubmissions, `rapor_${startDate}_${endDate}`);
+            };
+        }
+
         function renderNeighborhoodAnalysis() {
             const container = document.getElementById('neighborhoodAnalysis');
             container.innerHTML = '';
-            const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',other:'Diğer'};
+            const needsLabels = {food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',marketCard:'Market Kartı',wheelchair:'Tekerlekli Sandalye',other:'Diğer'};
             
             const districtNeeds = submissions.reduce((acc, sub) => {
                 if (sub.district) {
@@ -588,7 +630,43 @@
                 container.appendChild(el);
             });
         }
-        async function analyzeMonthWithGemini(year, month) { /* ... implementation from previous step ... */ }
+        async function analyzeMonthWithGemini(year, month) {
+            const modalResult = document.getElementById('geminiAnalysisResult');
+            modalResult.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Analiz ediliyor, lütfen bekleyin...';
+            document.getElementById('geminiAnalysisModal').classList.remove('hidden');
+
+            const monthSubmissions = submissions.filter(s => {
+                const date = new Date(s.timestamp);
+                return date.getFullYear() === year && date.getMonth() === month;
+            });
+
+            if (monthSubmissions.length === 0) {
+                modalResult.innerHTML = 'Bu ay için analiz edilecek veri bulunmuyor.';
+                return;
+            }
+
+            const total = monthSubmissions.length;
+            const urgent = monthSubmissions.filter(s => s.urgency === 'urgent').length;
+            const needs = monthSubmissions.flatMap(s => s.needs ? Object.keys(s.needs) : []);
+            const needsCount = needs.reduce((acc, need) => { acc[need] = (acc[need] || 0) + 1; return acc; }, {});
+            const topNeeds = Object.entries(needsCount).sort((a,b) => b[1] - a[1]).slice(0,3).map(([need, count]) => `${({food:'Gıda',health:'Sağlık',education:'Eğitim',housing:'Barınma',employment:'İstihdam',legal:'Hukuk',marketCard:'Market Kartı',wheelchair:'Tekerlekli Sandalye',other:'Diğer'}[need] || need)} (${count})`).join(', ');
+
+            const systemPrompt = "Sen İstanbul Anadolu Yakası'ndaki vatandaşlara yardım eden bir sosyal yardım uzmanısın. Sana verilen aylık verileri analiz ederek, gelecek ay için stratejik öneriler sunan kısa ve net bir yönetici özeti yaz. Önerilerin, kaynakların doğru yönlendirilmesi ve potansiyel sorunların öngörülmesi üzerine odaklanmalı.";
+            const userQuery = `İşte ${new Date(year, month).toLocaleString('tr-TR', { month: 'long', year: 'numeric' })} ayı verileri:\n- Toplam Başvuru: ${total}\n- Acil Başvuru Sayısı: ${urgent}\n- En Çok Talep Edilen İhtiyaçlar: ${topNeeds}\n\nBu verilere dayanarak yönetici özetini ve stratejik önerilerini oluştur.`;
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
+
+            try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                modalResult.innerHTML = text ? text.replace(/\n/g, '<br>') : 'Analiz oluşturulamadı.';
+            } catch (error) {
+                console.error("Gemini API error:", error);
+                modalResult.innerHTML = 'Analiz sırasında bir hata oluştu.';
+            }
+        }
     </script>
 </body>
 </html>
